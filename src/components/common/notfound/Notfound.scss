@@ -1,0 +1,29 @@
+.notfound {
+  padding: 1em 2em;
+
+  a {
+    font-size: 2em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    color: black;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &::before {
+    content: '';
+    background-image: url('../../../assets/404.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 80px;
+    z-index: -1;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "clearMocks": true,
+  "collectCoverageFrom": [
+    "src/**/*.{js,jsx,mjs}", "!src/index.js", "!src/redux/store/index.js", "!src/routes/index.js"
+  ],
+  "coverageDirectory": "coverage",
+  "moduleFileExtensions": ["js", "json", "jsx"],
+  "moduleNameMapper": {
+    "\\.(jpg|jpeg|png|otf|webp|svg)$": "<rootDir>/src/__mocks__/fileMock.js",
+    "\\.(css|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
+  },
+  "setupFiles": ["./enzyme.config.js"],
+  "testEnvironment": "jsdom",
+  "testPathIgnorePatterns": ["\\\\node_modules\\\\"],
+  "testMatch": ["**/?(*.)+(spec|test).js?(x)"],
+  "transform": {
+    "^.+\\.jsx?$": "babel-jest"
+  }
+}

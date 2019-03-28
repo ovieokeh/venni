@@ -1,0 +1,16 @@
+.homepage {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  min-height: 90vh;
+
+  .illustration {
+    width: 450px;
+    height: auto;
+  }
+
+  .main {
+    text-align: center;
+  }
+}

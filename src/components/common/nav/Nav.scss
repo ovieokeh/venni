@@ -1,0 +1,19 @@
+@import '../../../theme/style.scss';
+
+.navi {
+  box-shadow: $box-shadow;
+
+  .navi-brand {
+    color: $official-grey;
+    font-weight: 400;
+    text-decoration: none;
+
+    &:hover {
+      color: $official-green;
+    }
+  }
+
+  span {
+    margin-left: 0.5em;
+  }
+}
