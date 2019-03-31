@@ -1,0 +1,40 @@
+@import '../../../theme/style.scss';
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e8e8e8;
+
+  .brand {
+    padding: 1em;
+
+    a {
+      color: $official-grey;
+      font-weight: 400;
+      text-decoration: none;
+  
+      &:hover {
+        color: $official-green;
+      }
+    }
+  }
+
+  .menu-item {
+    padding: 1em;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+
+      i {
+        padding-right: 0.5em;
+      }
+
+      &:active, &:focus {
+        text-decoration: none;
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@
     "start": "node server/dist/index.js",
     "build": "rm -rf server/dist && babel server --out-dir server/dist && webpack --config webpack.prod.js --progress --profile --colors",
     "dev": "webpack-dev-server --config webpack.dev.js",
-    "test": "jest --config jest.config.json --coverage --colors"
+    "test": "jest --config jest.config.json --coverage --colors --silent"
   },
   "repository": {
     "type": "git",
@@ -26,19 +26,20 @@
   "homepage": "https://github.com/65black/venni#readme",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "bootstrap": "^4.3.1",
+    "antd": "^3.15.2",
+    "axios": "^0.18.0",
     "dotenv": "^7.0.0",
+    "dotenv-webpack": "^1.7.0",
     "express": "^4.16.4",
-    "feather-icons": "^4.19.0",
     "history": "^4.9.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
-    "react-bootstrap": "^1.0.0-beta.6",
     "react-dom": "^16.8.4",
-    "react-feather": "^1.1.6",
     "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",
-    "react-transition-group": "^2.7.0"
+    "react-transition-group": "^2.7.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -57,6 +58,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-import-resolver-webpack": "^0.11.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
@@ -67,6 +69,7 @@
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",
+    "redux-mock-store": "^1.5.3",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",

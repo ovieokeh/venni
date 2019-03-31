@@ -1,7 +1,9 @@
 import Notfound from './notfound/Notfound';
-import Nav from './nav/Nav';
+import Navbar from './navbar/Navbar';
+import Loader from './loader/Loader';
 
 export {
   Notfound,
-  Nav,
+  Navbar,
+  Loader,
 };
