@@ -11,20 +11,12 @@ const Navbar = (props) => {
   const renderLinks = () => {
     if (!token) {
       return (
-        <React.Fragment>
-          <span className="menu-item">
-            <NavLink to="/signup">
-              <Icon type="rocket" />
-              Signup
-            </NavLink>
-          </span>
-          <span className="menu-item">
-            <NavLink to="/login">
-              <Icon type="unlock" />
-              Login
-            </NavLink>
-          </span>
-        </React.Fragment>
+        <span className="menu-item">
+          <NavLink to="/login">
+            <Icon type="unlock" />
+            Login
+          </NavLink>
+        </span>
       );
     }
 

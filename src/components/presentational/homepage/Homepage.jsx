@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button } from 'antd';
-import illustration from 'assets/homepage_illustration.svg';
+import { Link } from 'react-router-dom';
+import { Icon } from 'antd';
+import phone from 'assets/phone.png';
+import logo from 'assets/logo.svg';
 import './Homepage.scss';
 
 const Homepage = () => {
@@ -8,21 +10,30 @@ const Homepage = () => {
 
   return (
     <div className="homepage">
-      <div className="illustration-container">
+      <div className="image-container">
         <img
-          className="illustration"
+          className="image"
           alt="homepage"
-          src={illustration}
+          src={phone}
         />
       </div>
       <div className="main">
-        <h3 className="leading-text">Keeping in touch with friends made easy and fun.</h3>
-        <Button
-          type="primary"
-          icon="rocket"
+        <img alt="logo" src={logo} />
+        <h2>Free Messaging Whenever, Wherever</h2>
+        <h4>Keeping in touch with friends made easy and fun.</h4>
+        <p>
+          Send free one-on-one and group texts to
+          <br />
+          {' '}
+          your friends anytime, anywhere!
+        </p>
+        <Link
+          className="get-started"
+          to="/signup"
         >
+          <Icon type="rocket" />
           Get Started
-        </Button>
+        </Link>
       </div>
     </div>
   );

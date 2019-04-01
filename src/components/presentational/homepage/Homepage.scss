@@ -2,15 +2,47 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   min-height: 90vh;
 
-  .illustration {
-    width: 450px;
+  .image {
+    width: 300px;
     height: auto;
+    pointer-events: none;
   }
 
   .main {
     text-align: center;
+    margin-left: 5%;
+
+    img {
+      width: 200px;
+      height: auto;
+      pointer-events: none;
+    }
+
+    p {
+      font-size: 1.5em;
+    }
+
+    .get-started {
+      padding: 0.5em 1em;
+      display: inline-flex;
+      align-items: center;
+      background: #1890ff;
+      color: white;
+      border-radius: 5px;
+      border: 1px solid #1890ff;
+      transition: 0.2s ease;
+
+      &:hover, &:active {
+        background: white;
+        color: #1890ff;
+      }
+
+      i {
+        margin-right: 0.5em;
+      }
+    }
   }
 }

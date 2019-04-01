@@ -7,7 +7,7 @@ describe('Homepage', () => {
     const component = shallow(<Homepage />);
 
     expect(component.find('.homepage').exists()).toBe(true);
-    expect(component.find('.illustration-container').exists()).toBe(true);
+    expect(component.find('.image-container').exists()).toBe(true);
     expect(component.find('.main').exists()).toBe(true);
   });
 });

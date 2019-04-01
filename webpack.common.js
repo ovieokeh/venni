@@ -15,6 +15,9 @@ module.exports = {
     historyApiFallback: true,
     contentBase: '/src',
   },
+  node: {
+    fs: 'empty',
+  },
   module: {
     rules: [
       {

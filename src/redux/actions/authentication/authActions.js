@@ -1,8 +1,11 @@
 import Axios from 'axios';
+import dotenv from 'dotenv';
 import {
   loaderBegin, loaderDone,
   notifyError, notifySuccess,
 } from 'actions/loader/loaderActions';
+
+dotenv.config();
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
