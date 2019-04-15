@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
-import phone from 'assets/phone.png';
-import logo from 'assets/logo.svg';
+import mockup from 'assets/homepage-mockup.svg';
+import { Logo } from 'components/common';
 import './Homepage.less';
 
 function Homepage() {
@@ -14,11 +14,11 @@ function Homepage() {
         <img
           className="image"
           alt="homepage"
-          src={phone}
+          src={mockup}
         />
       </div>
       <div className="main">
-        <img alt="logo" src={logo} />
+        <Logo fill="white" />
         <h2>Free Messaging Whenever, Wherever</h2>
         <h3>Keeping in touch with friends made easy and fun.</h3>
         <p>

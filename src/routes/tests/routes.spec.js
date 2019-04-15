@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { shallow, mount } from 'enzyme';
 import history from 'utilities/history';
 import store from 'store/store';
-import Routes from '../routes';
+import Routes from '../Routes';
 
 describe('Routes', () => {
   it('should render without crashing', () => {

@@ -5,7 +5,7 @@ import propTypes from 'prop-types';
 import {
   Form, Icon, Input, Button,
 } from 'antd';
-import logo from 'assets/logo.svg';
+import { Logo } from 'components/common';
 import { signupRequest } from 'actions/authentication/authActions';
 import './Signup.less';
 
@@ -31,7 +31,7 @@ function SignupForm(props) {
   return (
     <div className="signup-container">
       <div className="form-container">
-        <img alt="logo" src={logo} />
+        <Logo fill="white" />
         <Form onSubmit={handleSubmit} className="signup-form" layout="vertical">
           <Form.Item
             label="Name"

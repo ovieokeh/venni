@@ -1,12 +1,27 @@
 @import (css) url('https://fonts.googleapis.com/css?family=Quicksand:300,400,700');
 
+@box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+@subtle-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.1);
+@venni-green: #00A9A5;
+@venni-blue: #40a9ff;
+@medium-grey: #A8A8A8;
+@danger-red: #f5222d;
+@soft-grey: #f0f2f5;
+
+@keyframes bg-animate { 
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+// common styles **********************************************************************************************
+
 * {
   font-family: 'Quicksand', 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, Verdana, sans-serif;
-  outline: 0;
   box-sizing: border-box;
 
   &:hover, &:active, &:focus {
-    outline: 0!important;
+    outline-color: @venni-blue;
   }
 }
 
@@ -14,15 +29,27 @@ html, body {
   margin: 0;
 }
 
-@box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
-@subtle-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.06);
-@venni-green: #00A9A5;
-@venni-blue: #40a9ff;
-@medium-grey: #A8A8A8;
-@danger-red: #f5222d;
-@soft-grey: #f0f2f5;
+body {
+  background-image: linear-gradient(90deg, @venni-blue, @venni-green);
+  background-size: 400% 400%;
+  animation: bg-animate 10s ease infinite;
+}
 
-// common styles **********************************************************************************************
+.ant-form {
+  min-width: 70%;
+
+  a {
+    color: white!important;
+    &:hover {
+      color: @venni-blue!important;
+    }
+  }
+
+  .ant-form-item-label > label, .ant-form-explain {
+    color: white;
+  }
+}
+
 .inline-horizontal {
   display: inline-flex!important;
   align-items: center!important;
@@ -37,7 +64,7 @@ html, body {
   height: 30px;
   object-fit: cover;
   border-radius: 25px;
-  margin-right: 1em;
+  margin-right: 1rem;
   cursor: pointer;
 }
 
@@ -46,7 +73,7 @@ html, body {
   height: 150px;
   object-fit: cover;
   border-radius: 100px;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
   cursor: pointer;
 }
 
@@ -55,22 +82,6 @@ html, body {
   height: 250px;
   object-fit: cover;
   border-radius: 200px;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
   cursor: pointer;
-}
-
-@import (css) url('https://fonts.googleapis.com/css?family=Quicksand:300,400,700');
-
-* {
-  font-family: 'Quicksand', 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, Verdana, sans-serif;
-  outline: 0;
-  box-sizing: border-box;
-
-  &:hover, &:active, &:focus {
-    outline: 0!important;
-  }
-}
-
-html, body {
-  margin: 0;
 }

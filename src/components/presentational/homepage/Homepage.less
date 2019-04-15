@@ -1,3 +1,5 @@
+@import '../../../theme/style.less';
+
 .homepage {
   display: flex;
   flex-direction: row;
@@ -5,10 +7,21 @@
   justify-content: center;
   min-height: 90vh;
 
+  h2, h3, p {
+    color: white;
+  }
+
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  p { font-size: 1rem; }
+
   .image {
-    width: 300px;
+    width: 600px;
     height: auto;
+    box-shadow: @subtle-shadow;
     pointer-events: none;
+    border-radius: 12px;
+    transform: perspective(700px) rotateY(25deg);
   }
 
   .main {
@@ -22,7 +35,7 @@
     }
 
     .get-started {
-      padding: 0.5em 1em;
+      padding: 0.5rem 1rem;
       display: inline-flex;
       align-items: center;
       background: #1890ff;
@@ -37,7 +50,7 @@
       }
 
       i {
-        margin-right: 0.5em;
+        margin-right: 0.5rem;
       }
     }
   }

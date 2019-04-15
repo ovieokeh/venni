@@ -6,7 +6,7 @@ import {
   Form, Icon, Input, Checkbox, Button,
 } from 'antd';
 import { loginRequest } from 'actions/authentication/authActions';
-import logo from 'assets/logo.svg';
+import { Logo } from 'components/common';
 import './Login.less';
 
 function LoginForm(props) {
@@ -34,7 +34,7 @@ function LoginForm(props) {
   return (
     <div className="login-container">
       <div className="form-container">
-        <img alt="logo" src={logo} />
+        <Logo fill="white" />
         <Form onSubmit={handleSubmit} className="login-form">
           <Form.Item>
             {

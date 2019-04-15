@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import {
   loaderBegin, loaderDone, notifyError, notifySuccess,
 } from 'actions/loader/loaderActions';
+import { getProfileRequest } from 'actions/profile/profileActions';
 
 dotenv.config();
 
@@ -22,36 +23,41 @@ export const signupSuccess = token => ({
 
 export const logoutAction = () => ({ type: LOGOUT });
 
-export const loginRequest = user => (dispatch) => {
+export const loginRequest = user => async (dispatch) => {
   const url = `${process.env.API_URL}/login`;
   dispatch(loaderBegin());
 
-  return Axios.post(url, user)
-    .then((response) => {
-      dispatch(loginSuccess(response.data.data));
-      dispatch(loaderDone());
-      return true;
-    })
-    .catch((error) => {
-      dispatch(loaderDone());
-      dispatch(notifyError(error.response.data.message));
-    });
+  try {
+    const success = await Axios.post(url, user);
+
+    dispatch(loginSuccess(success.data.data));
+    await dispatch(getProfileRequest());
+    dispatch(loaderDone());
+    return true;
+  } catch (error) {
+    dispatch(loaderDone());
+    dispatch(notifyError(error.response.data.message));
+  }
+
+  return false;
 };
 
-export const signupRequest = user => (dispatch) => {
+export const signupRequest = user => async (dispatch) => {
   const url = `${process.env.API_URL}/signup`;
   dispatch(loaderBegin());
 
-  return Axios.post(url, user)
-    .then((response) => {
-      dispatch(signupSuccess(response.data.data));
-      dispatch(loaderDone());
-      dispatch(notifySuccess(response.data.message));
+  try {
+    const success = await Axios.post(url, user);
 
-      return true;
-    })
-    .catch((error) => {
-      dispatch(loaderDone());
-      dispatch(notifyError(error.response.data.message));
-    });
+    dispatch(signupSuccess(success.data.data));
+    await dispatch(getProfileRequest());
+    dispatch(loaderDone());
+    dispatch(notifySuccess(success.data.message));
+    return true;
+  } catch (error) {
+    dispatch(loaderDone());
+    dispatch(notifyError(error.response.data.message));
+  }
+
+  return false;
 };

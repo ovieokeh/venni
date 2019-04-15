@@ -34,8 +34,11 @@ describe('async auth actions', () => {
     password: 'password1',
   };
 
-  it('should dispatch the required actions when loginRequest is successful', () => {
+  it('should dispatch the required actions when loginRequest is successful', async () => {
     mockAxios.post.mockImplementationOnce(() => Promise.resolve({
+      data: { ...response },
+    }));
+    mockAxios.get.mockImplementationOnce(() => Promise.resolve({
       data: { ...response },
     }));
 
@@ -45,13 +48,19 @@ describe('async auth actions', () => {
         type: actions.LOGIN_SUCCESS,
         payload: response.data,
       },
+      {
+        type: 'GET_PROFILE_SUCCESS',
+        payload: response.data,
+      },
       { type: 'LOADER_DONE' },
     ];
 
-    const store = mockStore({});
-    return store.dispatch(actions.loginRequest(user)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
+    const store = mockStore({
+      auth: { token: 'token' },
     });
+
+    await Promise.all([store.dispatch(actions.loginRequest(user))]);
+    expect(store.getActions()).toEqual(expectedActions);
   });
 
   it('should dispatch the required actions when loginRequest fails', () => {
@@ -77,6 +86,9 @@ describe('async auth actions', () => {
     mockAxios.post.mockImplementationOnce(() => Promise.resolve({
       data: { ...response },
     }));
+    mockAxios.get.mockImplementationOnce(() => Promise.resolve({
+      data: { ...response },
+    }));
 
     const expectedActions = [
       { type: 'LOADER_BEGIN' },
@@ -84,15 +96,23 @@ describe('async auth actions', () => {
         type: actions.SIGNUP_SUCCESS,
         payload: response.data,
       },
+      {
+        type: 'GET_PROFILE_SUCCESS',
+        payload: response.data,
+      },
       { type: 'LOADER_DONE' },
-      { type: 'NOTIFY_SUCCESS', payload: 'passed' },
+      {
+        type: 'NOTIFY_SUCCESS',
+        payload: 'passed',
+      },
     ];
 
-    const store = mockStore({});
-
-    return store.dispatch(actions.signupRequest(user)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
+    const store = mockStore({
+      auth: { token: 'token' },
     });
+
+    await Promise.all([store.dispatch(actions.signupRequest(user))]);
+    expect(store.getActions()).toEqual(expectedActions);
   });
 
   it('should dispatch the required actions when signupRequest fails', () => {
