@@ -7,9 +7,9 @@ import {
 } from 'antd';
 import logo from 'assets/logo.svg';
 import { signupRequest } from 'actions/authentication/authActions';
-import './Signup.scss';
+import './Signup.less';
 
-const SignupForm = (props) => {
+function SignupForm(props) {
   window.document.title = 'Get Started | Venni';
 
   const { form, signup, history } = props;
@@ -22,7 +22,7 @@ const SignupForm = (props) => {
       if (!err) {
         const success = await signup(values);
         if (success) {
-          history.push('/app');
+          history.push('/');
         }
       }
     });
@@ -103,7 +103,7 @@ const SignupForm = (props) => {
       </div>
     </div>
   );
-};
+}
 
 SignupForm.propTypes = {
   form: propTypes.instanceOf(Object).isRequired,

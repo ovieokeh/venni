@@ -1,11 +1,11 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import mount from 'enzyme/mount';
+import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import mockAxios from 'axios';
 import * as actions from 'actions/authentication/authActions';
-import store from '../../../redux/store';
+import store from 'store/store';
 import Signup from './Signup';
 
 jest.spyOn(actions, 'signupRequest');

@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
 import phone from 'assets/phone.png';
 import logo from 'assets/logo.svg';
-import './Homepage.scss';
+import './Homepage.less';
 
-const Homepage = () => {
+function Homepage() {
   window.document.title = 'Venni';
 
   return (
@@ -20,7 +20,7 @@ const Homepage = () => {
       <div className="main">
         <img alt="logo" src={logo} />
         <h2>Free Messaging Whenever, Wherever</h2>
-        <h4>Keeping in touch with friends made easy and fun.</h4>
+        <h3>Keeping in touch with friends made easy and fun.</h3>
         <p>
           Send free one-on-one and group texts to
           <br />
@@ -37,6 +37,6 @@ const Homepage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Homepage;

@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Dotenv = require('dotenv-webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -14,7 +13,7 @@ module.exports = {
     port: process.env.PORT || 3030,
     compress: true,
     historyApiFallback: true,
-    contentBase: '/src',
+    contentBase: './src',
   },
   node: {
     fs: 'empty',
@@ -22,7 +21,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(js|jsx)$/,
         use: [{ loader: 'babel-loader' }],
         exclude: /node_modules/,
       },
@@ -31,11 +30,11 @@ module.exports = {
         use: [{ loader: 'html-loader' }],
       },
       {
-        test: /\.(scss|css)$/,
+        test: /\.(less|css)$/,
         use: [
           isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
           'css-loader',
-          'sass-loader',
+          'less-loader',
         ],
       },
       {
@@ -51,7 +50,6 @@ module.exports = {
       template: './src/index.html',
       favicon: './src/assets/favicon.png',
     }),
-    new Dotenv(),
     new webpack.EnvironmentPlugin({ ...process.env }),
   ],
   resolve: {
@@ -61,6 +59,7 @@ module.exports = {
       components: path.resolve(__dirname, './src/components'),
       utilities: path.resolve(__dirname, './src/utilities'),
       actions: path.resolve(__dirname, './src/redux/actions'),
+      store: path.resolve(__dirname, './src/redux/store'),
     },
   },
   output: {

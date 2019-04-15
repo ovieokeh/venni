@@ -1,12 +1,13 @@
 import {
-  LOADER_BEGIN, LOADER_DONE,
-  NOTIFY_ERROR, NOTIFY_SUCCESS,
+  LOADER_BEGIN, LOADER_DONE, NOTIFY_ERROR,
+  NOTIFY_SUCCESS, OPEN_PROFILE_DRAWER, CLOSE_PROFILE_DRAWER,
 } from 'actions/loader/loaderActions';
 
 const initialState = {
   isLoading: false,
   type: null,
   message: null,
+  profileDrawerOpen: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -37,6 +38,18 @@ const reducer = (state = initialState, action) => {
         ...state,
         type: 'success',
         message: action.payload,
+      };
+
+    case OPEN_PROFILE_DRAWER:
+      return {
+        ...state,
+        profileDrawerOpen: true,
+      };
+
+    case CLOSE_PROFILE_DRAWER:
+      return {
+        ...state,
+        profileDrawerOpen: false,
       };
 
     default:

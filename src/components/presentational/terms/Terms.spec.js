@@ -1,5 +1,5 @@
 import React from 'react';
-import shallow from 'enzyme/shallow';
+import { shallow } from 'enzyme';
 import Terms from './Terms';
 
 describe('Terms', () => {

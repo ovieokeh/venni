@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { history } from 'utilities';
-import Routes from './routes/routes';
-import store from './redux/store';
+import Routes from 'routes/Routes';
+import store from './redux/store/store';
 
 ReactDOM.render((
   <Provider store={store}>

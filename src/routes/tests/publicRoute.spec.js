@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import * as actions from 'actions/authentication/authActions';
+import store from 'store/store';
 import PublicRoute from '../publicRoute';
-import store from '../../redux/store';
 
 describe('PublicRoute tests', () => {
   const PublicComponent = () => <div>Smurfs</div>;

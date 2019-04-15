@@ -24,4 +24,12 @@ describe('auth reducer', () => {
       payload: 'token',
     })).toEqual(initialState);
   });
+
+  it('should handle LOGOUT', () => {
+    initialState.token = null;
+
+    expect(authReducer(initialState, {
+      type: 'LOGOUT',
+    })).toEqual(initialState);
+  });
 });

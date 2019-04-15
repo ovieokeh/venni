@@ -1,4 +1,4 @@
-@import '../../../theme/style.scss';
+@import '../../../theme/style.less';
 
 .nav {
   display: flex;
@@ -7,17 +7,18 @@
   align-items: center;
   border-bottom: 1px solid #e8e8e8;
   padding: 0 5em;
+  height: 50px;
 
   .brand {
     padding: 1em;
 
     a {
-      color: $official-grey;
+      color: @medium-grey;
       font-weight: 700;
       text-decoration: none;
   
       &:hover {
-        color: $official-green;
+        color: @venni-green;
       }
     }
   }

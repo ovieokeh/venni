@@ -1,11 +1,5 @@
-import store from '../redux/store';
+import store from 'store/store';
 
-const isLoggedIn = () => {
-  if (store.getState().auth.token) {
-    return true;
-  }
-
-  return false;
-};
+const isLoggedIn = () => !!store.getState().auth.token;
 
 export default isLoggedIn;

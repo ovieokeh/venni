@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import mount from 'enzyme/mount';
+import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import Loader from './Loader';
 
@@ -11,6 +11,10 @@ describe('Loader', () => {
       isLoading: false,
       type: '',
       message: '',
+      profileDrawerOpen: false,
+    },
+    user: {
+      profile: null,
     },
   };
   const props = {
@@ -59,5 +63,29 @@ describe('Loader', () => {
     expect(component.find('Loader').exists()).toBe(true);
     expect(component.find('.ant-spin-spinning').exists()).toBe(false);
     expect(component.find('.ant-spin-blur').exists()).toBe(false);
+  });
+
+  it('should show drawer and close it', () => {
+    initialState.loader.profileDrawerOpen = true;
+    initialState.user.profile = {
+      id: Math.random(),
+      name: 'Good Friend',
+      email: 'goodfriend@example.com',
+      avatarUrl: 'url',
+      friends: [],
+      friendRequests: [],
+      sentRequests: [],
+    };
+
+    const store = mockStore(initialState);
+    const component = mount(
+      <Provider store={store}>
+        <Loader {...props} />
+      </Provider>,
+    );
+
+    component.find('.ant-drawer-close').simulate('click');
+    expect(component.find('Drawer').exists()).toBe(true);
+    expect(component.find('Profile').exists()).toBe(true);
   });
 });

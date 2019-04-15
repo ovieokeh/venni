@@ -1,15 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import NavLink from 'react-router-dom/NavLink';
+import { NavLink } from 'react-router-dom';
 import propTypes from 'prop-types';
-import { Icon } from 'antd';
-import './Navbar.scss';
+import { Icon, Badge } from 'antd';
+import { openProfileDrawer } from 'actions/loader/loaderActions';
+import './Navbar.less';
 
-const Navbar = (props) => {
-  const { token } = props;
-
+function Navbar({ user, openProfile }) {
   const renderLinks = () => {
-    if (!token) {
+    if (!user) {
       return (
         <span className="menu-item">
           <NavLink to="/login">
@@ -22,7 +21,30 @@ const Navbar = (props) => {
 
     return (
       <span className="menu-item">
-        <Icon type="user" />
+        <div
+          className="toggler"
+          onClick={() => openProfile()}
+        >
+          {
+            user.friendRequests.length
+              ? (
+                <Badge status="error" offset={[-15, 5]}>
+                  <img
+                    src={user.avatarUrl}
+                    alt="user"
+                    className="user-picture image-30"
+                  />
+                </Badge>
+              )
+              : (
+                <img
+                  src={user.avatarUrl}
+                  alt="user"
+                  className="user-picture image-30"
+                />
+              )
+          }
+        </div>
       </span>
     );
   };
@@ -30,7 +52,7 @@ const Navbar = (props) => {
   return (
     <div className="nav">
       <div className="brand">
-        <NavLink to="/">
+        <NavLink className="brand-link" to="/">
           VENNI
         </NavLink>
       </div>
@@ -39,20 +61,25 @@ const Navbar = (props) => {
       </div>
     </div>
   );
-};
+}
 
 Navbar.propTypes = {
-  token: propTypes.string,
+  user: propTypes.instanceOf(Object),
+  openProfile: propTypes.func.isRequired,
 };
 
 Navbar.defaultProps = {
-  token: '',
+  user: null,
 };
 
 const mapStateToProps = state => ({
-  token: state.auth.token,
+  user: state.user.profile,
 });
 
-const ConnectedNavbar = connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = dispatch => ({
+  openProfile: () => dispatch(openProfileDrawer()),
+});
+
+const ConnectedNavbar = connect(mapStateToProps, mapDispatchToProps)(Navbar);
 
 export default ConnectedNavbar;

@@ -6,15 +6,13 @@ import {
   Form, Icon, Input, Checkbox, Button,
 } from 'antd';
 import { loginRequest } from 'actions/authentication/authActions';
-import './Login.scss';
 import logo from 'assets/logo.svg';
+import './Login.less';
 
-const LoginForm = (props) => {
+function LoginForm(props) {
   window.document.title = 'Login | Venni';
 
-  const {
-    form, login, history,
-  } = props;
+  const { form, login, history } = props;
   const { getFieldDecorator } = form;
 
   const handleSubmit = (event) => {
@@ -27,7 +25,7 @@ const LoginForm = (props) => {
           if (values.remember) {
             localStorage.setItem('remember', 'yes');
           }
-          history.push('/app');
+          history.push('/');
         }
       }
     });
@@ -85,7 +83,7 @@ const LoginForm = (props) => {
       </div>
     </div>
   );
-};
+}
 
 LoginForm.propTypes = {
   form: propTypes.instanceOf(Object).isRequired,

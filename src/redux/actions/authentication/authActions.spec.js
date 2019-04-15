@@ -18,6 +18,13 @@ describe('auth actions', () => {
     expectedAction.type = actions.SIGNUP_SUCCESS;
     expect(actions.signupSuccess('payload')).toEqual(expectedAction);
   });
+
+  it('should handle LOGOUT', () => {
+    expectedAction.type = actions.LOGOUT;
+    delete expectedAction.payload;
+
+    expect(actions.logoutAction()).toEqual(expectedAction);
+  });
 });
 
 describe('async auth actions', () => {
@@ -39,7 +46,6 @@ describe('async auth actions', () => {
         payload: response.data,
       },
       { type: 'LOADER_DONE' },
-      { type: 'NOTIFY_SUCCESS', payload: 'passed' },
     ];
 
     const store = mockStore({});
@@ -67,7 +73,7 @@ describe('async auth actions', () => {
     });
   });
 
-  it('should dispatch the required actions when signupRequest is successful', () => {
+  it('should dispatch the required actions when signupRequest is successful', async () => {
     mockAxios.post.mockImplementationOnce(() => Promise.resolve({
       data: { ...response },
     }));
@@ -83,6 +89,7 @@ describe('async auth actions', () => {
     ];
 
     const store = mockStore({});
+
     return store.dispatch(actions.signupRequest(user)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });

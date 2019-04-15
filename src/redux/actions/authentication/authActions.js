@@ -1,14 +1,14 @@
 import Axios from 'axios';
 import dotenv from 'dotenv';
 import {
-  loaderBegin, loaderDone,
-  notifyError, notifySuccess,
+  loaderBegin, loaderDone, notifyError, notifySuccess,
 } from 'actions/loader/loaderActions';
 
 dotenv.config();
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const LOGOUT = 'LOGOUT';
 
 export const loginSuccess = token => ({
   type: LOGIN_SUCCESS,
@@ -20,7 +20,9 @@ export const signupSuccess = token => ({
   payload: token,
 });
 
-export const loginRequest = user => async (dispatch) => {
+export const logoutAction = () => ({ type: LOGOUT });
+
+export const loginRequest = user => (dispatch) => {
   const url = `${process.env.API_URL}/login`;
   dispatch(loaderBegin());
 
@@ -28,8 +30,6 @@ export const loginRequest = user => async (dispatch) => {
     .then((response) => {
       dispatch(loginSuccess(response.data.data));
       dispatch(loaderDone());
-      dispatch(notifySuccess(response.data.message));
-      // console.log(response);
       return true;
     })
     .catch((error) => {
@@ -38,7 +38,7 @@ export const loginRequest = user => async (dispatch) => {
     });
 };
 
-export const signupRequest = user => async (dispatch) => {
+export const signupRequest = user => (dispatch) => {
   const url = `${process.env.API_URL}/signup`;
   dispatch(loaderBegin());
 

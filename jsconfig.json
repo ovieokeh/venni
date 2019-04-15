@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "assets": ["assets/*"],
+      "components/*": ["components/*"],
+      "actions/*": ["redux/actions/*"],
+      "store": ["redux/store/*"],
+      "utilities/*": ["utilities/*"],
+    }
+  },
+  "include": ["src"],
+  "exclude": ["dist", "coverage", "node_modules"],
+  "typeAcquisition": {
+    "include": ["jest"]
+  }
+}

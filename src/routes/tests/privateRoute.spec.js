@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import * as actions from 'actions/authentication/authActions';
+import store from 'store/store';
 import PrivateRoute from '../privateRoute';
-import store from '../../redux/store';
 
 describe('PrivateRoute tests', () => {
   const PrivateComponent = () => <div>Smurfs</div>;

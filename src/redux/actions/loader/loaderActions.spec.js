@@ -13,6 +13,16 @@ describe('loader actions', () => {
     expect(actions.loaderDone()).toEqual(expectedAction);
   });
 
+  it('should handle OPEN_PROFILE_DRAWER', () => {
+    expectedAction.type = actions.OPEN_PROFILE_DRAWER;
+    expect(actions.openProfileDrawer()).toEqual(expectedAction);
+  });
+
+  it('should handle CLOSE_PROFILE_DRAWER', () => {
+    expectedAction.type = actions.CLOSE_PROFILE_DRAWER;
+    expect(actions.closeProfileDrawer()).toEqual(expectedAction);
+  });
+
   it('should handle NOTIFY_ERROR', () => {
     expectedAction.type = actions.NOTIFY_ERROR;
     expectedAction.payload = 'payload';

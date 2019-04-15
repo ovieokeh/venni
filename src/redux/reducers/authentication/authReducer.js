@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, SIGNUP_SUCCESS } from '../../actions/authentication/authActions';
+import { LOGIN_SUCCESS, SIGNUP_SUCCESS, LOGOUT } from 'actions/authentication/authActions';
 
 let initialState;
 
@@ -13,7 +13,7 @@ try {
   initialState = { token: null };
 }
 
-const authReducer = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SIGNUP_SUCCESS:
     case LOGIN_SUCCESS:
@@ -22,9 +22,15 @@ const authReducer = (state = initialState, action) => {
         token: action.payload,
       };
 
+    case LOGOUT:
+      return {
+        ...state,
+        token: null,
+      };
+
     default:
       return state;
   }
 };
 
-export default authReducer;
+export default reducer;

@@ -1,5 +1,5 @@
 import * as actions from 'actions/authentication/authActions';
-import store from '../../redux/store';
+import store from 'store/store';
 import isLoggedIn from '../isLoggedIn';
 
 describe('isLoggedIn', () => {

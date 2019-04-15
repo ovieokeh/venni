@@ -11,7 +11,8 @@
         "assets": "./src/assets",
         "actions": "./src/redux/actions",
         "components": "./src/components",
-        "utilities": "./src/utilities"
+        "utilities": "./src/utilities",
+        "store": "./src/redux/store",
       }
     }],
   ],

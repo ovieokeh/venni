@@ -4,6 +4,7 @@ const initialState = {
   isLoading: false,
   type: null,
   message: null,
+  profileDrawerOpen: false,
 };
 
 describe('loader reducer', () => {
@@ -44,6 +45,22 @@ describe('loader reducer', () => {
     expect(loaderReducer(initialState, {
       type: 'NOTIFY_SUCCESS',
       payload: 'success',
+    })).toEqual(initialState);
+  });
+
+  it('should handle OPEN_PROFILE_DRAWER', () => {
+    initialState.profileDrawerOpen = true;
+
+    expect(loaderReducer(initialState, {
+      type: 'OPEN_PROFILE_DRAWER',
+    })).toEqual(initialState);
+  });
+
+  it('should handle CLOSE_PROFILE_DRAWER', () => {
+    initialState.profileDrawerOpen = false;
+
+    expect(loaderReducer(initialState, {
+      type: 'CLOSE_PROFILE_DRAWER',
     })).toEqual(initialState);
   });
 });

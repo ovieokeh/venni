@@ -1,7 +1,7 @@
 import React from 'react';
-import './Terms.scss';
+import './Terms.less';
 
-const Terms = () => {
+function Terms() {
   window.document.title = 'Terms & Conditions | Venni';
 
   return (
@@ -105,6 +105,6 @@ const Terms = () => {
       </p>
     </div>
   );
-};
+}
 
 export default Terms;

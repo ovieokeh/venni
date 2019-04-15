@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { Spin, notification } from 'antd';
+import {
+  Spin, notification, Drawer, Icon,
+} from 'antd';
+import { closeProfileDrawer } from 'actions/loader/loaderActions';
+import { Profile } from 'components/container';
 
-const Loader = (props) => {
+function Loader(props) {
   const {
-    isLoading, children, type, message,
+    loading, children, type,
+    message, profileDrawerOpen, closeDrawer,
+    user,
   } = props;
-  const [loading, setState] = useState(isLoading);
+  const [drawerVisibility, setDrawerVisibility] = useState(profileDrawerOpen);
 
   useEffect(() => {
     if (type && !loading) {
+      notification.config({ placement: 'topLeft' });
       notification[type]({
         message,
       });
@@ -18,34 +25,65 @@ const Loader = (props) => {
   }, [type, loading]);
 
   useEffect(() => {
-    setState(isLoading);
-  }, [isLoading]);
+    setDrawerVisibility(profileDrawerOpen);
+  }, [profileDrawerOpen]);
 
   return (
-    <Spin spinning={loading}>
-      {children}
-    </Spin>
+    <React.Fragment>
+      <Spin spinning={loading}>
+        {children}
+      </Spin>
+      {
+        user
+          ? (
+            <Drawer
+              title={(
+                <div className="profile-header">
+                  <Icon type="solution" />
+                  <span>Your Profile</span>
+                </div>
+              )}
+              placement="right"
+              width="600px"
+              onClose={() => closeDrawer()}
+              visible={drawerVisibility}
+            >
+              <Profile user={user} />
+            </Drawer>
+          ) : null
+      }
+    </React.Fragment>
   );
-};
+}
 
 Loader.propTypes = {
-  isLoading: propTypes.bool.isRequired,
+  loading: propTypes.bool.isRequired,
   children: propTypes.instanceOf(Object).isRequired,
   type: propTypes.string,
   message: propTypes.string,
+  profileDrawerOpen: propTypes.bool.isRequired,
+  closeDrawer: propTypes.func.isRequired,
+  user: propTypes.instanceOf(Object),
 };
 
 Loader.defaultProps = {
   type: '',
   message: '',
+  user: null,
 };
 
 const mapStateToProps = state => ({
-  isLoading: state.loader.isLoading,
+  loading: state.loader.isLoading,
   type: state.loader.type,
   message: state.loader.message,
+  profileDrawerOpen: state.loader.profileDrawerOpen,
+  user: state.user.profile,
 });
 
-const ConnectedLoader = connect(mapStateToProps)(Loader);
+const mapDispatchToProps = dispatch => ({
+  closeDrawer: () => dispatch(closeProfileDrawer()),
+});
+
+const ConnectedLoader = connect(mapStateToProps, mapDispatchToProps)(Loader);
 
 export default ConnectedLoader;
