@@ -4,35 +4,26 @@ import propTypes from 'prop-types';
 import {
   Tabs, Icon, Badge, Button, message, Popconfirm,
 } from 'antd';
-import { FriendsList, RequestsList, SentRequestsList } from 'components/presentational';
-import {
-  unfriendUserRequest, cancelFriendRequest, friendRequestAction,
-} from 'actions/requests/requestsActions';
+import { RequestsList, SentRequestsList } from 'components/presentational';
+import { cancelFriendRequest, friendRequestAction } from 'actions/requests/requestsActions';
 import { logoutAction } from 'actions/authentication/authActions';
 import './Profile.less';
 
 function Profile(props) {
   const {
-    user, requestAction, unfriend,
-    cancelRequest, logout,
+    user, requestAction, cancelRequest, logout,
   } = props;
-  const { friendRequests, sentRequests, friends } = user;
+  const { friendRequests, sentRequests } = user;
   const { TabPane } = Tabs;
   const ButtonGroup = Button.Group;
 
   /* istanbul ignore next */
   const confirmAction = async (args) => {
     const {
-      friendId, friendName, type,
-      requestId, requesterId, requesterName,
+      type, requestId, requesterId, requesterName,
     } = args;
 
     switch (type) {
-      case 'confirm-unfriend':
-        await unfriend(friendId);
-        message.success(`You are no longer friends with ${friendName}`);
-        break;
-
       case 'cancel-request':
         await cancelRequest(requestId);
         message.success('Friend request canceled successfully');
@@ -91,27 +82,7 @@ function Profile(props) {
         </ButtonGroup>
       </div>
       <div className="user-activity">
-        <Tabs defaultActiveKey="friends">
-          <TabPane
-            tab={(
-              <Badge
-                count={friends.length}
-                style={{ backgroundColor: '#1890ff' }}
-                offset={[12, 0]}
-              >
-                <span className="inline-horizontal">
-                  <Icon type="team" />
-                  Friends
-                </span>
-              </Badge>
-            )}
-            key="friends"
-          >
-            <FriendsList
-              friends={friends}
-              confirmAction={confirmAction}
-            />
-          </TabPane>
+        <Tabs defaultActiveKey="requests">
           <TabPane
             tab={(
               <Badge
@@ -171,7 +142,6 @@ function Profile(props) {
 Profile.propTypes = {
   user: propTypes.instanceOf(Object).isRequired,
   requestAction: propTypes.func.isRequired,
-  unfriend: propTypes.func.isRequired,
   cancelRequest: propTypes.func.isRequired,
   logout: propTypes.func.isRequired,
 };
@@ -179,7 +149,6 @@ Profile.propTypes = {
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
   requestAction: (id, action) => dispatch(friendRequestAction(id, action)),
-  unfriend: friendId => dispatch(unfriendUserRequest(friendId)),
   cancelRequest: friendId => dispatch(cancelFriendRequest(friendId)),
   logout: () => dispatch(logoutAction()),
 });

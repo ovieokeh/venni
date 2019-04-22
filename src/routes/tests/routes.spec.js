@@ -1,16 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import history from 'utilities/history';
 import store from 'store/store';
 import Routes from '../Routes';
 
 describe('Routes', () => {
-  it('should render without crashing', () => {
-    const component = shallow(<Routes history={history} />);
-    expect(component.find('Router').exists()).toBe(true);
-  });
-
   it('should mount without crashing', () => {
     const component = mount(
       <Provider store={store}>
