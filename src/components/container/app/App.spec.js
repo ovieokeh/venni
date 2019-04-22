@@ -6,23 +6,23 @@ import configureStore from 'redux-mock-store';
 import App from './App';
 
 describe('App', () => {
-  const user = {
+  const profile = {
     id: Math.random(),
     name: 'Test User',
     email: 'testuser@example.com',
     avatarUrl: 'https://fakeimageurl.com',
-    friends: [],
-    sentRequests: [],
+  };
+
+  const user = {
+    profile,
+    friends: [profile],
+    friendInvites: [],
+    sentInvites: [],
   };
 
   const mockStore = configureStore([thunk]);
   const initialState = {
-    user: {
-      profile: user,
-    },
-    allUsers: {
-      users: [user],
-    },
+    user,
   };
   const store = mockStore(initialState);
 
@@ -45,10 +45,7 @@ describe('App', () => {
 
     const instance = component.find('App').instance();
 
-    component.find('.strangers').at(0).simulate('click');
-    expect(instance.state.currentlySelected).toEqual('strangers');
-
-    component.find('.friends').at(0).simulate('click');
+    component.find('.friends-menu-item').at(0).simulate('click');
     expect(instance.state.currentlySelected).toEqual('friends');
   });
 });

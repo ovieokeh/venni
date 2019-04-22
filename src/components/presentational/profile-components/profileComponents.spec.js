@@ -1,13 +1,13 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import RequestsList from './RequestsList';
-import SentRequestsList from './SentRequestsList';
+import InvitesList from './InvitesList';
+import SentInvitesList from './SentInvitesList';
 
 describe('Profile Components', () => {
-  describe('RequestsList', () => {
+  describe('InvitesList', () => {
     const props = {
       confirmAction: jest.fn(),
-      friendRequests: [{
+      friendInvites: [{
         id: Math.random(),
         name: 'Good Friend',
         email: 'goodfriend@example.com',
@@ -16,50 +16,50 @@ describe('Profile Components', () => {
     };
 
     it('renders without crashing', () => {
-      const component = mount(<RequestsList {...props} />);
-      expect(component.find('.request-header').exists()).toBe(true);
+      const component = mount(<InvitesList {...props} />);
+      expect(component.find('.invite-header').exists()).toBe(true);
       expect(component.find('.requester-details').exists()).toBe(false);
     });
 
-    it('handles request decline', () => {
-      const component = mount(<RequestsList {...props} />);
+    it('handles invite decline', () => {
+      const component = mount(<InvitesList {...props} />);
       component.find('.ant-collapse-header').simulate('click');
       const button = component.find('.ant-btn').at(0);
       button.simulate('click');
       component.find('.ant-btn-sm').at(1).simulate('click');
 
-      expect(component.find('.request').exists()).toBe(true);
+      expect(component.find('.invite').exists()).toBe(true);
       expect(component.find('.requester-details').exists()).toBe(true);
       expect(component.find('Popconfirm').exists()).toBe(true);
       expect(props.confirmAction).toHaveBeenCalled();
     });
 
-    it('handles request accept', () => {
-      const component = mount(<RequestsList {...props} />);
+    it('handles invite accept', () => {
+      const component = mount(<InvitesList {...props} />);
       component.find('.ant-collapse-header').simulate('click');
       const button = component.find('.ant-btn').at(1);
       button.simulate('click');
       component.find('.ant-btn-sm').at(1).simulate('click');
 
-      expect(component.find('.request').exists()).toBe(true);
+      expect(component.find('.invite').exists()).toBe(true);
       expect(component.find('.requester-details').exists()).toBe(true);
       expect(component.find('Popconfirm').exists()).toBe(true);
       expect(props.confirmAction).toHaveBeenCalled();
     });
 
-    it('renders the Empty component when friendRequests.length === 0', () => {
-      props.friendRequests = [];
-      const component = mount(<RequestsList {...props} />);
+    it('renders the Empty component when friendInvites.length === 0', () => {
+      props.friendInvites = [];
+      const component = mount(<InvitesList {...props} />);
 
       expect(component.find('Empty').exists()).toBe(true);
-      expect(component.find('.ant-empty-description').text()).toEqual('No Friend Requests');
+      expect(component.find('.ant-empty-description').text()).toEqual('No Friend Invites');
     });
   });
 
-  describe('SentRequestsList', () => {
+  describe('SentInvitesList', () => {
     const props = {
       confirmAction: jest.fn(),
-      sentRequests: [{
+      sentInvites: [{
         id: Math.random(),
         name: 'Good Friend',
         email: 'goodfriend@example.com',
@@ -68,30 +68,30 @@ describe('Profile Components', () => {
     };
 
     it('renders without crashing', () => {
-      const component = mount(<SentRequestsList {...props} />);
-      expect(component.find('.request-header').exists()).toBe(true);
+      const component = mount(<SentInvitesList {...props} />);
+      expect(component.find('.invite-header').exists()).toBe(true);
       expect(component.find('.requester-details').exists()).toBe(false);
     });
 
-    it('handles request cancel', () => {
-      const component = mount(<SentRequestsList {...props} />);
+    it('handles invite cancel', () => {
+      const component = mount(<SentInvitesList {...props} />);
       component.find('.ant-collapse-header').simulate('click');
       const button = component.find('.ant-btn').at(0);
       button.simulate('click');
       component.find('.ant-btn-sm').at(1).simulate('click');
 
-      expect(component.find('.request').exists()).toBe(true);
+      expect(component.find('.invite').exists()).toBe(true);
       expect(component.find('.requester-details').exists()).toBe(true);
       expect(component.find('Popconfirm').exists()).toBe(true);
       expect(props.confirmAction).toHaveBeenCalled();
     });
 
-    it('renders the Empty component when sentRequests.length === 0', () => {
-      props.sentRequests = [];
-      const component = mount(<SentRequestsList {...props} />);
+    it('renders the Empty component when sentInvites.length === 0', () => {
+      props.sentInvites = [];
+      const component = mount(<SentInvitesList {...props} />);
 
       expect(component.find('Empty').exists()).toBe(true);
-      expect(component.find('.ant-empty-description').text()).toEqual('No Pending Sent Requests');
+      expect(component.find('.ant-empty-description').text()).toEqual('No Pending Sent Invites');
     });
   });
 });

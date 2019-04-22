@@ -9,9 +9,9 @@ describe('Navbar', () => {
   const initialState = {
     user: {
       profile: {
-        friendRequests: [],
         avatarUrl: 'url',
       },
+      friendInvites: [],
     },
   };
   const mockStore = configureStore();
@@ -31,7 +31,7 @@ describe('Navbar', () => {
   });
 
   it('should render a user profile image when logged in', () => {
-    initialState.user.profile.friendRequests = [{ friend: 'request' }];
+    initialState.user.profile.friendInvites = [{ friend: 'invite' }];
     const fakeStore = mockStore(initialState);
     const component = mount(
       <Provider store={fakeStore}>

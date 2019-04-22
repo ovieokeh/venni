@@ -4,38 +4,38 @@ import propTypes from 'prop-types';
 import {
   Tabs, Icon, Badge, Button, message, Popconfirm,
 } from 'antd';
-import { RequestsList, SentRequestsList } from 'components/presentational';
-import { cancelFriendRequest, friendRequestAction } from 'actions/requests/requestsActions';
+import { InvitesList, SentInvitesList } from 'components/presentational';
+import { cancelFriendInvite, friendInviteAction } from 'actions/invites/invitesActions';
 import { logoutAction } from 'actions/authentication/authActions';
 import './Profile.less';
 
 function Profile(props) {
   const {
-    user, requestAction, cancelRequest, logout,
+    user, inviteAction, cancelInvite, logout,
   } = props;
-  const { friendRequests, sentRequests } = user;
+  const { friendInvites, sentInvites, profile } = user;
   const { TabPane } = Tabs;
   const ButtonGroup = Button.Group;
 
   /* istanbul ignore next */
   const confirmAction = async (args) => {
     const {
-      type, requestId, requesterId, requesterName,
+      type, email, requesterName,
     } = args;
 
     switch (type) {
-      case 'cancel-request':
-        await cancelRequest(requestId);
-        message.success('Friend request canceled successfully');
+      case 'cancel-invite':
+        await cancelInvite(email);
+        message.success('Friend invite canceled successfully');
         break;
 
-      case 'decline-request':
-        await requestAction(requesterId, 'decline');
-        message.success('Friend request declined successfully');
+      case 'decline-invite':
+        await inviteAction(email, 'decline');
+        message.success('Friend invite declined successfully');
         break;
 
-      case 'accept-request':
-        await requestAction(requesterId, 'accept');
+      case 'accept-invite':
+        await inviteAction(email, 'accept');
         message.success(`You are now friends with ${requesterName}`);
         break;
 
@@ -57,11 +57,11 @@ function Profile(props) {
       <div className="user-details">
         <img
           className="user-image image-250"
-          src={user.avatarUrl}
-          alt={user.name}
+          src={profile.avatarUrl}
+          alt={profile.name}
         />
-        <p className="user-name">{user.name}</p>
-        <p>{user.email}</p>
+        <p className="user-name">{profile.name}</p>
+        <p>{profile.email}</p>
         <ButtonGroup>
           <Popconfirm
             icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
@@ -82,14 +82,14 @@ function Profile(props) {
         </ButtonGroup>
       </div>
       <div className="user-activity">
-        <Tabs defaultActiveKey="requests">
+        <Tabs defaultActiveKey="invites">
           <TabPane
             tab={(
               <Badge
-                count={friendRequests.length}
+                count={friendInvites.length}
                 style={{
                   backgroundColor: `${
-                    friendRequests.length
+                    friendInvites.length
                       ? '#f5222d' : '#1890ff'
                   }`,
                 }}
@@ -97,24 +97,24 @@ function Profile(props) {
               >
                 <span className="inline-horizontal">
                   <Icon type="usergroup-add" />
-                  Friend Requests
+                  Friend Invites
                 </span>
               </Badge>
             )}
-            key="requests"
+            key="invites"
           >
-            <RequestsList
-              friendRequests={friendRequests}
+            <InvitesList
+              friendInvites={friendInvites}
               confirmAction={confirmAction}
             />
           </TabPane>
           <TabPane
             tab={(
               <Badge
-                count={sentRequests.length}
+                count={sentInvites.length}
                 style={{
                   backgroundColor: `${
-                    sentRequests.length
+                    sentInvites.length
                       ? '#f5222d' : '#1890ff'
                   }`,
                 }}
@@ -122,14 +122,14 @@ function Profile(props) {
               >
                 <span className="inline-horizontal">
                   <Icon type="clock-circle" />
-                  Pending Sent Requests
+                  Pending Sent Invites
                 </span>
               </Badge>
             )}
-            key="sent-requests"
+            key="sent-invites"
           >
-            <SentRequestsList
-              sentRequests={sentRequests}
+            <SentInvitesList
+              sentInvites={sentInvites}
               confirmAction={confirmAction}
             />
           </TabPane>
@@ -141,15 +141,15 @@ function Profile(props) {
 
 Profile.propTypes = {
   user: propTypes.instanceOf(Object).isRequired,
-  requestAction: propTypes.func.isRequired,
-  cancelRequest: propTypes.func.isRequired,
+  inviteAction: propTypes.func.isRequired,
+  cancelInvite: propTypes.func.isRequired,
   logout: propTypes.func.isRequired,
 };
 
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
-  requestAction: (id, action) => dispatch(friendRequestAction(id, action)),
-  cancelRequest: friendId => dispatch(cancelFriendRequest(friendId)),
+  inviteAction: (id, action) => dispatch(friendInviteAction(id, action)),
+  cancelInvite: friendId => dispatch(cancelFriendInvite(friendId)),
   logout: () => dispatch(logoutAction()),
 });
 

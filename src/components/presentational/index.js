@@ -1,15 +1,13 @@
 import Homepage from './homepage/Homepage';
 import Terms from './terms/Terms';
 import FriendsList from './friends-list/FriendsList';
-import RequestsList from './profile-components/RequestsList';
-import SentRequestsList from './profile-components/SentRequestsList';
-import AllUsers from './all-users/AllUsers';
+import InvitesList from './profile-components/InvitesList';
+import SentInvitesList from './profile-components/SentInvitesList';
 
 export {
   Homepage,
   Terms,
   FriendsList,
-  RequestsList,
-  SentRequestsList,
-  AllUsers,
+  InvitesList,
+  SentInvitesList,
 };

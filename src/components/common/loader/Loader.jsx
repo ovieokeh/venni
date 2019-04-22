@@ -77,7 +77,7 @@ const mapStateToProps = state => ({
   type: state.loader.type,
   message: state.loader.message,
   profileDrawerOpen: state.loader.profileDrawerOpen,
-  user: state.user.profile,
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -6,7 +6,7 @@
   .sidebar {
     overflow: scroll;
 
-    .group-title {
+    .group-title, .friends-menu-item {
       display: inline-flex;
       align-items: center;
       font-size: 1.2rem;
@@ -14,6 +14,14 @@
       span {
         padding-left: 0.5rem;
       }
+    }
+
+    .menu-item-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 1rem;
     }
   }
 
@@ -31,5 +39,6 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    padding: 0 1rem;
   }
 }

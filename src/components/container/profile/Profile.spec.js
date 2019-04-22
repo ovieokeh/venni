@@ -9,13 +9,15 @@ describe('Profile', () => {
   const mockStore = configureStore([thunk]);
   const store = mockStore({});
   const user = {
-    id: Math.random(),
-    name: 'Good Friend',
-    email: 'goodfriend@example.com',
-    avatarUrl: 'url',
+    profile: {
+      id: Math.random(),
+      name: 'Good Friend',
+      email: 'goodfriend@example.com',
+      avatarUrl: 'url',
+    },
     friends: [],
-    friendRequests: [],
-    sentRequests: [],
+    friendInvites: [],
+    sentInvites: [],
   };
   Object.defineProperty(window, 'location', {
     writable: true,
@@ -40,13 +42,13 @@ describe('Profile', () => {
       email: 'goodfriend@example.com',
       avatarUrl: 'url',
     }];
-    user.friendRequests = [{
+    user.friendInvites = [{
       id: Math.random(),
       name: 'Good Friend',
       email: 'goodfriend@example.com',
       avatarUrl: 'url',
     }];
-    user.sentRequests = [{
+    user.sentInvites = [{
       id: Math.random(),
       name: 'Good Friend',
       email: 'goodfriend@example.com',
