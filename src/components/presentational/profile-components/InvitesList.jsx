@@ -5,14 +5,14 @@ import {
 import propTypes from 'prop-types';
 import { Empty } from 'components/common';
 
-function RequestsList({ friendRequests, confirmAction }) {
+function InvitesList({ friendInvites, confirmAction }) {
   const { Panel } = Collapse;
   const ButtonGroup = Button.Group;
 
-  if (!friendRequests.length) {
+  if (!friendInvites.length) {
     return (
       <Empty
-        description="No Friend Requests"
+        description="No Friend Invites"
       />
     );
   }
@@ -20,10 +20,10 @@ function RequestsList({ friendRequests, confirmAction }) {
   return (
     <Collapse bordered={false}>
       {
-        friendRequests.map(requester => (
+        friendInvites.map(requester => (
           <Panel
             header={(
-              <span className="request-header">
+              <span className="invite-header">
                 <img
                   className="image-30"
                   src={requester.avatarUrl}
@@ -34,7 +34,7 @@ function RequestsList({ friendRequests, confirmAction }) {
             )}
             key={requester.id}
           >
-            <div className="request">
+            <div className="invite">
               <div className="requester-details">
                 <img
                   className="image-150"
@@ -44,14 +44,14 @@ function RequestsList({ friendRequests, confirmAction }) {
                 <p>{requester.name}</p>
                 <p>{requester.email}</p>
               </div>
-              <ButtonGroup className="request-actions">
+              <ButtonGroup className="invite-actions">
                 <Popconfirm
                   icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                   onConfirm={() => confirmAction({
-                    requesterId: requester.id,
-                    type: 'decline-request',
+                    email: requester.email,
+                    type: 'decline-invite',
                   })}
-                  title="Are you sure you want to decline this friend request?"
+                  title="Are you sure you want to decline this friend invite?"
                   okText="Yes"
                   cancelText="No"
                 >
@@ -64,11 +64,11 @@ function RequestsList({ friendRequests, confirmAction }) {
                 <Popconfirm
                   icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                   onConfirm={() => confirmAction({
-                    requesterId: requester.id,
+                    email: requester.email,
                     requesterName: requester.name,
-                    type: 'accept-request',
+                    type: 'accept-invite',
                   })}
-                  title="Are you sure you want to accept this friend request?"
+                  title="Are you sure you want to accept this friend invite?"
                   okText="Yes"
                   cancelText="No"
                 >
@@ -87,9 +87,9 @@ function RequestsList({ friendRequests, confirmAction }) {
   );
 }
 
-RequestsList.propTypes = {
-  friendRequests: propTypes.instanceOf(Object).isRequired,
+InvitesList.propTypes = {
+  friendInvites: propTypes.instanceOf(Object).isRequired,
   confirmAction: propTypes.func.isRequired,
 };
 
-export default RequestsList;
+export default InvitesList;

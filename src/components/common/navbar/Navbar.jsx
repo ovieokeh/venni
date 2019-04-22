@@ -7,8 +7,10 @@ import { openProfileDrawer } from 'actions/loader/loaderActions';
 import './Navbar.less';
 
 function Navbar({ user, openProfile }) {
+  const { profile } = user;
+
   const renderLinks = () => {
-    if (!user) {
+    if (!profile) {
       return (
         <span className="menu-item">
           <NavLink to="/login">
@@ -26,11 +28,11 @@ function Navbar({ user, openProfile }) {
           onClick={() => openProfile()}
         >
           {
-            user.friendRequests.length
+            user.friendInvites.length
               ? (
                 <Badge status="error" offset={[-15, 5]}>
                   <img
-                    src={user.avatarUrl}
+                    src={profile.avatarUrl}
                     alt="user"
                     className="user-picture image-30"
                   />
@@ -38,7 +40,7 @@ function Navbar({ user, openProfile }) {
               )
               : (
                 <img
-                  src={user.avatarUrl}
+                  src={profile.avatarUrl}
                   alt="user"
                   className="user-picture image-30"
                 />
@@ -73,7 +75,7 @@ Navbar.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  user: state.user.profile,
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => ({

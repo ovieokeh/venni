@@ -8,6 +8,7 @@ import { Login, Signup, App } from 'components/container';
 import dotenv from 'dotenv';
 import PublicRoute from './publicRoute';
 import AppRoute from './appRoute';
+import { setupSockets } from '../sockets';
 import 'antd/dist/antd.css';
 import '../theme/style.less';
 
@@ -29,7 +30,12 @@ class Routes extends PureComponent {
   }
 
   render() {
+    const { token } = this.state;
     const { history } = this.props;
+
+    if (token) {
+      setupSockets(token);
+    }
 
     return (
       <Router history={history}>

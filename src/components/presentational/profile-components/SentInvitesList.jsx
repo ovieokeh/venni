@@ -5,13 +5,13 @@ import {
 import propTypes from 'prop-types';
 import { Empty } from 'components/common';
 
-function SentRequestsList({ sentRequests, confirmAction }) {
+function SentInvitesList({ sentInvites, confirmAction }) {
   const { Panel } = Collapse;
 
-  if (!sentRequests.length) {
+  if (!sentInvites.length) {
     return (
       <Empty
-        description="No Pending Sent Requests"
+        description="No Pending Sent Invites"
       />
     );
   }
@@ -19,44 +19,44 @@ function SentRequestsList({ sentRequests, confirmAction }) {
   return (
     <Collapse bordered={false}>
       {
-        sentRequests.map(request => (
+        sentInvites.map(invite => (
           <Panel
             header={(
-              <span className="request-header">
+              <span className="invite-header">
                 <img
                   className="image-30"
-                  src={request.avatarUrl}
-                  alt={request.name}
+                  src={invite.avatarUrl}
+                  alt={invite.name}
                 />
-                <span>{request.name}</span>
+                <span>{invite.name}</span>
               </span>
             )}
-            key={request.id}
+            key={invite.id}
           >
-            <div className="request">
+            <div className="invite">
               <div className="requester-details">
                 <img
                   className="image-150"
-                  src={request.avatarUrl}
-                  alt={request.name}
+                  src={invite.avatarUrl}
+                  alt={invite.name}
                 />
-                <p>{request.name}</p>
-                <p>{request.email}</p>
+                <p>{invite.name}</p>
+                <p>{invite.email}</p>
               </div>
               <Popconfirm
                 icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                 onConfirm={() => confirmAction({
-                  requestId: request.id,
-                  type: 'cancel-request',
+                  email: invite.email,
+                  type: 'cancel-invite',
                 })}
-                title="Are you sure you want to cancel this friend request?"
+                title="Are you sure you want to cancel this friend invite?"
                 okText="Yes"
                 cancelText="No"
               >
                 <Button
                   type="danger"
                 >
-                  Cancel Friend Request
+                  Cancel Friend Invite
                 </Button>
               </Popconfirm>
             </div>
@@ -67,9 +67,9 @@ function SentRequestsList({ sentRequests, confirmAction }) {
   );
 }
 
-SentRequestsList.propTypes = {
-  sentRequests: propTypes.instanceOf(Object).isRequired,
+SentInvitesList.propTypes = {
+  sentInvites: propTypes.instanceOf(Object).isRequired,
   confirmAction: propTypes.func.isRequired,
 };
 
-export default SentRequestsList;
+export default SentInvitesList;

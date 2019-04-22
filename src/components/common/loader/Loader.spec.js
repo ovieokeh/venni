@@ -15,6 +15,9 @@ describe('Loader', () => {
     },
     user: {
       profile: null,
+      friends: [],
+      friendInvites: [],
+      sentInvites: [],
     },
   };
   const props = {
@@ -72,9 +75,6 @@ describe('Loader', () => {
       name: 'Good Friend',
       email: 'goodfriend@example.com',
       avatarUrl: 'url',
-      friends: [],
-      friendRequests: [],
-      sentRequests: [],
     };
 
     const store = mockStore(initialState);

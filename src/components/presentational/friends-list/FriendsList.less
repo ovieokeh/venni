@@ -1,31 +1,56 @@
-.friend, .user {
-  width: 300px;
-  min-height: 400px;
+.friend {
   display: inline-flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   background-color: white;
-  margin: 1rem;
-  padding-bottom: 1rem;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-  border-radius: 2%;
-  overflow: hidden;
+  margin-top: 1rem;
+  padding: 0 1rem;
+  width: 100%;
+  border-radius: 10px;
 
-  .friend-picture, .user-picture {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
+  .friend-intro {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0;
   }
 
-  .friend-details, .user-details {
-    height: 100%;
-    padding: 1rem 0;
-    text-align: center;
+  .friend-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+  }
 
-    .friend-name, .user-name {
+  .friend-details {
+    height: 100%;
+    text-align: left;
+
+    .friend-name {
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: 400;
       margin-bottom: 0;
+    }
+
+    .friend-email { margin-bottom: 0; }
+  }
+}
+
+.friends-list-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .invite-container {
+    width: 80%;
+    display: flex;
+
+    .invite-icon {
+      &:hover {
+        background-color: 'black';
+      }
     }
   }
 }

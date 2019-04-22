@@ -45,6 +45,21 @@ describe('FriendsList', () => {
     expect(component.find('Popconfirm').exists()).toBe(true);
   });
 
+  it('handles sendInvite', () => {
+    const component = mount(
+      <Provider store={store}>
+        <FriendsList {...props} />
+      </Provider>,
+    );
+
+    const input = component.find('input').at(0);
+    input.simulate('change', {
+      target: { value: 'dummy@example.com' },
+    });
+
+    component.find('.send-invite-btn').at(0).simulate('click');
+  });
+
   it('renders the Empty component when friends.length === 0', () => {
     props.friends = [];
     const component = mount(
