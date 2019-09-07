@@ -10,7 +10,8 @@ module.exports = {
     username: process.env.TEST_DATABASE_USER,
     password: null,
     database: process.env.TEST_DATABASE,
-    host: '127.0.0.1',
+    host: process.env.TEST_DATABASE_HOST,
+    port: process.env.TEST_DATABASE_PORT,
     logging: false,
     dialect: 'postgres'
   },
