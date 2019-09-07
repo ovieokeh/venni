@@ -7,9 +7,9 @@ module.exports = {
     logging: false
   },
   test: {
-    username: 'postgres',
+    username: process.env.TEST_DATABASE_USER,
     password: null,
-    database: 'venni_test',
+    database: process.env.TEST_DATABASE,
     host: '127.0.0.1',
     logging: false,
     dialect: 'postgres'
