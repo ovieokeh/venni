@@ -1,0 +1,27 @@
+{
+  "name": "venni",
+  "version": "1.0.0",
+  "description": "Web based chat app",
+  "main": "index.js",
+  "scripts": {
+    "test": "lerna run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ovieokeh/venni-app.git"
+  },
+  "keywords": [
+    "node.js",
+    "react.js",
+    "socket.io"
+  ],
+  "author": "Ovie Okeh",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ovieokeh/venni-app/issues"
+  },
+  "homepage": "https://github.com/ovieokeh/venni-app#readme",
+  "dependencies": {
+    "lerna": "^3.16.4"
+  }
+}
