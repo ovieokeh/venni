@@ -15,6 +15,7 @@ jobs:
         image: postgres
         env:
           POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
           POSTGRES_DB: venni_test
         ports:
           - 5432:5432
@@ -30,11 +31,14 @@ jobs:
         run: |
           npm install
           npm run bootstrap
+          npm run build
           npm test
         env:
+          NODE_ENV: test
           TEST_DATABASE: venni_test
           TEST_DATABASE_USER: postgres
-          TEST_DATABASE_HOST: postgres
+          TEST_DATABASE_PASSWORD: postgres
+          TEST_DATABASE_HOST: localhost
           TEST_DATABASE_PORT: ${{ job.services.postgres.ports[5432] }}
           SALT_ROUNDS: 8
           SECRET_KEY: gasolineandsauce

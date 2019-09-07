@@ -4,6 +4,7 @@
   "description": "Web based chat app",
   "main": "index.js",
   "scripts": {
+    "build": "lerna exec \"npm run build\" --stream",
     "bootstrap": "lerna exec \"npm install\" --stream",
     "test": "lerna run test"
   },
