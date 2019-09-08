@@ -19,7 +19,7 @@ const user2: AuthCredentials = {
 
 let user1Token: string
 
-describe('Get Profile Controller', () => {
+describe('Send Invite Controller', () => {
   before('setup', async () => {
     await Promise.all([addUser(user1), addUser(user2)])
 
@@ -29,7 +29,8 @@ describe('Get Profile Controller', () => {
   })
 
   after('cleanup', async () => {
-    await Promise.all([destroyUser(user1.email), destroyUser(user2.email)])
+    await destroyUser(user1.email)
+    await destroyUser(user2.email)
   })
 
   describe('validations', () => {
