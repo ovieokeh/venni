@@ -10,6 +10,7 @@ export interface UserDetails {
   email: string
   password: string
   avatarUrl: string
-  updatedAt: Date
   createdAt: Date
+  updatedAt: Date
+  iat?: number
 }

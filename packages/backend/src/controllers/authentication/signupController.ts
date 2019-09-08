@@ -7,7 +7,7 @@ async function signupController(req: Request, res: Response): Promise<void> {
   try {
     const user = await User.create(req.body)
     const userDetails: UserDetails = user.dataValues
-    const token = Auth.generateToken(userDetails)
+    const token = Auth.generateToken({ ...userDetails, password: null })
 
     respond({ res, status: 'success', statusCode: 201, message: 'signup successful', data: token })
   } catch (error) {

@@ -18,7 +18,7 @@ class Auth {
 
   static generateToken(user: UserDetails): string {
     const privateKey = process.env.SECRET_KEY
-    const token = jwt.sign(user, privateKey)
+    const token = jwt.sign(user, privateKey, { expiresIn: '1d' })
     return token
   }
 }

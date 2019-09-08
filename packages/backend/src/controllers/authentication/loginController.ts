@@ -13,7 +13,7 @@ async function loginController(req: Request, res: Response): Promise<void> {
     return respond({ res, status: 'error', statusCode: 401, message: err.message })
   }
 
-  const token = Auth.generateToken(userDetails)
+  const token = Auth.generateToken({ ...userDetails, password: null })
 
   respond({ res, status: 'success', statusCode: 200, message: 'login successful', data: token })
 }
