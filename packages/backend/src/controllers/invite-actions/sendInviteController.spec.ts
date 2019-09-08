@@ -1,7 +1,7 @@
 import 'mocha'
 import chai from 'chai'
 import { AuthCredentials } from '../../interfaces'
-import { addUser, loginUser, destroyUser, sendInvite } from '../../test-utils'
+import { TestUtils } from '../../utilities'
 
 const { expect } = chai
 
@@ -21,28 +21,28 @@ let user1Token: string
 
 describe('Send Invite Controller', () => {
   before('setup', async () => {
-    await Promise.all([addUser(user1), addUser(user2)])
+    await Promise.all([TestUtils.addUser(user1), TestUtils.addUser(user2)])
 
-    await loginUser(user1).then(res => {
+    await TestUtils.loginUser(user1).then(res => {
       user1Token = res.body.data
     })
   })
 
   after('cleanup', async () => {
-    await destroyUser(user1.email)
-    await destroyUser(user2.email)
+    await TestUtils.destroyUser(user1.email)
+    await TestUtils.destroyUser(user2.email)
   })
 
   describe('validations', () => {
     it('should handle no authorization token', done => {
-      sendInvite(user2.email).then(res => {
+      TestUtils.sendInvite(user2.email).then(res => {
         expect(res.status).to.equal(401)
         done()
       })
     })
 
     it('should handle non-existent email addresses', done => {
-      sendInvite('fake@user.com', user1Token).then(res => {
+      TestUtils.sendInvite('fake@user.com', user1Token).then(res => {
         expect(res.status).to.equal(404)
         expect(res.body.message).to.equal('user not found')
         done()
@@ -50,7 +50,7 @@ describe('Send Invite Controller', () => {
     })
 
     it('should not process self invites', done => {
-      sendInvite(user1.email, user1Token).then(res => {
+      TestUtils.sendInvite(user1.email, user1Token).then(res => {
         expect(res.status).to.equal(400)
         expect(res.body.message).to.equal("you can't send yourself a friend request")
         done()
@@ -59,7 +59,7 @@ describe('Send Invite Controller', () => {
   })
 
   it('should send an invite successfully', done => {
-    sendInvite(user2.email, user1Token).then(res => {
+    TestUtils.sendInvite(user2.email, user1Token).then(res => {
       expect(res.status).to.equal(200)
       expect(res.body.message).to.equal('invite sent successfully')
       done()

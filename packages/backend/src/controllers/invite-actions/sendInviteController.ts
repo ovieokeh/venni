@@ -1,4 +1,4 @@
-import { User } from '../../database/models'
+import { UserModel } from '../../database/models/User'
 import { respondError, respondSuccess, context } from '../../utilities'
 import { Request, Response } from 'express'
 import { getInvite } from '../../services'
@@ -11,7 +11,7 @@ async function sendInviteController(req: Request, res: Response): Promise<void> 
     if (user.dataValues.email === email)
       return respondError(res, 400, "you can't send yourself a friend request")
 
-    const receivingInvite = await User.findOne({ where: { email } })
+    const receivingInvite = await UserModel.findOne({ where: { email } })
     if (!receivingInvite) return respondError(res, 404, 'user not found')
 
     await receivingInvite.addInvite(user.dataValues.id)

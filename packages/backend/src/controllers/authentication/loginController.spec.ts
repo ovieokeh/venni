@@ -1,7 +1,7 @@
 import 'mocha'
 import chai from 'chai'
 import { AuthCredentials } from '../../interfaces'
-import { addUser, loginUser, destroyUser } from '../../test-utils'
+import { TestUtils } from '../../utilities'
 
 const { expect } = chai
 
@@ -18,16 +18,16 @@ const validCreds: AuthCredentials = {
 
 describe('Login Controller', () => {
   before('setup', async () => {
-    await addUser(validCreds)
+    await TestUtils.addUser(validCreds)
   })
 
   after('cleanup', async () => {
-    await destroyUser(validCreds.email)
+    await TestUtils.destroyUser(validCreds.email)
   })
 
   describe('validations', () => {
     it('should handle no credentials', done => {
-      loginUser().then(res => {
+      TestUtils.loginUser().then(res => {
         expect(res.status).to.equal(422)
         expect(res.body.message).to.equal('login unsuccessful')
         expect(res.body.data[0].msg).to.equal('email must be provided')
@@ -37,7 +37,7 @@ describe('Login Controller', () => {
     })
 
     it('should handle invalid credentials', done => {
-      loginUser(invalidCreds).then(res => {
+      TestUtils.loginUser(invalidCreds).then(res => {
         expect(res.status).to.equal(422)
         expect(res.body.message).to.equal('login unsuccessful')
         expect(res.body.data[0].msg).to.equal('email address is invalid')
@@ -47,7 +47,7 @@ describe('Login Controller', () => {
   })
 
   it('should handle nonexistent emails', done => {
-    loginUser({ email: 'yes@example.com', password: 'password' }).then(res => {
+    TestUtils.loginUser({ email: 'yes@example.com', password: 'password' }).then(res => {
       expect(res.status).to.equal(401)
       expect(res.body.message).to.equal('email or password incorrect')
       done()
@@ -55,7 +55,7 @@ describe('Login Controller', () => {
   })
 
   it('should handle incorrect credentials', done => {
-    loginUser({ email: validCreds.email, password: 'something' }).then(res => {
+    TestUtils.loginUser({ email: validCreds.email, password: 'something' }).then(res => {
       expect(res.status).to.equal(401)
       expect(res.body.message).to.equal('email or password incorrect')
       done()
@@ -63,7 +63,7 @@ describe('Login Controller', () => {
   })
 
   it('should login a user successfully', done => {
-    loginUser(validCreds).then(res => {
+    TestUtils.loginUser(validCreds).then(res => {
       expect(res.status).to.equal(200)
       expect(res.body.message).to.equal('login successful')
       expect(typeof res.body.data).to.equal('string') // JWT token
