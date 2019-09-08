@@ -4,6 +4,7 @@ module.exports = {
       userId: {
         type: Sequelize.UUID,
         allowNull: false,
+        onUpdate: 'CASCADE',
         references: {
           model: 'Users',
           key: 'id'
@@ -12,6 +13,7 @@ module.exports = {
       inviteId: {
         type: Sequelize.UUID,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {
           model: 'Users',
           key: 'id'
