@@ -1,9 +1,12 @@
 import express from 'express'
 import authRoutes from './authentication'
+import userActionsRoutes from './userActions'
 
 const router = express.Router()
 
 router.use(authRoutes)
+router.use(userActionsRoutes)
+
 router.use('*', (_, response) =>
   response.status(200).json({
     status: 'success',

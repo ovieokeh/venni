@@ -59,6 +59,7 @@ export function validateSignup(req: Request, res: Response, next: NextFunction):
     })
 
   req.body.password = Auth.hashPassword(req.body.password)
+  req.body.avatarUrl = process.env.DEFAULT_PROFILE_PICTURE
   next()
 }
 
