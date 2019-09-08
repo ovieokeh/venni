@@ -1,4 +1,4 @@
-import { respond } from '../../utilities'
+import { respondSuccess, respondError } from '../../utilities'
 import { Request, Response } from 'express'
 
 async function getProfileController(_: Request, res: Response): Promise<void> {
@@ -7,15 +7,9 @@ async function getProfileController(_: Request, res: Response): Promise<void> {
       user: { dataValues }
     } = res.locals
 
-    return respond({
-      res,
-      status: 'success',
-      statusCode: 200,
-      message: 'profile successfully retrieved',
-      data: dataValues
-    })
+    return respondSuccess(res, 200, 'profile successfully retrieved', dataValues)
   } catch (err) {
-    return respond({ res, status: 'error', statusCode: 500, message: err.message })
+    return respondError(res, 500, err.message)
   }
 }
 

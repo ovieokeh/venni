@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import http from 'http'
 import routes from './routes'
+import { setupSockets } from './utilities'
 
 dotenv.config()
 const app = express()
@@ -16,6 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(routes)
 
 const server = http.createServer(app)
+
+setupSockets(server)
 
 server.listen(port, () => log(`server running on port ${port}`))
 

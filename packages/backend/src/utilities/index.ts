@@ -1,4 +1,6 @@
 import Auth from './auth'
-import respond from './respond'
+import { respondSuccess, respondError } from './respond'
+import context from './context'
+import setupSockets from './setupSockets'
 
-export { Auth, respond }
+export { Auth, respondSuccess, respondError, context, setupSockets }

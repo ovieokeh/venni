@@ -1,7 +1,7 @@
 import { check } from 'express-validator'
 import validate from './validate'
 import { Request, Response, NextFunction } from 'express'
-import { respond, Auth } from '../utilities'
+import { respondError, Auth } from '../utilities'
 
 export const signupValidations = [
   check('name', 'name must be provided')
@@ -49,14 +49,7 @@ export const loginValidations = [
 
 export function validateSignup(req: Request, res: Response, next: NextFunction): void {
   const errors = validate(req)
-  if (errors)
-    return respond({
-      res,
-      status: 'error',
-      statusCode: 422,
-      message: 'signup unsuccessful',
-      data: errors
-    })
+  if (errors) return respondError(res, 422, 'signup unsuccessful', errors)
 
   req.body.password = Auth.hashPassword(req.body.password)
   req.body.avatarUrl = process.env.DEFAULT_PROFILE_PICTURE
@@ -65,14 +58,7 @@ export function validateSignup(req: Request, res: Response, next: NextFunction):
 
 export function validateLogin(req: Request, res: Response, next: NextFunction): void {
   const errors = validate(req)
-  if (errors)
-    return respond({
-      res,
-      status: 'error',
-      statusCode: 422,
-      message: 'login unsuccessful',
-      data: errors
-    })
+  if (errors) return respondError(res, 422, 'login unsuccessful', errors)
 
   next()
 }
