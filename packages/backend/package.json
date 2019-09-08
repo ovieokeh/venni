@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rm -rf dist && tsc && npm run migrate",
-    "start": "node dist/src/app.js",
+    "start": "node dist/app.js",
     "dev": "nodemon",
     "migrate": "sequelize db:migrate",
     "test": "export NODE_ENV=test && nyc mocha --exit -r ts-node/register --recursive **/*.spec.ts",
