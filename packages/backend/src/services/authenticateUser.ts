@@ -1,4 +1,4 @@
-import { User } from '../database/models'
+import { UserModel } from '../database/models/User'
 import { Auth } from '../utilities'
 import { AuthCredentials, UserDetails } from '../interfaces'
 
@@ -6,7 +6,7 @@ async function authenticateUser(credentials: AuthCredentials): Promise<UserDetai
   const { email, password } = credentials
   const error = new Error('email or password incorrect')
 
-  const user = await User.findOne({ where: { email } })
+  const user = await UserModel.findOne({ where: { email } })
 
   if (!user) throw error
 

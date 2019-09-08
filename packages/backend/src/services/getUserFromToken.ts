@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { User } from '../database/models'
+import { UserModel } from '../database/models/User'
 import { UserDetails } from '../interfaces'
 
 async function getUserFromToken(token: string): Promise<UserDetails> {
@@ -7,7 +7,7 @@ async function getUserFromToken(token: string): Promise<UserDetails> {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY)
-    const user = await User.findByPk((decoded as UserDetails).id, {
+    const user = await UserModel.findByPk((decoded as UserDetails).id, {
       attributes: ['id', 'email', 'name', 'avatarUrl', 'createdAt']
     })
 

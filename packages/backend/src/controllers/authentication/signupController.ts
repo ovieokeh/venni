@@ -1,11 +1,11 @@
-import { User } from '../../database/models'
+import { UserModel } from '../../database/models/User'
 import { Auth, respondSuccess, respondError } from '../../utilities'
 import { Request, Response } from 'express'
 import { UserDetails } from '../../interfaces'
 
 async function signupController(req: Request, res: Response): Promise<void> {
   try {
-    const user = await User.create(req.body)
+    const user = await UserModel.create(req.body)
     const userDetails: UserDetails = user.dataValues
     const token = Auth.generateToken({ ...userDetails, password: null })
 

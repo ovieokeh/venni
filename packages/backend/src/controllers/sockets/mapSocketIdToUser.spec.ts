@@ -2,7 +2,7 @@ import 'mocha'
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { AuthCredentials } from '../../interfaces'
-import { addUser, loginUser, destroyUser } from '../../test-utils'
+import { TestUtils } from '../../utilities'
 import server from '../../app'
 
 const { expect } = chai
@@ -18,15 +18,15 @@ let token: string
 
 describe('Map Socket to ID', () => {
   before('setup', async () => {
-    await addUser(validCreds)
+    await TestUtils.addUser(validCreds)
 
-    await loginUser(validCreds).then(res => {
+    await TestUtils.loginUser(validCreds).then(res => {
       token = res.body.data
     })
   })
 
   after('cleanup', async () => {
-    await destroyUser(validCreds.email)
+    await TestUtils.destroyUser(validCreds.email)
   })
 
   it('should map a socketid to user successfully', done => {

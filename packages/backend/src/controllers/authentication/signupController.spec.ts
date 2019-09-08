@@ -1,7 +1,7 @@
 import 'mocha'
 import chai from 'chai'
 import { AuthCredentials } from '../../interfaces'
-import { addUser, destroyUser } from '../../test-utils'
+import { TestUtils } from '../../utilities'
 
 const { expect } = chai
 
@@ -19,12 +19,12 @@ const validDetails: AuthCredentials = {
 
 describe('Signup Controller', () => {
   after('cleanup', async () => {
-    await destroyUser(validDetails.email)
+    await TestUtils.destroyUser(validDetails.email)
   })
 
   describe('validations', () => {
     it('should handle no credentials', done => {
-      addUser().then(res => {
+      TestUtils.addUser().then(res => {
         expect(res.status).to.equal(422)
         expect(res.body.message).to.equal('signup unsuccessful')
         expect(res.body.data[0].msg).to.equal('name must be provided')
@@ -35,7 +35,7 @@ describe('Signup Controller', () => {
     })
 
     it('should handle invalid credentials', done => {
-      addUser(invalidDetails).then(res => {
+      TestUtils.addUser(invalidDetails).then(res => {
         expect(res.status).to.equal(422)
         expect(res.body.message).to.equal('signup unsuccessful')
         expect(res.body.data[0].msg).to.equal('name must be longer than 2 characters')
@@ -47,7 +47,7 @@ describe('Signup Controller', () => {
   })
 
   it('should signup a user successfully', done => {
-    addUser(validDetails).then(res => {
+    TestUtils.addUser(validDetails).then(res => {
       expect(res.status).to.equal(201)
       expect(res.body.message).to.equal('signup successful')
       expect(typeof res.body.data).to.equal('string') // JWT token
@@ -56,7 +56,7 @@ describe('Signup Controller', () => {
   })
 
   it('should handle duplicate signups', done => {
-    addUser(validDetails).then(res => {
+    TestUtils.addUser(validDetails).then(res => {
       expect(res.status).to.equal(409)
       expect(res.body.message).to.equal('email address already exists')
       done()
