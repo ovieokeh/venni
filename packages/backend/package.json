@@ -58,6 +58,9 @@
     "include": [
       "src/**/*.ts"
     ],
+    "exclude": [
+      "src/utilities/setupSockets.ts"
+    ],
     "extension": [
       ".ts"
     ],

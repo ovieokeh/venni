@@ -16,4 +16,12 @@ function respond({ res, status, statusCode, message, data }: Props): void {
   })
 }
 
-export default respond
+function respondSuccess(res: Response, statusCode: number, message?: string, data?: any): void {
+  respond({ res, status: 'success', statusCode, message, data })
+}
+
+function respondError(res: Response, statusCode: number, message: string, data?: any): void {
+  respond({ res, status: 'error', statusCode, message, data })
+}
+
+export { respond, respondSuccess, respondError }

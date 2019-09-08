@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { Auth, respond } from '../../utilities'
+import { Auth, respondSuccess, respondError } from '../../utilities'
 import { authenticateUser } from '../../services'
 import { UserDetails } from '../../interfaces'
 
@@ -10,12 +10,12 @@ async function loginController(req: Request, res: Response): Promise<void> {
   try {
     userDetails = await authenticateUser({ email, password })
   } catch (err) {
-    return respond({ res, status: 'error', statusCode: 401, message: err.message })
+    return respondError(res, 401, err.message)
   }
 
   const token = Auth.generateToken({ ...userDetails, password: null })
 
-  respond({ res, status: 'success', statusCode: 200, message: 'login successful', data: token })
+  respondSuccess(res, 200, 'login successful', token)
 }
 
 export default loginController

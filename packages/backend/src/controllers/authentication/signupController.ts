@@ -1,5 +1,5 @@
 import { User } from '../../database/models'
-import { Auth, respond } from '../../utilities'
+import { Auth, respondSuccess, respondError } from '../../utilities'
 import { Request, Response } from 'express'
 import { UserDetails } from '../../interfaces'
 
@@ -9,9 +9,9 @@ async function signupController(req: Request, res: Response): Promise<void> {
     const userDetails: UserDetails = user.dataValues
     const token = Auth.generateToken({ ...userDetails, password: null })
 
-    respond({ res, status: 'success', statusCode: 201, message: 'signup successful', data: token })
+    respondSuccess(res, 201, 'signup successful', token)
   } catch (error) {
-    respond({ res, status: 'error', statusCode: 409, message: 'email address already exists' })
+    respondError(res, 409, 'email address already exists')
   }
 }
 

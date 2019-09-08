@@ -13,4 +13,5 @@ export interface UserDetails {
   createdAt: Date
   updatedAt: Date
   iat?: number
+  dataValues?: UserDetails
 }
