@@ -4,8 +4,7 @@ import userActionsRoutes from './userActions'
 
 const router = express.Router()
 
-router.use(authRoutes)
-router.use(userActionsRoutes)
+router.use('/api', [authRoutes, userActionsRoutes])
 
 router.use('*', (_, response) =>
   response.status(200).json({

@@ -6,9 +6,10 @@
   "scripts": {
     "build": "lerna exec \"npm run build\" --stream",
     "bootstrap": "lerna exec \"npm install\" --stream",
-    "test": "lerna run test",
+    "test": "CI=true lerna exec \"npm test\" --stream",
     "heroku-postbuild": "npm run bootstrap && $(npm bin)/lerna run build --stream",
-    "start": "lerna run start"
+    "start": "lerna run start --stream",
+    "dev": "lerna run dev --stream"
   },
   "repository": {
     "type": "git",
