@@ -8,7 +8,8 @@
     "bootstrap": "lerna exec \"npm install\" --stream",
     "test": "lerna run test",
     "heroku-postbuild": "npm run bootstrap && $(npm bin)/lerna run build --stream",
-    "start": "lerna run start"
+    "start": "lerna run start --stream",
+    "dev": "lerna run dev --stream"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,44 @@
+@import '../../assets/variables.less';
+@import '../../assets/animations.less';
+
+.homepage {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+  gap: 10%;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 10%;
+  background-color: @tertiary-color;
+  background: linear-gradient(45deg, @tertiary-color 0%, @accent-color 100%);
+  background-size: cover;
+  animation: BackgroundGradient 5s ease infinite;
+
+  &__left {
+    &__logo {
+      width: 200px;
+      margin-bottom: 5%;
+    }
+
+    &__text {
+      font-size: 2em;
+      color: @secondary-color !important;
+      font-weight: 400 !important;
+    }
+
+    &__button-group {
+      display: flex;
+      justify-content: space-between;
+      width: 250px;
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+
+    &__img {
+      width: 700px;
+    }
+  }
+}
