@@ -32,7 +32,7 @@ describe('Map Socket to ID', () => {
   it('should map a socketid to user successfully', done => {
     chai
       .request(server)
-      .get(`/sockets/${validCreds.email}`)
+      .get(`/api/sockets/${validCreds.email}`)
       .set('authorization', token)
       .end((_, res) => {
         expect(res.status).to.equal(204)

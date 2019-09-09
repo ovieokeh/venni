@@ -11,7 +11,7 @@ class TestUtils {
   static async addUser(userCred?: AuthCredentials): Promise<request.Response> {
     return chai
       .request(server)
-      .post('/signup')
+      .post('/api/signup')
       .send(userCred)
       .then(res => res)
   }
@@ -23,7 +23,7 @@ class TestUtils {
   static async getProfile(token?: string): Promise<request.Response> {
     return chai
       .request(server)
-      .get('/profile')
+      .get('/api/profile')
       .set('authorization', token || '')
       .then(res => res)
   }
@@ -31,7 +31,7 @@ class TestUtils {
   static async loginUser(userCred?: AuthCredentials): Promise<request.Response> {
     return chai
       .request(server)
-      .post('/login')
+      .post('/api/login')
       .send(userCred)
       .then(res => res)
   }
@@ -39,7 +39,7 @@ class TestUtils {
   static async sendInvite(to: string, token?: string): Promise<request.Response> {
     return chai
       .request(server)
-      .put(`/invites/${to}`)
+      .put(`/api/invites/${to}`)
       .set('authorization', token || '')
       .then(res => res)
   }
@@ -47,7 +47,7 @@ class TestUtils {
   static async cancelInvite(to: string, token?: string): Promise<request.Response> {
     return chai
       .request(server)
-      .delete(`/invites/${to}`)
+      .delete(`/api/invites/${to}`)
       .set('authorization', token || '')
       .then(res => res)
   }
