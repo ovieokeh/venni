@@ -6,7 +6,7 @@ import { History } from 'history'
 import { AuthState } from 'src/redux/types'
 import Logo from 'src/assets/logo.svg'
 
-interface Props {
+export interface Props {
   history: History
   authState: AuthState
 }
@@ -17,7 +17,7 @@ interface State {
 
 const availableLocations = ['/', '/login', '/signup']
 
-class TopNav extends React.Component<Props, State> {
+export class TopNav extends React.Component<Props, State> {
   state = { current: '/' }
 
   componentDidMount() {
@@ -32,9 +32,7 @@ class TopNav extends React.Component<Props, State> {
     })
   }
 
-  handleClick = (e: any) => {
-    this.setState({ current: e.key })
-  }
+  handleClick = (e: any) => this.setState({ current: e.key })
 
   renderLinks = () => {
     const menuLinks = [

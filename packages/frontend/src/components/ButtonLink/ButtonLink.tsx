@@ -3,7 +3,7 @@ import { Button } from 'antd'
 import { history } from 'src/utilities/history'
 import { ButtonProps } from 'antd/lib/button'
 
-interface ButtonLinkProps extends ButtonProps {
+export interface ButtonLinkProps extends ButtonProps {
   url: string
   text: string
 }
