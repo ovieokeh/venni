@@ -1,31 +1,31 @@
 import React, { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Form, Icon, Input, Button, Checkbox } from 'antd'
+import { Form, Icon, Input, Button } from 'antd'
 import { FormComponentProps } from 'antd/es/form'
 import { WrappedFormUtils } from 'antd/es/form/Form'
 import { History } from 'history'
 import Logo from 'src/assets/logo.svg'
 import { authRequest } from 'src/redux/actions/authentication/authActions'
 import { AuthCredentials, AuthState } from 'src/redux/types'
-import './Login.less'
+import './Signup.less'
 
-interface LoginProps extends FormComponentProps {
+interface SignupProps extends FormComponentProps {
   history: History
   authState: AuthState
-  login: Function
+  signup: Function
 }
 
 interface FormValues {
+  name: string
   email: string
   password: string
-  remember: boolean
-  readonly [x: string]: string | boolean
+  readonly [x: string]: string
 }
 
-class LoginForm extends React.Component<LoginProps> {
+class SignupForm extends React.Component<SignupProps> {
   componentDidMount() {
-    window.document.title = 'Log into your account - Venni'
+    window.document.title = 'Get started - Venni'
   }
 
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -33,18 +33,18 @@ class LoginForm extends React.Component<LoginProps> {
 
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        const isSuccessful = await this.props.login(values)
+        const isSuccessful = await this.props.signup(values)
 
         if (!isSuccessful) return this.handleErrors(this.props.form, values)
 
-        values.remember && localStorage.setItem('remember', 'yes')
+        localStorage.setItem('remember', 'yes')
         this.props.history.push('/')
       }
     })
   }
 
   handleErrors = (
-    form: WrappedFormUtils<LoginProps>,
+    form: WrappedFormUtils<SignupProps>,
     values: FormValues
   ): void => {
     const { error } = this.props.authState
@@ -53,8 +53,7 @@ class LoginForm extends React.Component<LoginProps> {
       const errorMessage = new Error(error as string)
 
       return form.setFields({
-        email: { value: values.email, errors: [errorMessage] },
-        password: { value: values.password, errors: [errorMessage] }
+        email: { value: values.email, errors: [errorMessage] }
       })
     }
 
@@ -74,11 +73,31 @@ class LoginForm extends React.Component<LoginProps> {
     const { getFieldDecorator } = this.props.form
 
     return (
-      <div className="login" data-aos="zoom-in">
-        <h2>Welcome back to Venni</h2>
-        <img className="login__logo" src={Logo} alt="Venni Logo" />
+      <div className="signup" data-aos="zoom-in">
+        <h2>We're glad to have you here</h2>
+        <img className="signup__logo" src={Logo} alt="Venni Logo" />
 
-        <Form onSubmit={this.handleSubmit} className="login__form">
+        <Form onSubmit={this.handleSubmit} className="signup__form">
+          <Form.Item>
+            {getFieldDecorator('name', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input your name!'
+                }
+              ]
+            })(
+              <Input
+                prefix={
+                  <Icon
+                    type="idcard"
+                    style={{ color: 'rgba(0, 0, 0, 0.25)' }}
+                  />
+                }
+                placeholder="Your name"
+              />
+            )}
+          </Form.Item>
           <Form.Item>
             {getFieldDecorator('email', {
               rules: [{ required: true, message: 'Please input your email' }]
@@ -108,20 +127,16 @@ class LoginForm extends React.Component<LoginProps> {
           </Form.Item>
 
           <Form.Item>
-            {getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: true
-            })(<Checkbox>Remember me</Checkbox>)}
             <Button
               type="primary"
               htmlType="submit"
-              className="login__form__button"
-              icon="login"
+              className="signup__form__button"
+              icon="rocket"
               loading={this.props.authState.isLoading}
             >
-              Log in
+              Sign up
             </Button>
-            Or <Link to="/signup">signup instead</Link>
+            Or <Link to="/login">login instead</Link>
           </Form.Item>
         </Form>
       </div>
@@ -129,10 +144,12 @@ class LoginForm extends React.Component<LoginProps> {
   }
 }
 
-const WrappedLoginForm = Form.create<LoginProps>({ name: 'login' })(LoginForm)
+const WrappedSignupForm = Form.create<SignupProps>({ name: 'signup' })(
+  SignupForm
+)
 
 const mapDispatchToProps = (dispatch: any) => ({
-  login: (cred: AuthCredentials) => dispatch(authRequest(cred, 'login'))
+  signup: (cred: AuthCredentials) => dispatch(authRequest(cred, 'signup'))
 })
 const mapStateToProps = (state: any) => ({
   authState: state.auth
@@ -141,4 +158,4 @@ const mapStateToProps = (state: any) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(WrappedLoginForm)
+)(WrappedSignupForm)

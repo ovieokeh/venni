@@ -1,35 +1,19 @@
 import React from 'react'
 import { Button } from 'antd'
-import { history } from 'src/index'
+import { history } from 'src/utilities/history'
+import { ButtonProps } from 'antd/lib/button'
 
-interface ButtonLinkProps {
-  href: string
+interface ButtonLinkProps extends ButtonProps {
+  url: string
   text: string
-  size?: 'small' | 'large' | 'default'
-  type?: 'primary' | 'ghost' | 'dashed' | 'danger' | 'link' | 'default'
-  shape?: 'circle' | 'round' | 'circle-outline'
-  icon?: string
 }
 
-const ButtonLink: React.FC<ButtonLinkProps> = ({
-  href,
-  size,
-  text,
-  type,
-  shape,
-  icon
-}: ButtonLinkProps) => {
-  const handleClick = () => history.push(href)
+const ButtonLink: React.FC<ButtonLinkProps> = (props: ButtonLinkProps) => {
+  const handleClick = () => history.push(props.url)
 
   return (
-    <Button
-      onClick={handleClick}
-      size={size}
-      type={type}
-      shape={shape}
-      icon={icon}
-    >
-      {text}
+    <Button onClick={handleClick} {...props}>
+      {props.text}
     </Button>
   )
 }

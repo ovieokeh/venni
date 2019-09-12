@@ -1,14 +1,10 @@
 import React from 'react'
-import { useSpring, animated } from 'react-spring'
+import { ButtonLink } from 'src/components'
 import Logo from 'src/assets/logo.svg'
 import PeopleIllustration from 'src/assets/people.svg'
-import { ButtonLink } from 'src/components'
-import { interp, useSpringConfig } from './helpers'
 import './Homepage.less'
 
 const Homepage: React.FC = () => {
-  const { radians } = useSpring(useSpringConfig) as any
-
   return (
     <div className="homepage" data-aos="fade-in">
       <section className="homepage__left">
@@ -18,9 +14,10 @@ const Homepage: React.FC = () => {
           Connecting millions through chats straight from the browser. For
           people looking for a lightweight alternative to the giants.
         </h2>
+
         <div className="homepage__left__button-group">
           <ButtonLink
-            href="/signup"
+            url="/signup"
             text="Sign up"
             size="large"
             type="primary"
@@ -28,7 +25,7 @@ const Homepage: React.FC = () => {
             icon="rocket"
           />
           <ButtonLink
-            href="/login"
+            url="/login"
             text="Log in"
             size="large"
             type="default"
@@ -38,16 +35,13 @@ const Homepage: React.FC = () => {
         </div>
       </section>
 
-      <animated.div
-        className="homepage__right"
-        style={{ transform: radians.interpolate(interp(1)) }}
-      >
+      <div className="homepage__right">
         <img
           className="homepage__right__img"
           src={PeopleIllustration}
           alt="Group of friends"
         />
-      </animated.div>
+      </div>
     </div>
   )
 }

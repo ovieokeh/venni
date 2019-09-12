@@ -22,9 +22,9 @@ const Error: React.FC<ErrorProps> = ({ history }) => {
       />
 
       <div
+        className="notfound__main"
         data-aos="fade-up"
         data-aos-duration="200"
-        className="notfound__main"
       >
         <h3 className="notfound__main__h3">An Error Occurred!</h3>
         <p className="notfound__main__p">
