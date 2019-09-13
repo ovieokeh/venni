@@ -1,3 +1,6 @@
-import Homepage from './homepage/Homepage';
+import Homepage from './homepage/Homepage'
+import Error from './error/Error'
+import Login from './login/Login'
+import Signup from './signup/Signup'
 
-export { Homepage };
+export { Homepage, Error, Login, Signup }
