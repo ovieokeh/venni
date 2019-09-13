@@ -23,7 +23,7 @@ interface FormValues {
   readonly [x: string]: string | boolean
 }
 
-class LoginForm extends React.Component<LoginProps> {
+export class LoginForm extends React.Component<LoginProps> {
   componentDidMount() {
     window.document.title = 'Log into your account - Venni'
   }
@@ -129,7 +129,9 @@ class LoginForm extends React.Component<LoginProps> {
   }
 }
 
-const WrappedLoginForm = Form.create<LoginProps>({ name: 'login' })(LoginForm)
+export const WrappedLoginForm = Form.create<LoginProps>({ name: 'login' })(
+  LoginForm
+)
 
 const mapDispatchToProps = (dispatch: any) => ({
   login: (cred: AuthCredentials) => dispatch(authRequest(cred, 'login'))

@@ -144,7 +144,7 @@ class SignupForm extends React.Component<SignupProps> {
   }
 }
 
-const WrappedSignupForm = Form.create<SignupProps>({ name: 'signup' })(
+export const WrappedSignupForm = Form.create<SignupProps>({ name: 'signup' })(
   SignupForm
 )
 
