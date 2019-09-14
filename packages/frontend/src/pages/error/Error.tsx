@@ -3,7 +3,7 @@ import { Button, Icon } from 'antd'
 import { History } from 'history'
 import './Error.less'
 
-const goBack = (history: History) => () => history.goBack()
+const goBack = (history: History) => (): void => history.goBack()
 
 interface ErrorProps {
   history: History
@@ -28,8 +28,8 @@ const Error: React.FC<ErrorProps> = ({ history }) => {
       >
         <h3 className="notfound__main__h3">An Error Occurred!</h3>
         <p className="notfound__main__p">
-          The page you're looking for doesn't exist or some other error
-          occurred.
+          The page you&apos;re looking for doesn&apos;t exist or some other
+          error occurred.
         </p>
         <Button icon="left-circle" onClick={goBack(history)}>
           Go back

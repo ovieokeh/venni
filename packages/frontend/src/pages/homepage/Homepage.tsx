@@ -5,6 +5,8 @@ import PeopleIllustration from 'src/assets/people.svg'
 import './Homepage.less'
 
 const Homepage: React.FC = () => {
+  window.document.title = 'Web-based Chat App - Venni'
+
   return (
     <div className="homepage" data-aos="fade-in">
       <section className="homepage__left">
