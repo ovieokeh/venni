@@ -5,7 +5,7 @@ import { isLoggedIn } from 'src/utilities'
 
 const PublicRoute = ({ component: Component, ...rest }: any) => {
   if (isLoggedIn()) {
-    return <Redirect to="app" />
+    return <Redirect to="/" />
   }
   return <Route {...rest} component={Component} />
 }

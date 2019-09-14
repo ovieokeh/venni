@@ -6,7 +6,7 @@ import AOS from 'aos'
 import store from './redux/store'
 import { AppRoute, PublicRoute } from './routes'
 import { Homepage, Error, Login, Signup, App } from './pages'
-import { TopNav } from './components'
+import { TopNav, Drawer } from './components'
 import * as serviceWorker from './serviceWorker'
 import { history } from './utilities/history'
 import './index.css'
@@ -25,6 +25,7 @@ const Routes: React.SFC = () => {
   return (
     <Router history={history}>
       <TopNav history={history} currentLocation={currentLocation} />
+      <Drawer />
       <Switch>
         <AppRoute exact path="/" component={App} />
         <Route path="/home" component={Homepage} />

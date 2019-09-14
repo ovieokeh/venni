@@ -7,9 +7,12 @@ import {
   AuthError,
   AuthSuccess,
   AuthCredentials,
-  AuthErrorResponse
+  AuthErrorResponse,
+  Logout,
+  LOGOUT
 } from '../../types'
 import { Dispatch } from 'redux'
+import { getProfileRequest } from '../profile/profileActions'
 
 export const authBegin = (): AuthBegin => ({ type: AUTH_BEGIN })
 export const authSuccess = (token: string): AuthSuccess => ({
@@ -19,6 +22,9 @@ export const authSuccess = (token: string): AuthSuccess => ({
 export const authError = (error: AuthErrorResponse[] | string): AuthError => ({
   type: AUTH_ERROR,
   error
+})
+export const logout = (): Logout => ({
+  type: LOGOUT
 })
 
 export const authRequest = (
@@ -32,6 +38,8 @@ export const authRequest = (
   try {
     const response = await axios.post(url, credentials)
     dispatch(authSuccess(response.data.data))
+
+    await dispatch((getProfileRequest as any)())
 
     return true
   } catch (err) {

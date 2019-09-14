@@ -3,20 +3,13 @@ import {
   AuthState,
   AUTH_BEGIN,
   AUTH_SUCCESS,
-  AUTH_ERROR
+  AUTH_ERROR,
+  LOGOUT
 } from '../../types'
+import { hydrate } from 'src/utilities'
 
-let initialState: AuthState
 const emptyState = { isLoading: false, token: '', error: '' }
-
-try {
-  const remember = localStorage.getItem('remember')
-  const store = localStorage.getItem('store') as string
-
-  initialState = remember === 'yes' ? JSON.parse(store).auth : emptyState
-} catch (error) {
-  initialState = emptyState
-}
+const initialState: AuthState = hydrate('auth', emptyState)
 
 export function authReducer(
   state: AuthState = initialState,
@@ -43,6 +36,11 @@ export function authReducer(
         token: '',
         error: action.error
       }
+
+    case LOGOUT:
+      window.localStorage.clear()
+      window.location.reload()
+      return emptyState
 
     default:
       return state

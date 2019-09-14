@@ -7,7 +7,7 @@ import { WrappedFormUtils } from 'antd/es/form/Form'
 import { History } from 'history'
 import Logo from 'src/assets/logo.svg'
 import { authRequest } from 'src/redux/actions/authentication/authActions'
-import { AuthCredentials, AuthState } from 'src/redux/types'
+import { AuthCredentials, AuthState, ReduxState } from 'src/redux/types'
 import './Signup.less'
 
 interface SignupProps extends FormComponentProps {
@@ -148,10 +148,11 @@ export const WrappedSignupForm = Form.create<SignupProps>({ name: 'signup' })(
   SignupForm
 )
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: any) => ({
   signup: (cred: AuthCredentials) => dispatch(authRequest(cred, 'signup'))
 })
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ReduxState) => ({
   authState: state.auth
 })
 

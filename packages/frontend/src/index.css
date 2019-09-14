@@ -18,3 +18,38 @@ code {
 #root {
   height: 100%;
 }
+
+.inline-horizontal {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+.inline-horizontal i {
+  margin-right: 10%;
+}
+
+.image-30 {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 25px;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.image-150 {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.image-250 {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 200px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
