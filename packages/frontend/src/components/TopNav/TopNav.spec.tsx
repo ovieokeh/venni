@@ -16,12 +16,14 @@ describe('TopNav Tests', () => {
   }
 
   beforeAll(() => {
-    wrapper = shallow(<TopNav history={history} authState={authState} />)
+    wrapper = shallow(
+      <TopNav history={history} authState={authState} currentLocation="/" />
+    )
   })
 
   it('renders without crashing', () => {
     expect(wrapper.find('Menu').exists()).toBe(true)
-    expect(wrapper.state('current')).toEqual('/login')
+    expect(wrapper.state('current')).toEqual('/')
   })
 
   it('renders different links when signed in', () => {

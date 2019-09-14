@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -14,10 +14,17 @@ import 'aos/dist/aos.css'
 
 const Routes: React.SFC = () => {
   AOS.init({ offset: 200, duration: 300, easing: 'ease-in-sine', delay: 100 })
+  const [currentLocation, setCurrentLocation] = useState(
+    window.location.pathname
+  )
+
+  useEffect(() => {
+    history.listen(location => setCurrentLocation(location.pathname))
+  }, [])
 
   return (
     <Router history={history}>
-      <TopNav history={history} />
+      <TopNav history={history} currentLocation={currentLocation} />
       <Switch>
         <AppRoute exact path="/" component={App} />
         <Route path="/home" component={Homepage} />

@@ -74,7 +74,7 @@ class SignupForm extends React.Component<SignupProps> {
 
     return (
       <div className="signup" data-aos="zoom-in">
-        <h2>We're glad to have you here</h2>
+        <h2>We&apos;re glad to have you here</h2>
         <img className="signup__logo" src={Logo} alt="Venni Logo" />
 
         <Form onSubmit={this.handleSubmit} className="signup__form">

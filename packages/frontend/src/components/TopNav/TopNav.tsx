@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Menu, Icon } from 'antd'
@@ -9,32 +9,25 @@ import Logo from 'src/assets/logo.svg'
 export interface Props {
   history: History
   authState: AuthState
+  currentLocation: string
 }
 
 interface State {
   current: string
 }
 
-const availableLocations = ['/', '/login', '/signup']
-
 export class TopNav extends React.Component<Props, State> {
-  state = { current: '/' }
+  state = { current: this.props.currentLocation }
 
-  componentDidMount() {
-    this.setState({ current: this.props.history.location.pathname })
-
-    this.props.history.listen(location => {
-      const current = availableLocations.includes(location.pathname)
-        ? location.pathname
-        : '/'
-
-      this.setState({ current })
-    })
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.currentLocation !== this.props.currentLocation) {
+      this.setState({ current: this.props.currentLocation })
+    }
   }
 
-  handleClick = (e: any) => this.setState({ current: e.key })
+  handleClick = (e: any): void => this.setState({ current: e.key })
 
-  renderLinks = () => {
+  renderLinks = (): ReactElement[] | ReactElement => {
     const menuLinks = [
       <Menu.Item key="/signup">
         <Link to="/signup" style={{ color: 'green' }}>
@@ -51,7 +44,7 @@ export class TopNav extends React.Component<Props, State> {
       </Menu.Item>
     ]
 
-    if (!this.props.authState.token) return menuLinks.map(l => l)
+    if (!this.props.authState.token) return menuLinks
 
     return (
       <Menu.Item key="/auth">
@@ -67,7 +60,7 @@ export class TopNav extends React.Component<Props, State> {
         selectedKeys={[this.state.current]}
         mode="horizontal"
       >
-        <Menu.Item key="/">
+        <Menu.Item key="/home">
           <Link to="/">
             <img src={Logo} alt="Venni Logo" style={{ width: '30px' }} />
           </Link>
