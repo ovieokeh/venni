@@ -77,7 +77,8 @@
       "!src/serviceWorker.ts",
       "!src/redux/reducers/rootReducer.ts",
       "!src/redux/types.ts",
-      "!src/redux/store.ts"
+      "!src/redux/store.ts",
+      "!src/utilities/*.ts"
     ],
     "coverageReporters": [
       "text",

@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow, ShallowWrapper } from 'enzyme'
 import ButtonLink, { ButtonLinkProps } from './ButtonLink'
-import { history } from 'src/utilities/history'
+import history from 'src/utilities/history'
 
 describe('ButtonLink Tests', () => {
   let wrapper: ShallowWrapper

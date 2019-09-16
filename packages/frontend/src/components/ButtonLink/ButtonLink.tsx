@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'antd'
 import { ButtonProps } from 'antd/lib/button'
-import { history } from 'src/utilities/history'
+import history from 'src/utilities/history'
 
 export interface ButtonLinkProps extends ButtonProps {
   url: string

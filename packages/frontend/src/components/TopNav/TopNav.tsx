@@ -1,15 +1,19 @@
 import React, { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Menu, Icon } from 'antd'
+import { Dispatch } from 'redux'
+import { Menu, Icon, Avatar } from 'antd'
 import { History } from 'history'
-import { AuthState } from 'src/redux/types'
+import { showDrawer as openDrawer } from 'src/redux/actions/drawer/drawerActions'
+import { AuthState, UserProfile, ReduxState } from 'src/redux/types'
 import Logo from 'src/assets/logo.svg'
 
 export interface Props {
   history: History
   authState: AuthState
   currentLocation: string
+  userProfile: UserProfile
+  showDrawer: () => void
 }
 
 interface State {
@@ -47,8 +51,14 @@ export class TopNav extends React.Component<Props, State> {
     if (!this.props.authState.token) return menuLinks
 
     return (
-      <Menu.Item key="/auth">
-        <span>Is Auth</span>
+      <Menu.Item
+        onClick={this.props.showDrawer}
+        key="/"
+        style={{ float: 'right' }}
+      >
+        <Avatar className="avatar-img" src={this.props.userProfile.avatarUrl}>
+          {this.props.userProfile.name}
+        </Avatar>
       </Menu.Item>
     )
   }
@@ -72,8 +82,17 @@ export class TopNav extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
-  authState: state.auth
+/* istanbul ignore next */
+const mapStateToProps = (state: ReduxState) => ({
+  authState: state.auth,
+  userProfile: state.profile
 })
 
-export default connect(mapStateToProps)(TopNav)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  showDrawer: () => dispatch(openDrawer())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TopNav)

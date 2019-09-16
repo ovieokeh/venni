@@ -4,21 +4,26 @@ import { TopNav } from './TopNav'
 
 describe('TopNav Tests', () => {
   let wrapper: ShallowWrapper
-  const history: any = {
-    location: { pathname: '/' },
-    listen: jest.fn(fn => fn({ pathname: '/login' })),
-    push: jest.fn()
-  }
-  const authState = {
-    isLoading: false,
-    token: '',
-    error: ''
+  const props: any = {
+    history: {
+      location: { pathname: '/' },
+      listen: jest.fn(fn => fn({ pathname: '/login' })),
+      push: jest.fn()
+    },
+    authState: {
+      isLoading: false,
+      token: '',
+      error: ''
+    },
+    userProfile: {
+      name: 'Buzz Lightyear',
+      avatarUrl: 'imageurl.com'
+    },
+    currentLocation: '/'
   }
 
   beforeAll(() => {
-    wrapper = shallow(
-      <TopNav history={history} authState={authState} currentLocation="/" />
-    )
+    wrapper = shallow(<TopNav {...props} />)
   })
 
   it('renders without crashing', () => {
@@ -27,10 +32,11 @@ describe('TopNav Tests', () => {
   })
 
   it('renders different links when signed in', () => {
-    wrapper.setProps({ authState: { ...authState, token: 'somerandomtoken' } })
-
-    const authLink = wrapper.find('span')
-    expect(authLink.text()).toEqual('Is Auth')
+    wrapper.setProps({
+      authState: { ...props.authState, token: 'somerandomtoken' }
+    })
+    const authLink = wrapper.find('Avatar')
+    expect(authLink.props().children).toEqual(props.userProfile.name)
   })
 
   it('handles click events', () => {

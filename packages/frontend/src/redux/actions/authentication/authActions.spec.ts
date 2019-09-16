@@ -47,6 +47,9 @@ describe('async Authentication actions', () => {
     email: 'buzz@lightyear.com',
     password: 'password1'
   }
+  ;(axios as any).get.mockImplementation(() =>
+    Promise.resolve({ data: { data: 'fake profile' } })
+  )
 
   it('should dispatch the required actions when auth request is successful', async () => {
     ;(axios as any).post.mockImplementationOnce(() =>
@@ -55,10 +58,11 @@ describe('async Authentication actions', () => {
 
     const expectedActions = [
       { type: types.AUTH_BEGIN },
-      { type: types.AUTH_SUCCESS, data: successResponse.data }
+      { type: types.AUTH_SUCCESS, data: successResponse.data },
+      { type: types.GET_USER_PROFILE_SUCCESS, profile: 'fake profile' }
     ]
 
-    const store = mockStore({})
+    const store = mockStore({ auth: { token: '' } })
 
     store
       .dispatch(actions.authRequest(loginCreds, 'login') as any)
