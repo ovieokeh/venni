@@ -11,7 +11,7 @@ interface Props {
   logout: () => void
 }
 
-const Profile: React.FC<Props> = (props: Props) => {
+export const Profile: React.FC<Props> = (props: Props) => {
   const { user } = props
   const { friendInvites, sentInvites } = user
   const { TabPane } = Tabs

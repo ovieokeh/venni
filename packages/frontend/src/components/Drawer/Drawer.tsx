@@ -12,7 +12,7 @@ interface Props {
   hideDrawer: () => void
 }
 
-const Drawer: React.FC<Props> = ({ showDrawer, hideDrawer }) => {
+export const Drawer: React.FC<Props> = ({ showDrawer, hideDrawer }) => {
   return (
     <div className="drawer">
       <AntDrawer
