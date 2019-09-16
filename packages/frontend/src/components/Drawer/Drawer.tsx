@@ -5,6 +5,7 @@ import { Drawer as AntDrawer, Icon } from 'antd'
 import Profile from '../Profile/Profile'
 import { hideDrawer as closeDrawer } from 'src/redux/actions/drawer/drawerActions'
 import { ReduxState } from 'src/redux/types'
+import isMobile from 'src/utilities/isMobile'
 import './Drawer.less'
 
 interface Props {
@@ -23,7 +24,7 @@ export const Drawer: React.FC<Props> = ({ showDrawer, hideDrawer }) => {
           </div>
         }
         placement="right"
-        width="100%"
+        width={isMobile() ? '100%' : '40%'}
         onClose={hideDrawer}
         visible={showDrawer}
       >

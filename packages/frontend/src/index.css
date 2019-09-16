@@ -23,6 +23,7 @@ code {
   display: inline-flex !important;
   align-items: center !important;
 }
+
 .inline-horizontal i {
   margin-right: 10%;
 }
@@ -52,4 +53,8 @@ code {
   border-radius: 200px;
   margin-bottom: 1rem;
   cursor: pointer;
+}
+
+.ant-layout-sider {
+  background: #fff !important;
 }

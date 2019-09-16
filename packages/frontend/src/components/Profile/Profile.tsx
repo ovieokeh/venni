@@ -1,14 +1,27 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
-import { Tabs, Icon, Badge, Button, Popconfirm } from 'antd'
+import { Tabs, Icon, Badge, Button, Popconfirm, message } from 'antd'
 import { logout as logoutAction } from 'src/redux/actions/authentication/authActions'
+import {
+  cancelFriendInvite,
+  friendInviteAction
+} from 'src/redux/actions/invites/invitesActions'
 import { ProfileState, ReduxState } from 'src/redux/types'
+import InvitesList from '../InvitesList/InvitesList'
+import SentInvitesList from '../SentInvitesList/SentInvitesList'
 import './Profile.less'
 
 interface Props {
   user: ProfileState
   logout: () => void
+  inviteAction: Function
+  cancelInvite: Function
+}
+
+interface ConfirmActionProps {
+  type: string
+  email: string
+  requesterName: string
 }
 
 export const Profile: React.FC<Props> = (props: Props) => {
@@ -16,6 +29,32 @@ export const Profile: React.FC<Props> = (props: Props) => {
   const { friendInvites, sentInvites } = user
   const { TabPane } = Tabs
   const ButtonGroup = Button.Group
+
+  const confirmAction = async (args: ConfirmActionProps) => {
+    const { type, email, requesterName } = args
+
+    switch (type) {
+      case 'cancel-invite':
+        await props.cancelInvite(email)
+        message.success('Friend invite canceled successfully')
+        break
+
+      case 'decline-invite':
+        await props.inviteAction(email, 'decline')
+        message.success('Friend invite declined successfully')
+        break
+
+      case 'accept-invite':
+        await props.inviteAction(email, 'accept')
+        message.success(`You are now friends with ${requesterName}`)
+        break
+
+      default:
+        return false
+    }
+
+    return true
+  }
 
   return (
     <div className="profile">
@@ -61,11 +100,10 @@ export const Profile: React.FC<Props> = (props: Props) => {
             }
             key="invites"
           >
-            {/* <InvitesList
+            <InvitesList
               friendInvites={friendInvites}
               confirmAction={confirmAction}
-            /> */}
-            TODO
+            />
           </TabPane>
           <TabPane
             tab={
@@ -86,11 +124,10 @@ export const Profile: React.FC<Props> = (props: Props) => {
             }
             key="sent-invites"
           >
-            {/* <SentInvitesList
+            <SentInvitesList
               sentInvites={sentInvites}
               confirmAction={confirmAction}
-            /> */}
-            TODO
+            />
           </TabPane>
         </Tabs>
       </div>
@@ -99,7 +136,10 @@ export const Profile: React.FC<Props> = (props: Props) => {
 }
 
 /* istanbul ignore next */
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: any) => ({
+  inviteAction: (id: string, action: string) =>
+    dispatch(friendInviteAction(id, action)),
+  cancelInvite: (friendId: string) => dispatch(cancelFriendInvite(friendId)),
   logout: () => dispatch(logoutAction())
 })
 

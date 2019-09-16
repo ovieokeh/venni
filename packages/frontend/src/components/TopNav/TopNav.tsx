@@ -13,6 +13,8 @@ export interface Props {
   authState: AuthState
   currentLocation: string
   userProfile: UserProfile
+  isSidebarCollapsed: boolean
+  setSidebarCollapse: Function
   showDrawer: () => void
 }
 
@@ -27,6 +29,12 @@ export class TopNav extends React.Component<Props, State> {
     if (prevProps.currentLocation !== this.props.currentLocation) {
       this.setState({ current: this.props.currentLocation })
     }
+  }
+
+  handleLogoClick = () => {
+    !this.props.authState.token
+      ? this.props.history.push('/')
+      : this.props.setSidebarCollapse(!this.props.isSidebarCollapsed)
   }
 
   handleClick = (e: any): void => this.setState({ current: e.key })
@@ -69,11 +77,21 @@ export class TopNav extends React.Component<Props, State> {
         onClick={this.handleClick}
         selectedKeys={[this.state.current]}
         mode="horizontal"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100
+        }}
       >
         <Menu.Item key="/home">
-          <Link to="/">
-            <img src={Logo} alt="Venni Logo" style={{ width: '30px' }} />
-          </Link>
+          <img
+            src={Logo}
+            alt="Venni Logo"
+            style={{ width: '30px' }}
+            onClick={this.handleLogoClick}
+          />
         </Menu.Item>
 
         {this.renderLinks()}

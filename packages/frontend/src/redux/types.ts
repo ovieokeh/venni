@@ -58,7 +58,7 @@ export interface GetUserProfileSuccess {
 }
 
 export interface ProfileState extends UserProfile {
-  friends: []
+  friends: UserProfile[]
   friendInvites: []
   sentInvites: []
 }
@@ -87,3 +87,13 @@ export interface ReduxState {
   profile: ProfileState
   drawer: DrawerState
 }
+
+export const NEW_FRIEND_INVITE = 'NEW_FRIEND_INVITE'
+export const NEW_SENT_INVITE = 'NEW_SENT_INVITE'
+export const CANCELED_SENT_INVITE = 'CANCELED_SENT_INVITE'
+export const DECLINED_SENT_INVITE = 'DECLINED_SENT_INVITE'
+export const ACCEPTED_SENT_INVITE = 'ACCEPTED_SENT_INVITE'
+export const DECLINED_INVITE = 'DECLINED_INVITE'
+export const CANCELED_INVITE = 'CANCELED_INVITE'
+export const ACCEPTED_INVITE = 'ACCEPTED_INVITE'
+export const UNFRIEND = 'UNFRIEND'

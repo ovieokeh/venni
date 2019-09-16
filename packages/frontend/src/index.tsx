@@ -8,26 +8,43 @@ import { AppRoute, PublicRoute } from './routes'
 import { Homepage, Error, Login, Signup, App } from './pages'
 import { TopNav, Drawer } from './components'
 import * as serviceWorker from './serviceWorker'
-import { history } from './utilities'
+import { history, useWindowWidth } from './utilities'
 import './index.css'
 import 'aos/dist/aos.css'
 
 const Routes: React.SFC = () => {
-  AOS.init({ offset: 200, duration: 300, easing: 'ease-in-sine', delay: 100 })
+  const windowWidth = useWindowWidth()
+  const [isSidebarCollapsed, setSidebarCollapse] = useState(false)
   const [currentLocation, setCurrentLocation] = useState(
     window.location.pathname
   )
 
   useEffect(() => {
+    AOS.init({ offset: 200, duration: 300, easing: 'ease-in-sine', delay: 100 })
     history.listen(location => setCurrentLocation(location.pathname))
   }, [])
 
+  useEffect(() => {
+    windowWidth > 768 ? setSidebarCollapse(false) : setSidebarCollapse(true)
+  }, [windowWidth])
+
   return (
     <Router history={history}>
-      <TopNav history={history} currentLocation={currentLocation} />
+      <TopNav
+        {...{
+          history,
+          currentLocation,
+          isSidebarCollapsed,
+          setSidebarCollapse
+        }}
+      />
       <Drawer />
       <Switch>
-        <AppRoute exact path="/" component={App} />
+        <AppRoute
+          exact
+          path="/"
+          render={() => <App isSidebarCollapsed={isSidebarCollapsed} />}
+        />
         <Route path="/home" component={Homepage} />
         <PublicRoute path="/login" render={() => <Login history={history} />} />
         <PublicRoute
