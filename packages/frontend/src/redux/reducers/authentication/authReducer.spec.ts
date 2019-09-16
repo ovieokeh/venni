@@ -1,5 +1,5 @@
 import { authReducer } from './authReducer'
-import { AUTH_SUCCESS, AUTH_ERROR, AUTH_BEGIN } from 'src/redux/types'
+import { AUTH_SUCCESS, AUTH_ERROR, AUTH_BEGIN, LOGOUT } from 'src/redux/types'
 
 const initialState = {
   isLoading: false,
@@ -34,5 +34,11 @@ describe('Auth reducer', () => {
     expect(
       authReducer(undefined, { type: AUTH_ERROR, error: 'some nasty error' })
     ).toEqual(initialState)
+  })
+
+  it('should handle LOGOUT', () => {
+    initialState.error = ''
+
+    expect(authReducer(undefined, { type: LOGOUT })).toEqual(initialState)
   })
 })

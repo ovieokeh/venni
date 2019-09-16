@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 import { Drawer as AntDrawer, Icon } from 'antd'
 import Profile from '../Profile/Profile'
 import { hideDrawer as closeDrawer } from 'src/redux/actions/drawer/drawerActions'
-import './Drawer.less'
-import { Dispatch } from 'redux'
 import { ReduxState } from 'src/redux/types'
+import './Drawer.less'
 
 interface Props {
   showDrawer: boolean

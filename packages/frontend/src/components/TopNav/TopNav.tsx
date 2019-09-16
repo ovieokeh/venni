@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 import { Menu, Icon, Avatar } from 'antd'
 import { History } from 'history'
 import { showDrawer as openDrawer } from 'src/redux/actions/drawer/drawerActions'
 import { AuthState, UserProfile, ReduxState } from 'src/redux/types'
 import Logo from 'src/assets/logo.svg'
-import { Dispatch } from 'redux'
 
 export interface Props {
   history: History

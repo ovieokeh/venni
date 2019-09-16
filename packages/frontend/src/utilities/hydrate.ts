@@ -1,4 +1,4 @@
-export function hydrate(key: string, initialState: any) {
+function hydrate(key: string, initialState: any) {
   try {
     const remember = window.localStorage.getItem('remember')
     if (!remember) return initialState
@@ -12,3 +12,5 @@ export function hydrate(key: string, initialState: any) {
     return initialState
   }
 }
+
+export default hydrate

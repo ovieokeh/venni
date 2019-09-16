@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 import { Tabs, Icon, Badge, Button, Popconfirm } from 'antd'
 import { logout as logoutAction } from 'src/redux/actions/authentication/authActions'
 import { ProfileState, ReduxState } from 'src/redux/types'
 import './Profile.less'
-import { Dispatch } from 'redux'
 
 interface Props {
   user: ProfileState

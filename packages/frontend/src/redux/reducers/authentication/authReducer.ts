@@ -6,7 +6,7 @@ import {
   AUTH_ERROR,
   LOGOUT
 } from '../../types'
-import { hydrate } from 'src/utilities'
+import hydrate from 'src/utilities/hydrate'
 
 const emptyState = { isLoading: false, token: '', error: '' }
 const initialState: AuthState = hydrate('auth', emptyState)

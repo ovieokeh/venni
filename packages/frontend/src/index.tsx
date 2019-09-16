@@ -8,7 +8,7 @@ import { AppRoute, PublicRoute } from './routes'
 import { Homepage, Error, Login, Signup, App } from './pages'
 import { TopNav, Drawer } from './components'
 import * as serviceWorker from './serviceWorker'
-import { history } from './utilities/history'
+import { history } from './utilities'
 import './index.css'
 import 'aos/dist/aos.css'
 
