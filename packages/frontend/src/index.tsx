@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { Provider } from 'react-redux'
 import AOS from 'aos'
 import store from './redux/store'
@@ -9,20 +10,28 @@ import { Homepage, Error, Login, Signup, App } from './pages'
 import { TopNav, Drawer } from './components'
 import * as serviceWorker from './serviceWorker'
 import { history, useWindowWidth } from './utilities'
+import { ReduxState, AuthState } from './redux/types'
+import setupSocket from './sockets/sockets'
 import './index.css'
 import 'aos/dist/aos.css'
 
-const Routes: React.SFC = () => {
+interface Props {
+  authState: AuthState
+}
+
+const Routes: React.FC<Props> = props => {
   const windowWidth = useWindowWidth()
   const [isSidebarCollapsed, setSidebarCollapse] = useState(false)
   const [currentLocation, setCurrentLocation] = useState(
     window.location.pathname
   )
+  const { token } = props.authState
 
   useEffect(() => {
     AOS.init({ offset: 200, duration: 300, easing: 'ease-in-sine', delay: 100 })
     history.listen(location => setCurrentLocation(location.pathname))
-  }, [])
+    token && setupSocket(token)
+  }, [token])
 
   useEffect(() => {
     windowWidth > 768 ? setSidebarCollapse(false) : setSidebarCollapse(true)
@@ -57,9 +66,15 @@ const Routes: React.SFC = () => {
   )
 }
 
+const mapStateToProps = (state: ReduxState) => ({
+  authState: state.auth
+})
+
+const ConnectedRoutes = connect(mapStateToProps)(Routes)
+
 ReactDOM.render(
   <Provider store={store}>
-    <Routes />
+    <ConnectedRoutes />
   </Provider>,
   document.getElementById('root')
 )
