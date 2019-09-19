@@ -1,0 +1,54 @@
+.app {
+  &__sidebar {
+    &__menu {
+      &__item--group,
+      &__item--friends {
+        display: inline-flex;
+        align-items: center;
+        font-size: 1rem;
+      }
+
+      &__item-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+  }
+}
+
+.padding-0 {
+  animation: paddingLeftRem 200ms forwards;
+}
+
+.padding-250 {
+  animation: paddingLeftAdd 200ms forwards;
+}
+
+@keyframes paddingLeftAdd {
+  0% {
+    padding-left: 0;
+  }
+
+  100% {
+    padding-left: 250px;
+  }
+}
+
+@keyframes paddingLeftRem {
+  100% {
+    padding-left: 0;
+  }
+
+  0% {
+    padding-left: 250px;
+  }
+}

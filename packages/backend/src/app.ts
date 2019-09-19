@@ -16,10 +16,10 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join('..', 'frontend', 'build')))
+app.use(routes)
 app.get('/', function(req, res) {
   res.sendFile(path.join('..', 'frontend', 'build', 'index.html'))
 })
-app.use(routes)
 
 const server = http.createServer(app)
 

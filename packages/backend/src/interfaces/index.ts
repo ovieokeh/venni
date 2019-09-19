@@ -15,3 +15,11 @@ export interface UserDetails {
   iat?: number
   dataValues?: UserDetails
 }
+
+export interface Invite {
+  id: string
+  email: string
+  name: string
+  avatarUrl: string
+  dataValues?: any
+}

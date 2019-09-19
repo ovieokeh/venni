@@ -19,6 +19,11 @@ describe('TopNav Tests', () => {
       name: 'Buzz Lightyear',
       avatarUrl: 'imageurl.com'
     },
+    social: {
+      friends: [],
+      receivedInvites: [],
+      sentInvites: []
+    },
     currentLocation: '/'
   }
 

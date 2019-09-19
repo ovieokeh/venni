@@ -12,6 +12,11 @@ describe('Profile tests', () => {
       friendInvites: [],
       sentInvites: []
     },
+    social: {
+      friends: [],
+      receivedInvites: [],
+      sentInvites: []
+    },
     logout: jest.fn()
   }
 

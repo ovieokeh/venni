@@ -21,7 +21,7 @@ async function cancelInviteController(req: Request, res: Response): Promise<void
 
     context.socket
       .to(context.connectedClients[invitee.id])
-      .emit('handledInvite', { action: 'canceled', inviteId: user.id })
+      .emit('handledReceivedInvite', { action: 'canceled', inviteId: user.id })
 
     respondSuccess(res, 200, 'invite canceled successfully')
   } catch (error) {

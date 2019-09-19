@@ -35,11 +35,15 @@ describe('Profile actions', () => {
 describe('async Profile actions', () => {
   it('should dispatch the required actions when profile request is successful', () => {
     const successResponse = { data: userProfile, message: 'profile retrieved' }
-    ;(axios as any).get.mockImplementationOnce(() =>
-      Promise.resolve({ data: successResponse })
-    )
+    ;(axios as any).get.mockImplementation((url: string) => {
+      return url === 'http://localhost:3200/api//profile'
+        ? Promise.resolve({ data: successResponse })
+        : Promise.resolve({ data: { data: [] } })
+    })
+
     const expectedActions = [
-      { type: types.GET_USER_PROFILE_SUCCESS, profile: userProfile }
+      { type: types.GET_USER_PROFILE_SUCCESS, profile: userProfile },
+      { type: types.GET_INVITES_SUCCESS, allInvites: [] }
     ]
 
     const store = mockStore({ auth: { token: '' } })
