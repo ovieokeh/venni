@@ -2,10 +2,15 @@ import React, { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { Menu, Icon, Avatar } from 'antd'
+import { Menu, Icon, Avatar, Badge } from 'antd'
 import { History } from 'history'
 import { showDrawer as openDrawer } from 'src/redux/actions/drawer/drawerActions'
-import { AuthState, UserProfile, ReduxState } from 'src/redux/types'
+import {
+  AuthState,
+  ReduxState,
+  UserProfile,
+  SocialState
+} from 'src/redux/types'
 import Logo from 'src/assets/logo.svg'
 
 export interface Props {
@@ -13,6 +18,7 @@ export interface Props {
   authState: AuthState
   currentLocation: string
   userProfile: UserProfile
+  social: SocialState
   isSidebarCollapsed: boolean
   setSidebarCollapse: Function
   showDrawer: () => void
@@ -40,6 +46,8 @@ export class TopNav extends React.Component<Props, State> {
   handleClick = (e: any): void => this.setState({ current: e.key })
 
   renderLinks = (): ReactElement[] | ReactElement => {
+    const { userProfile, social } = this.props
+
     const menuLinks = [
       <Menu.Item key="/signup">
         <Link to="/signup" style={{ color: 'green' }}>
@@ -64,9 +72,11 @@ export class TopNav extends React.Component<Props, State> {
         key="/"
         style={{ float: 'right' }}
       >
-        <Avatar className="avatar-img" src={this.props.userProfile.avatarUrl}>
-          {this.props.userProfile.name}
-        </Avatar>
+        <Badge count={social.receivedInvites.length}>
+          <Avatar className="avatar-img" src={userProfile.avatarUrl}>
+            {userProfile.name}
+          </Avatar>
+        </Badge>
       </Menu.Item>
     )
   }
@@ -82,7 +92,8 @@ export class TopNav extends React.Component<Props, State> {
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 100
+          zIndex: 100,
+          paddingTop: 5
         }}
       >
         <Menu.Item key="/home">
@@ -103,7 +114,8 @@ export class TopNav extends React.Component<Props, State> {
 /* istanbul ignore next */
 const mapStateToProps = (state: ReduxState) => ({
   authState: state.auth,
-  userProfile: state.profile
+  userProfile: state.profile,
+  social: state.social
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

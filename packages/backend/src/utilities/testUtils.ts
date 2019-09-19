@@ -51,6 +51,14 @@ class TestUtils {
       .set('authorization', token || '')
       .then(res => res)
   }
+
+  static async getInvites(token?: string): Promise<request.Response> {
+    return chai
+      .request(server)
+      .get('/api/invites')
+      .set('authorization', token || '')
+      .then(res => res)
+  }
 }
 
 export default TestUtils

@@ -48,7 +48,7 @@ describe('async Authentication actions', () => {
     password: 'password1'
   }
   ;(axios as any).get.mockImplementation(() =>
-    Promise.resolve({ data: { data: 'fake profile' } })
+    Promise.resolve({ data: { data: null } })
   )
 
   it('should dispatch the required actions when auth request is successful', async () => {
@@ -59,7 +59,8 @@ describe('async Authentication actions', () => {
     const expectedActions = [
       { type: types.AUTH_BEGIN },
       { type: types.AUTH_SUCCESS, data: successResponse.data },
-      { type: types.GET_USER_PROFILE_SUCCESS, profile: 'fake profile' }
+      { type: types.GET_USER_PROFILE_SUCCESS, profile: null },
+      { type: types.GET_INVITES_SUCCESS, allInvites: null }
     ]
 
     const store = mockStore({ auth: { token: '' } })

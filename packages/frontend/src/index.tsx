@@ -19,6 +19,17 @@ interface Props {
   authState: AuthState
 }
 
+class ErrorHandler extends React.PureComponent {
+  componentDidCatch() {
+    window.localStorage.clear()
+    window.location.reload()
+  }
+
+  render() {
+    return this.props.children
+  }
+}
+
 const Routes: React.FC<Props> = props => {
   const windowWidth = useWindowWidth()
   const [isSidebarCollapsed, setSidebarCollapse] = useState(false)
@@ -73,9 +84,11 @@ const mapStateToProps = (state: ReduxState) => ({
 const ConnectedRoutes = connect(mapStateToProps)(Routes)
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRoutes />
-  </Provider>,
+  <ErrorHandler>
+    <Provider store={store}>
+      <ConnectedRoutes />
+    </Provider>
+  </ErrorHandler>,
   document.getElementById('root')
 )
 

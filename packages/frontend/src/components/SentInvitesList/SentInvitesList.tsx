@@ -1,10 +1,10 @@
 import React from 'react'
 import { Collapse, Button, Popconfirm, Icon } from 'antd'
 import Empty from '../Empty/Empty'
-import { UserProfile } from 'src/redux/types'
+import { Invite } from 'src/redux/types'
 
 interface Props {
-  sentInvites: UserProfile[]
+  sentInvites: Invite[]
   confirmAction: Function
 }
 

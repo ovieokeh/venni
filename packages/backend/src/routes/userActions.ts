@@ -3,7 +3,8 @@ import {
   getProfileController,
   sendInviteController,
   cancelInviteController,
-  mapSocketIdToUser
+  mapSocketIdToUser,
+  getUserInvites
 } from '../controllers'
 import { verifyToken } from '../middlewares'
 
@@ -13,5 +14,6 @@ router.get('/profile', verifyToken, getProfileController) // get profile
 router.get('/sockets/:socketId', verifyToken, mapSocketIdToUser) // map socketID to user
 router.put('/invites/:email', verifyToken, sendInviteController) // send friend request
 router.delete('/invites/:email', verifyToken, cancelInviteController) // cancel friend request
+router.get('/invites', verifyToken, getUserInvites) // get user invites
 
 export default router

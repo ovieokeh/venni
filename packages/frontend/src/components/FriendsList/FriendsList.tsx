@@ -15,7 +15,7 @@ interface Props {
   invite: Function
 }
 
-const FriendsList: React.FC<Props> = ({ friends, unfriend, invite }) => {
+export const FriendsList: React.FC<Props> = ({ friends, unfriend, invite }) => {
   const [inviteInput, setInviteInput] = useState('')
   const ButtonGroup = Button.Group
 
@@ -98,7 +98,7 @@ const FriendsList: React.FC<Props> = ({ friends, unfriend, invite }) => {
           required
         />
         <Button
-          icon="plus-circle"
+          icon="plus"
           className="send-invite-btn"
           size="large"
           htmlType="submit"

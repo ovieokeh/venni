@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { Dispatch } from 'redux'
 import { UserProfile, GET_USER_PROFILE_SUCCESS } from 'src/redux/types'
+import { getAllInvites } from '../invites/invitesActions'
 
 export const getProfileSuccess = (profile: UserProfile) => ({
   type: GET_USER_PROFILE_SUCCESS,
@@ -8,7 +8,7 @@ export const getProfileSuccess = (profile: UserProfile) => ({
 })
 
 export const getProfileRequest = () => async (
-  dispatch: Dispatch,
+  dispatch: any,
   getState: Function
 ): Promise<boolean> => {
   const url = `${process.env.REACT_APP_API_URL}/profile`
@@ -18,6 +18,7 @@ export const getProfileRequest = () => async (
     .get(url, { headers: { authorization: token } })
     .then(response => {
       dispatch(getProfileSuccess(response.data.data))
+      dispatch(getAllInvites())
       return true
     })
     .catch(() => false)

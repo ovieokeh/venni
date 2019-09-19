@@ -1,31 +1,55 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
-import { NEW_FRIEND_INVITE, NEW_SENT_INVITE, UNFRIEND } from '../../types'
+import {
+  GET_INVITES_SUCCESS,
+  NEW_RECEIVED_INVITE,
+  NEW_SENT_INVITE,
+  UNFRIEND,
+  AllInvites,
+  Invite
+} from '../../types'
 
-export const newFriendInvite = (invite: string) => ({
-  type: NEW_FRIEND_INVITE,
-  payload: invite
+export const getInvitesSuccess = (allInvites: AllInvites) => ({
+  type: GET_INVITES_SUCCESS,
+  allInvites
 })
 
-export const newSentInvite = (invite: string) => ({
+export const newFriendInvite = (invite: Invite) => ({
+  type: NEW_RECEIVED_INVITE,
+  invite
+})
+
+export const newSentInvite = (invite: Invite) => ({
   type: NEW_SENT_INVITE,
-  payload: invite
+  invite
 })
 
 export const handledInvite = (type: string, inviteId: string) => ({
   type,
-  payload: inviteId
+  inviteId
 })
 
 export const handledSentInvite = (type: string, inviteId: string) => ({
   type,
-  payload: inviteId
+  inviteId
 })
 
 export const unfriend = (friendId: string) => ({
   type: UNFRIEND,
-  payload: friendId
+  id: friendId
 })
+
+export const getAllInvites = () => (dispatch: Dispatch, getState: Function) => {
+  const url = `${process.env.REACT_APP_API_URL}invites/`
+  const { token } = getState().auth
+
+  return axios
+    .get(url, { headers: { authorization: token } })
+    .then(res => {
+      dispatch(getInvitesSuccess(res.data.data))
+    })
+    .catch(err => err.response.data.message)
+}
 
 export const sendFriendInvite = (email: string) => (
   _: Dispatch,

@@ -41,6 +41,7 @@ code {
   width: 150px;
   height: 150px;
   object-fit: cover;
+  border: 3px solid #ddd;
   border-radius: 100px;
   margin-bottom: 1rem;
   cursor: pointer;
@@ -50,6 +51,7 @@ code {
   width: 250px;
   height: 250px;
   object-fit: cover;
+  border: 3px solid #ddd;
   border-radius: 200px;
   margin-bottom: 1rem;
   cursor: pointer;

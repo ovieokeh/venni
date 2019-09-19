@@ -1,37 +1,37 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Layout, Menu, Icon } from 'antd'
 import { FriendsList } from 'src/components'
 import { getProfileRequest } from 'src/redux/actions/profile/profileActions'
-import { ProfileState } from 'src/redux/types'
+import { UserProfile, SocialState, ReduxState } from 'src/redux/types'
 import './App.less'
 
 interface Props {
   loadProfile: Function
-  user: ProfileState
+  user: UserProfile
+  social: SocialState
   isSidebarCollapsed: boolean
 }
 
-const App: React.FC<Props> = props => {
+export const App: React.FC<Props> = props => {
   const { loadProfile } = props
-  const [currentlySelected, setCurrent] = useState('friends')
 
   useEffect(() => {
     window.document.title = 'Venni'
     loadProfile()
   }, [loadProfile])
 
-  const handleMenuItemClick = (event: any) => setCurrent(event.key)
+  const handleMenuItemClick = (event: any) => {}
 
   const renderContent = () => {
-    const {
-      user: { friends }
-    } = props
-    return <FriendsList friends={friends} />
+    const { social } = props
+    return <FriendsList friends={social.friends} />
   }
 
   const renderFriends = () => {
-    const { friends } = props.user
+    const {
+      social: { friends }
+    } = props
 
     return friends.map(friend => (
       <Menu.Item key={friend.id}>
@@ -105,8 +105,9 @@ const App: React.FC<Props> = props => {
   )
 }
 
-const mapStateToProps = (state: any) => ({
-  user: state.profile
+const mapStateToProps = (state: ReduxState) => ({
+  user: state.profile,
+  social: state.social
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

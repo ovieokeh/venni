@@ -6,13 +6,14 @@ import {
   cancelFriendInvite,
   friendInviteAction
 } from 'src/redux/actions/invites/invitesActions'
-import { ProfileState, ReduxState } from 'src/redux/types'
-import InvitesList from '../InvitesList/InvitesList'
+import { UserProfile, ReduxState, SocialState } from 'src/redux/types'
+import ReceivedInvitesList from '../ReceivedInvitesList/ReceivedInvitesList'
 import SentInvitesList from '../SentInvitesList/SentInvitesList'
 import './Profile.less'
 
 interface Props {
-  user: ProfileState
+  user: UserProfile
+  social: SocialState
   logout: () => void
   inviteAction: Function
   cancelInvite: Function
@@ -25,8 +26,8 @@ interface ConfirmActionProps {
 }
 
 export const Profile: React.FC<Props> = (props: Props) => {
-  const { user } = props
-  const { friendInvites, sentInvites } = user
+  const { user, social } = props
+  const { receivedInvites, sentInvites } = social
   const { TabPane } = Tabs
   const ButtonGroup = Button.Group
 
@@ -84,10 +85,10 @@ export const Profile: React.FC<Props> = (props: Props) => {
           <TabPane
             tab={
               <Badge
-                count={friendInvites.length}
+                count={receivedInvites.length}
                 style={{
                   backgroundColor: `${
-                    friendInvites.length ? '#f5222d' : '#1890ff'
+                    receivedInvites.length ? '#f5222d' : '#1890ff'
                   }`
                 }}
                 offset={[12, 0]}
@@ -100,8 +101,8 @@ export const Profile: React.FC<Props> = (props: Props) => {
             }
             key="invites"
           >
-            <InvitesList
-              friendInvites={friendInvites}
+            <ReceivedInvitesList
+              receivedInvites={receivedInvites}
               confirmAction={confirmAction}
             />
           </TabPane>
@@ -144,7 +145,8 @@ const mapDispatchToProps = (dispatch: any) => ({
 })
 
 const mapStateToProps = (state: ReduxState) => ({
-  user: state.profile
+  user: state.profile,
+  social: state.social
 })
 
 const ConnectedProfile = connect(

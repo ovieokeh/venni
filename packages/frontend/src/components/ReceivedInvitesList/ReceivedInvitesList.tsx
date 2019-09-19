@@ -1,24 +1,27 @@
 import React from 'react'
 import { Collapse, Button, Popconfirm, Icon } from 'antd'
 import Empty from '../Empty/Empty'
-import { UserProfile } from 'src/redux/types'
+import { Invite } from 'src/redux/types'
 
 interface Props {
-  friendInvites: UserProfile[]
+  receivedInvites: Invite[]
   confirmAction: Function
 }
 
-const InvitesList: React.FC<Props> = ({ friendInvites, confirmAction }) => {
+const ReceivedInvitesList: React.FC<Props> = ({
+  receivedInvites,
+  confirmAction
+}) => {
   const { Panel } = Collapse
   const ButtonGroup = Button.Group
 
-  if (!friendInvites.length) {
+  if (!receivedInvites.length) {
     return <Empty description="No New Invites" />
   }
 
   return (
     <Collapse bordered={false}>
-      {friendInvites.map(requester => (
+      {receivedInvites.map(requester => (
         <Panel
           header={
             <span className="invite-header">
@@ -84,4 +87,4 @@ const InvitesList: React.FC<Props> = ({ friendInvites, confirmAction }) => {
   )
 }
 
-export default InvitesList
+export default ReceivedInvitesList

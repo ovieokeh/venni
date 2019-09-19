@@ -1,6 +1,6 @@
 import {
   ProfileTypes,
-  ProfileState,
+  UserProfile,
   GET_USER_PROFILE_SUCCESS
 } from '../../types'
 import hydrate from 'src/utilities/hydrate'
@@ -10,25 +10,17 @@ const emptyState = {
   name: '',
   email: '',
   avatarUrl: '',
-  createdAt: null,
-  friends: [],
-  friendInvites: [],
-  sentInvites: []
+  createdAt: null
 }
 const initialState = hydrate('profile', emptyState)
 
 export function profileReducer(
   state = initialState,
   action: ProfileTypes
-): ProfileState {
+): UserProfile {
   switch (action.type) {
     case GET_USER_PROFILE_SUCCESS:
-      return {
-        ...action.profile,
-        friends: [],
-        friendInvites: [],
-        sentInvites: []
-      }
+      return action.profile
 
     default:
       return state

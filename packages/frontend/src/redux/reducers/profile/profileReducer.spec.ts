@@ -6,10 +6,7 @@ const initialState: any = {
   name: '',
   email: '',
   avatarUrl: '',
-  createdAt: null,
-  friends: [],
-  friendInvites: [],
-  sentInvites: []
+  createdAt: null
 }
 
 const profile = {
