@@ -5,7 +5,7 @@ import { logout as logoutAction } from 'src/redux/actions/authentication/authAct
 import {
   cancelFriendInvite,
   friendInviteAction
-} from 'src/redux/actions/invites/invitesActions'
+} from 'src/redux/actions/social/socialActions'
 import { UserProfile, ReduxState, SocialState } from 'src/redux/types'
 import ReceivedInvitesList from '../ReceivedInvitesList/ReceivedInvitesList'
 import SentInvitesList from '../SentInvitesList/SentInvitesList'

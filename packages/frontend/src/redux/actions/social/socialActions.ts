@@ -5,6 +5,7 @@ import {
   NEW_RECEIVED_INVITE,
   NEW_SENT_INVITE,
   UNFRIEND,
+  GET_FRIENDS_SUCCESS,
   AllInvites,
   Invite
 } from '../../types'
@@ -24,19 +25,24 @@ export const newSentInvite = (invite: Invite) => ({
   invite
 })
 
-export const handledInvite = (type: string, inviteId: string) => ({
+export const handledInvite = (type: string, payload: any) => ({
   type,
-  inviteId
+  payload
 })
 
-export const handledSentInvite = (type: string, inviteId: string) => ({
+export const handledSentInvite = (type: string, payload: any) => ({
   type,
-  inviteId
+  payload
 })
 
 export const unfriend = (friendId: string) => ({
   type: UNFRIEND,
   id: friendId
+})
+
+export const getFriendsSuccess = (friends: Invite[]) => ({
+  type: GET_FRIENDS_SUCCESS,
+  friends
 })
 
 export const getAllInvites = () => (dispatch: Dispatch, getState: Function) => {
@@ -116,4 +122,16 @@ export const friendInviteAction = (id: string, action: string) => async (
     .catch(() => {
       /* do nothing */
     })
+}
+
+export const getFriendsAction = () => async (
+  dispatch: Dispatch,
+  getState: Function
+) => {
+  const url = `${process.env.REACT_APP_API_URL}friends`
+  const { token: authorization } = getState().auth
+
+  return axios.get(url, { headers: { authorization } }).then(res => {
+    dispatch(getFriendsSuccess(res.data.data))
+  })
 }

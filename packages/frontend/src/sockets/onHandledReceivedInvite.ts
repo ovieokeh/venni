@@ -5,7 +5,7 @@ import {
   DECLINED_RECEIVED_INVITE,
   UserProfile
 } from 'src/redux/types'
-import { handledInvite } from 'src/redux/actions/invites/invitesActions'
+import { handledInvite } from 'src/redux/actions/social/socialActions'
 
 interface Props {
   inviteId: string
@@ -18,6 +18,7 @@ function onHandledReceivedInvite(details: Props) {
   let payload: any = inviteId
   let type
 
+  console.log(details, 'received')
   switch (action) {
     case 'canceled':
       type = CANCELED_RECEIVED_INVITE

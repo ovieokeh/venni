@@ -28,33 +28,36 @@ code {
   margin-right: 10%;
 }
 
+.image-30,
+.image-50,
+.image-150,
+.image-250 {
+  object-fit: cover;
+  border: 3px solid #ddd;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 .image-30 {
+  border: 2px solid #ddd;
   width: 30px;
   height: 30px;
-  object-fit: cover;
-  border-radius: 25px;
-  margin-right: 1rem;
-  cursor: pointer;
+}
+
+.image-50 {
+  border: 2px solid #ddd;
+  width: 50px;
+  height: 50px;
 }
 
 .image-150 {
   width: 150px;
   height: 150px;
-  object-fit: cover;
-  border: 3px solid #ddd;
-  border-radius: 100px;
-  margin-bottom: 1rem;
-  cursor: pointer;
 }
 
 .image-250 {
   width: 250px;
   height: 250px;
-  object-fit: cover;
-  border: 3px solid #ddd;
-  border-radius: 200px;
-  margin-bottom: 1rem;
-  cursor: pointer;
 }
 
 .ant-layout-sider {

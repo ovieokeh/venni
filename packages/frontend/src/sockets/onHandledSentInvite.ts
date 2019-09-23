@@ -5,7 +5,7 @@ import {
   DECLINED_SENT_INVITE,
   UserProfile
 } from 'src/redux/types'
-import { handledSentInvite } from 'src/redux/actions/invites/invitesActions'
+import { handledSentInvite } from 'src/redux/actions/social/socialActions'
 
 interface Props {
   inviteId: string

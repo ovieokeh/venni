@@ -25,7 +25,7 @@ const SentInvitesList: React.FC<Props> = ({ sentInvites, confirmAction }) => {
                 src={invite.avatarUrl}
                 alt={invite.name}
               />
-              <span>{invite.name}</span>
+              <span style={{ marginLeft: '2%' }}>{invite.name}</span>
             </span>
           }
           key={invite.id}

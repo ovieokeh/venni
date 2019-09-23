@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { UserProfile, GET_USER_PROFILE_SUCCESS } from 'src/redux/types'
-import { getAllInvites } from '../invites/invitesActions'
+import { getAllInvites, getFriendsAction } from '../social/socialActions'
 
 export const getProfileSuccess = (profile: UserProfile) => ({
   type: GET_USER_PROFILE_SUCCESS,
@@ -18,6 +18,7 @@ export const getProfileRequest = () => async (
     .get(url, { headers: { authorization: token } })
     .then(response => {
       dispatch(getProfileSuccess(response.data.data))
+      dispatch(getFriendsAction())
       dispatch(getAllInvites())
       return true
     })
