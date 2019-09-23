@@ -1,40 +1,39 @@
 .friend {
-  display: inline-flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-areas: 'details actions';
   align-items: center;
   background-color: white;
-  margin-top: 1rem;
-  padding: 0 1rem;
+  margin-top: 1em;
+  padding: 0 1em;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 5px;
 
   &__intro {
+    grid-area: details;
     display: inline-flex;
     align-items: center;
-    padding: 0.5rem 0;
-  }
-
-  &__picture {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 1rem;
+    padding: 0.5em 0;
   }
 
   &__details {
+    width: 100%;
     height: 100%;
     text-align: left;
+    padding-left: 2%;
 
     &__name {
-      font-size: 1.5rem;
-      font-weight: 400;
+      font-size: 1.5em;
       margin-bottom: 0;
     }
 
     &__email {
       margin-bottom: 0;
     }
+  }
+
+  &__actions {
+    grid-area: actions;
+    justify-self: flex-end;
   }
 }
 
@@ -48,12 +47,6 @@
   .invite-container {
     width: 80%;
     display: flex;
-
-    .invite-icon {
-      &:hover {
-        background-color: 'black';
-      }
-    }
   }
 }
 

@@ -7,6 +7,8 @@ interface UserModel extends UserDetails, Model {
   dataValues: any
   addInvite(id: string): UserDetails[]
   removeInvite(id: string): void
+  addFriend(id: string): void
+  removeFriend(friend: any): void
 }
 
 type UserModelStatic = typeof Model & {

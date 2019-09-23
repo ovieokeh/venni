@@ -38,7 +38,7 @@ export const App: React.FC<Props> = props => {
         <img
           alt={friend.name}
           src={friend.avatarUrl}
-          className="app__sidebar__menu__item-avatar"
+          className="app__sidebar__menu__item-avatar image-30"
         />
         <span className="app__sidebar__menu__item-text">{friend.name}</span>
       </Menu.Item>

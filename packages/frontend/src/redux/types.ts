@@ -43,6 +43,7 @@ export interface Logout {
 export type AuthTypes = AuthBegin | AuthSuccess | AuthError | Logout
 
 export const GET_USER_PROFILE_SUCCESS = 'GET_USER_PROFILE_SUCCESS'
+export const GET_FRIENDS_SUCCESS = 'GET_FRIENDS_SUCCESS'
 
 export interface UserProfile {
   id: string
@@ -123,27 +124,32 @@ export interface NewSentInvite {
 
 export interface HandledSentInvite {
   type: typeof CANCELED_SENT_INVITE | typeof DECLINED_SENT_INVITE
-  inviteId: string
+  payload: string
 }
 
 export interface HandledReceivedInvite {
   type: typeof CANCELED_RECEIVED_INVITE | typeof DECLINED_RECEIVED_INVITE
-  inviteId: string
+  payload: string
 }
 
 export interface AcceptedSentInvite {
   type: typeof ACCEPTED_SENT_INVITE
-  friend: UserProfile
+  payload: any
 }
 
 export interface AcceptedReceivedInvite {
   type: typeof ACCEPTED_RECEIVED_INVITE
-  friend: UserProfile
+  payload: any
 }
 
 export interface Unfriend {
   type: typeof UNFRIEND
   id: string
+}
+
+export interface GetFriendsSuccess {
+  type: typeof GET_FRIENDS_SUCCESS
+  friends: Invite[]
 }
 
 export interface SocialState {
@@ -161,3 +167,4 @@ export type FriendType =
   | AcceptedSentInvite
   | AcceptedReceivedInvite
   | Unfriend
+  | GetFriendsSuccess

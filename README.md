@@ -2,6 +2,8 @@
 
 A Web based chat app based on Sockets and Express built entirely with TypeScript.
 
+View the staged version on [Heroku](https://venni.herokuapp.com/)
+
 ## Backend Stack
 - Server -                 [Express.js](https://expressjs.com/)
 - Realtime communication - [Socket.io](https://socket.io/)

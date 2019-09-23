@@ -10,7 +10,8 @@ import {
   NEW_SENT_INVITE,
   FriendType,
   SocialState,
-  UNFRIEND
+  UNFRIEND,
+  GET_FRIENDS_SUCCESS
 } from '../../types'
 import hydrate from 'src/utilities/hydrate'
 
@@ -26,6 +27,12 @@ export function socialReducer(
   action: FriendType
 ): SocialState {
   switch (action.type) {
+    case GET_FRIENDS_SUCCESS:
+      return {
+        ...state,
+        friends: action.friends
+      }
+
     case GET_INVITES_SUCCESS:
       return {
         ...state,
@@ -50,7 +57,7 @@ export function socialReducer(
       return {
         ...state,
         sentInvites: [...state.sentInvites].filter(
-          invite => invite.id !== action.inviteId
+          invite => invite.id !== action.payload
         )
       }
 
@@ -59,32 +66,34 @@ export function socialReducer(
       return {
         ...state,
         receivedInvites: [...state.receivedInvites].filter(
-          invite => invite.id !== action.inviteId
+          invite => invite.id !== action.payload
         )
       }
 
     case ACCEPTED_SENT_INVITE:
+      console.log('accepted sent invite', action)
       return {
         ...state,
         sentInvites: [...state.sentInvites].filter(
-          invite => invite.id !== action.friend.id
+          invite => invite.id !== action.payload.id
         ),
-        friends: [...state.social, action.friend]
+        friends: [...state.friends, action.payload]
       }
 
     case ACCEPTED_RECEIVED_INVITE:
+      console.log('accepted received invite', action)
       return {
         ...state,
         receivedInvites: [...state.receivedInvites].filter(
-          invite => invite.id !== action.friend.id
+          invite => invite.id !== action.payload.id
         ),
-        friends: [...state.social, action.friend]
+        friends: [...state.friends, action.payload]
       }
 
     case UNFRIEND:
       return {
         ...state,
-        friends: [...state.social].filter(friend => friend.id !== action.id)
+        friends: [...state.friends].filter(friend => friend.id !== action.id)
       }
 
     default:

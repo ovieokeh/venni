@@ -30,7 +30,7 @@ const ReceivedInvitesList: React.FC<Props> = ({
                 src={requester.avatarUrl}
                 alt={requester.name}
               />
-              <span>{requester.name}</span>
+              <span style={{ marginLeft: '2%' }}>{requester.name}</span>
             </span>
           }
           key={requester.id}
