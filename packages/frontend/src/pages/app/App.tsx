@@ -2,24 +2,19 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Layout, Menu, Icon } from 'antd'
 import { FriendsList } from 'src/components'
-import { getProfileRequest } from 'src/redux/actions/profile/profileActions'
 import { UserProfile, SocialState, ReduxState } from 'src/redux/types'
 import './App.less'
 
 interface Props {
-  loadProfile: Function
   user: UserProfile
   social: SocialState
   isSidebarCollapsed: boolean
 }
 
 export const App: React.FC<Props> = props => {
-  const { loadProfile } = props
-
   useEffect(() => {
     window.document.title = 'Venni'
-    loadProfile()
-  }, [loadProfile])
+  }, [])
 
   const handleMenuItemClick = (event: any) => {}
 
@@ -37,7 +32,7 @@ export const App: React.FC<Props> = props => {
       <Menu.Item key={friend.id}>
         <img
           alt={friend.name}
-          src={friend.avatarUrl}
+          src={friend.avatar}
           className="app__sidebar__menu__item-avatar image-30"
         />
         <span className="app__sidebar__menu__item-text">{friend.name}</span>
@@ -110,9 +105,7 @@ const mapStateToProps = (state: ReduxState) => ({
   social: state.social
 })
 
-const mapDispatchToProps = (dispatch: any) => ({
-  loadProfile: () => dispatch(getProfileRequest())
-})
+const mapDispatchToProps = (dispatch: any) => ({})
 
 export default connect(
   mapStateToProps,

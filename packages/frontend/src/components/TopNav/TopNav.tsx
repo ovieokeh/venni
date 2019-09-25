@@ -5,17 +5,12 @@ import { Dispatch } from 'redux'
 import { Menu, Icon, Avatar, Badge } from 'antd'
 import { History } from 'history'
 import { showDrawer as openDrawer } from 'src/redux/actions/drawer/drawerActions'
-import {
-  AuthState,
-  ReduxState,
-  UserProfile,
-  SocialState
-} from 'src/redux/types'
+import { ReduxState, UserProfile, SocialState } from 'src/redux/types'
 import Logo from 'src/assets/logo.svg'
+import { isLoggedIn } from 'src/utilities'
 
 export interface Props {
   history: History
-  authState: AuthState
   currentLocation: string
   userProfile: UserProfile
   social: SocialState
@@ -38,7 +33,7 @@ export class TopNav extends React.Component<Props, State> {
   }
 
   handleLogoClick = () => {
-    !this.props.authState.token
+    !this.props.userProfile.id
       ? this.props.history.push('/')
       : this.props.setSidebarCollapse(!this.props.isSidebarCollapsed)
   }
@@ -64,7 +59,7 @@ export class TopNav extends React.Component<Props, State> {
       </Menu.Item>
     ]
 
-    if (!this.props.authState.token) return menuLinks
+    if (!isLoggedIn()) return menuLinks
 
     return (
       <Menu.Item
@@ -73,7 +68,7 @@ export class TopNav extends React.Component<Props, State> {
         style={{ float: 'right' }}
       >
         <Badge count={social.receivedInvites.length}>
-          <Avatar className="avatar-img" src={userProfile.avatarUrl}>
+          <Avatar className="avatar-img" src={userProfile.avatar}>
             {userProfile.name}
           </Avatar>
         </Badge>
@@ -113,7 +108,6 @@ export class TopNav extends React.Component<Props, State> {
 
 /* istanbul ignore next */
 const mapStateToProps = (state: ReduxState) => ({
-  authState: state.auth,
   userProfile: state.profile,
   social: state.social
 })

@@ -28,7 +28,7 @@ export const FriendsList: React.FC<Props> = ({ friends, unfriend, invite }) => {
 
   const unfriendUser = async (email: string) => {
     try {
-      const response = await unfriend(email)
+      await unfriend(email)
       message.success(message)
     } catch (error) {
       message.error(error.message)
@@ -56,7 +56,7 @@ export const FriendsList: React.FC<Props> = ({ friends, unfriend, invite }) => {
         <div className="friend__intro">
           <img
             className="friend__picture image-50"
-            src={friend.avatarUrl}
+            src={friend.avatar}
             alt={friend.name}
           />
           <div className="friend__details">

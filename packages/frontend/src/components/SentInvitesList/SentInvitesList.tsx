@@ -22,7 +22,7 @@ const SentInvitesList: React.FC<Props> = ({ sentInvites, confirmAction }) => {
             <span className="invite-header">
               <img
                 className="image-30"
-                src={invite.avatarUrl}
+                src={invite.avatar}
                 alt={invite.name}
               />
               <span style={{ marginLeft: '2%' }}>{invite.name}</span>
@@ -34,7 +34,7 @@ const SentInvitesList: React.FC<Props> = ({ sentInvites, confirmAction }) => {
             <div className="requester-details">
               <img
                 className="image-150"
-                src={invite.avatarUrl}
+                src={invite.avatar}
                 alt={invite.name}
               />
               <p>{invite.name}</p>

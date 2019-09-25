@@ -9,7 +9,7 @@ describe('App Tests', () => {
       id: 'somerandomid',
       name: 'Buzz Lightyear',
       email: 'buzz@lightyear',
-      avatarUrl: 'someurl',
+      avatar: 'someurl',
       createdAt: new Date()
     },
     social: {

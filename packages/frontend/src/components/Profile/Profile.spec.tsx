@@ -8,7 +8,7 @@ describe('Profile tests', () => {
     user: {
       name: 'Buzz Lightyear',
       email: 'buzz@lightyear.com',
-      avatarUrl: 'someurl',
+      avatar: 'someurl',
       friendInvites: [],
       sentInvites: []
     },

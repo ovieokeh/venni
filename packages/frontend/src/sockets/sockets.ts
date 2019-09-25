@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import { context } from 'src/utilities'
+import { context } from 'src/cores/context'
 import onSocket from './onSocket'
 import onNewReceivedInvite from './onNewReceivedInvite'
 import onNewSentInvite from './onNewSentInvite'

@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Tabs, Icon, Badge, Button, Popconfirm, message } from 'antd'
-import { logout as logoutAction } from 'src/redux/actions/authentication/authActions'
 import {
   cancelFriendInvite,
   friendInviteAction
@@ -10,13 +9,15 @@ import { UserProfile, ReduxState, SocialState } from 'src/redux/types'
 import ReceivedInvitesList from '../ReceivedInvitesList/ReceivedInvitesList'
 import SentInvitesList from '../SentInvitesList/SentInvitesList'
 import './Profile.less'
+import { IFirebaseContext } from 'src/firebase/interfaces'
+import { withFirebase } from 'src/firebase'
 
 interface Props {
   user: UserProfile
   social: SocialState
-  logout: () => void
   inviteAction: Function
   cancelInvite: Function
+  firebase: IFirebaseContext
 }
 
 interface ConfirmActionProps {
@@ -30,6 +31,11 @@ export const Profile: React.FC<Props> = (props: Props) => {
   const { receivedInvites, sentInvites } = social
   const { TabPane } = Tabs
   const ButtonGroup = Button.Group
+
+  const handleLogout = async (): Promise<void> => {
+    await props.firebase.auth.signOut()
+    window.location.reload()
+  }
 
   const confirmAction = async (args: ConfirmActionProps) => {
     const { type, email, requesterName } = args
@@ -62,7 +68,7 @@ export const Profile: React.FC<Props> = (props: Props) => {
       <div className="profile__user-details">
         <img
           className="profile__user-details__image image-250"
-          src={user.avatarUrl}
+          src={user.avatar}
           alt={user.name}
         />
         <p className="profile__user-details__name">{user.name}</p>
@@ -70,7 +76,7 @@ export const Profile: React.FC<Props> = (props: Props) => {
         <ButtonGroup>
           <Popconfirm
             icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-            onConfirm={props.logout}
+            onConfirm={handleLogout}
             title="Are you sure you want to logout?"
             okText="Yes"
             cancelText="No"
@@ -140,8 +146,7 @@ export const Profile: React.FC<Props> = (props: Props) => {
 const mapDispatchToProps = (dispatch: any) => ({
   inviteAction: (id: string, action: string) =>
     dispatch(friendInviteAction(id, action)),
-  cancelInvite: (friendId: string) => dispatch(cancelFriendInvite(friendId)),
-  logout: () => dispatch(logoutAction())
+  cancelInvite: (friendId: string) => dispatch(cancelFriendInvite(friendId))
 })
 
 const mapStateToProps = (state: ReduxState) => ({
@@ -152,6 +157,6 @@ const mapStateToProps = (state: ReduxState) => ({
 const ConnectedProfile = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Profile)
+)(withFirebase(Profile))
 
 export default ConnectedProfile

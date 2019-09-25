@@ -1,19 +1,21 @@
-import React, { FormEvent } from 'react'
+// third-party libraries
+import React, { useState, useEffect, FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 import { Form, Icon, Input, Button, Checkbox } from 'antd'
 import { FormComponentProps } from 'antd/es/form'
 import { WrappedFormUtils } from 'antd/es/form/Form'
 import { History } from 'history'
+
+// custom imports
 import Logo from 'src/assets/logo.svg'
-import { authRequest } from 'src/redux/actions/authentication/authActions'
-import { AuthCredentials, AuthState, ReduxState } from 'src/redux/types'
+import { withFirebase } from 'src/firebase'
+import { IFirebaseContext } from 'src/firebase/interfaces'
+import * as firebaseErrorCodes from 'src/firebase/errorCodes'
 import './Login.less'
 
 interface LoginProps extends FormComponentProps {
   history: History
-  authState: AuthState
-  login: Function
+  firebase: IFirebaseContext
 }
 
 interface FormValues {
@@ -23,125 +25,113 @@ interface FormValues {
   readonly [x: string]: string | boolean
 }
 
-export class LoginForm extends React.Component<LoginProps> {
-  componentDidMount() {
-    window.document.title = 'Log into your account - Venni'
-  }
+const Login: React.FC<LoginProps> = props => {
+  const [isLoading, setIsLoading] = useState(false)
 
-  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    window.document.title = 'Log into your account - Venni'
+  }, [])
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
 
-    this.props.form.validateFieldsAndScroll(async (err, values) => {
-      if (!err) {
-        const isSuccessful = await this.props.login(values)
+    const { form, firebase } = props
 
-        if (!isSuccessful) return this.handleErrors(this.props.form, values)
+    form.validateFieldsAndScroll(
+      async (err, { email, password, remember }: FormValues) => {
+        if (!err) {
+          try {
+            setIsLoading(true)
+            const persistence = remember ? 'local' : 'none'
 
-        values.remember && localStorage.setItem('remember', 'yes')
-        this.props.history.push('/')
+            await firebase.auth.setPersistence(persistence)
+            await firebase.auth.signInWithEmailAndPassword(email, password)
+
+            props.history.push('/')
+          } catch (err) {
+            handleErrors(form, { email, password, remember }, err)
+            setIsLoading(false)
+          }
+        }
+      }
+    )
+  }
+
+  const handleErrors = (
+    form: WrappedFormUtils<LoginProps>,
+    values: FormValues,
+    error: any
+  ): void => {
+    const errorMatcher: firebaseErrorCodes.ErrorMatcher = {
+      [firebaseErrorCodes.AUTH_INVALID_EMAIL]: 'email',
+      [firebaseErrorCodes.AUTH_USER_DISABLED]: 'email',
+      [firebaseErrorCodes.AUTH_USER_NOT_FOUND]: 'email',
+      [firebaseErrorCodes.AUTH_USER_WRONG_PASSWORD]: 'password'
+    }
+
+    form.setFields({
+      [errorMatcher[error.code]]: {
+        value: values[errorMatcher[error.code]],
+        errors: [new Error(error.message)]
       }
     })
   }
 
-  handleErrors = (
-    form: WrappedFormUtils<LoginProps>,
-    values: FormValues
-  ): void => {
-    const { error } = this.props.authState
+  const { getFieldDecorator } = props.form
 
-    if (typeof error === 'string') {
-      const errorMessage = new Error(error as string)
+  return (
+    <div className="login" data-aos="zoom-in">
+      <h2>Welcome back to Venni</h2>
+      <img className="login__logo" src={Logo} alt="Venni Logo" />
 
-      return form.setFields({
-        email: { value: values.email, errors: [errorMessage] },
-        password: { value: values.password, errors: [errorMessage] }
-      })
-    }
+      <Form onSubmit={handleSubmit} className="login__form">
+        <Form.Item>
+          {getFieldDecorator('email', {
+            rules: [{ required: true, message: 'Please input your email' }]
+          })(
+            <Input
+              prefix={
+                <Icon type="mail" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />
+              }
+              type="email"
+              placeholder="Email"
+            />
+          )}
+        </Form.Item>
 
-    error.forEach(err => {
-      const { param } = err
+        <Form.Item>
+          {getFieldDecorator('password', {
+            rules: [{ required: true, message: 'Please input your Password' }]
+          })(
+            <Input
+              prefix={
+                <Icon type="lock" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />
+              }
+              type="password"
+              placeholder="Password"
+            />
+          )}
+        </Form.Item>
 
-      form.setFields({
-        [param]: {
-          value: values[param],
-          errors: [new Error(err.msg)]
-        }
-      })
-    })
-  }
-
-  render() {
-    const { getFieldDecorator } = this.props.form
-
-    return (
-      <div className="login" data-aos="zoom-in">
-        <h2>Welcome back to Venni</h2>
-        <img className="login__logo" src={Logo} alt="Venni Logo" />
-
-        <Form onSubmit={this.handleSubmit} className="login__form">
-          <Form.Item>
-            {getFieldDecorator('email', {
-              rules: [{ required: true, message: 'Please input your email' }]
-            })(
-              <Input
-                prefix={
-                  <Icon type="mail" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />
-                }
-                type="email"
-                placeholder="Email"
-              />
-            )}
-          </Form.Item>
-
-          <Form.Item>
-            {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Please input your Password' }]
-            })(
-              <Input
-                prefix={
-                  <Icon type="lock" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />
-                }
-                type="password"
-                placeholder="Password"
-              />
-            )}
-          </Form.Item>
-
-          <Form.Item>
-            {getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: true
-            })(<Checkbox>Remember me</Checkbox>)}
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login__form__button"
-              icon="login"
-              loading={this.props.authState.isLoading}
-            >
-              Log in
-            </Button>
-            Or <Link to="/signup">signup instead</Link>
-          </Form.Item>
-        </Form>
-      </div>
-    )
-  }
+        <Form.Item>
+          {getFieldDecorator('remember', {
+            valuePropName: 'checked',
+            initialValue: true
+          })(<Checkbox>Remember me</Checkbox>)}
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login__form__button"
+            icon="login"
+            loading={isLoading}
+          >
+            Log in
+          </Button>
+          Or <Link to="/signup">signup instead</Link>
+        </Form.Item>
+      </Form>
+    </div>
+  )
 }
 
-export const WrappedLoginForm = Form.create<LoginProps>({ name: 'login' })(
-  LoginForm
-)
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: any) => ({
-  login: (cred: AuthCredentials) => dispatch(authRequest(cred, 'login'))
-})
-const mapStateToProps = (state: ReduxState) => ({
-  authState: state.auth
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WrappedLoginForm)
+export default withFirebase(Form.create<LoginProps>({ name: 'login' })(Login))

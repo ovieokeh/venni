@@ -5,7 +5,7 @@ const initialState: any = {
   id: '',
   name: '',
   email: '',
-  avatarUrl: '',
+  avatar: '',
   createdAt: null
 }
 
@@ -13,7 +13,7 @@ const profile = {
   id: 'someid',
   name: 'Buzz Lightyear',
   email: 'buzz@lightyear.com',
-  avatarUrl: 'someurl',
+  avatar: 'someurl',
   createdAt: new Date()
 }
 

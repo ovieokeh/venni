@@ -1,28 +1,33 @@
+// third-party libraries
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Provider } from 'react-redux'
 import AOS from 'aos'
-import store from './redux/store'
-import { AppRoute, PublicRoute } from './routes'
-import { Homepage, Error, Login, Signup, App } from './pages'
-import { TopNav, Drawer } from './components'
-import * as serviceWorker from './serviceWorker'
-import { history, useWindowWidth } from './utilities'
-import { ReduxState, AuthState } from './redux/types'
-import setupSocket from './sockets/sockets'
-import './index.css'
 import 'aos/dist/aos.css'
 
+// custom libraries
+import { TopNav, Drawer } from './components'
+import { Firebase, FirebaseContext } from './firebase'
+import { history } from './cores/history'
+import { Homepage, Error, Login, Signup, App } from './pages'
+import store from './redux/store'
+import { ReduxState } from './redux/types'
+import { AppRoute, PublicRoute } from './routes'
+import * as serviceWorker from './serviceWorker'
+import setupSocket from './sockets/sockets'
+import { useWindowWidth } from './utilities'
+import './index.css'
+
 interface Props {
-  authState: AuthState
+  userId: string
 }
 
 class ErrorHandler extends React.PureComponent {
   componentDidCatch() {
     window.localStorage.clear()
-    window.location.reload()
+    // window.location.reload()
   }
 
   render() {
@@ -36,49 +41,55 @@ const Routes: React.FC<Props> = props => {
   const [currentLocation, setCurrentLocation] = useState(
     window.location.pathname
   )
-  const { token } = props.authState
+  const { userId } = props
+  const FirebaseInstance = new Firebase()
 
   useEffect(() => {
     AOS.init({ offset: 200, duration: 300, easing: 'ease-in-sine', delay: 100 })
     history.listen(location => setCurrentLocation(location.pathname))
-    token && setupSocket(token)
-  }, [token])
+    userId && setupSocket(userId)
+  }, [userId])
 
   useEffect(() => {
     windowWidth > 768 ? setSidebarCollapse(false) : setSidebarCollapse(true)
   }, [windowWidth])
 
   return (
-    <Router history={history}>
-      <TopNav
-        {...{
-          history,
-          currentLocation,
-          isSidebarCollapsed,
-          setSidebarCollapse
-        }}
-      />
-      <Drawer />
-      <Switch>
-        <AppRoute
-          exact
-          path="/"
-          render={() => <App isSidebarCollapsed={isSidebarCollapsed} />}
+    <FirebaseContext.Provider value={FirebaseInstance}>
+      <Router history={history}>
+        <TopNav
+          {...{
+            history,
+            currentLocation,
+            isSidebarCollapsed,
+            setSidebarCollapse
+          }}
         />
-        <Route path="/home" component={Homepage} />
-        <PublicRoute path="/login" render={() => <Login history={history} />} />
-        <PublicRoute
-          path="/signup"
-          render={() => <Signup history={history} />}
-        />
-        <Route render={() => <Error history={history} />} />
-      </Switch>
-    </Router>
+        <Drawer />
+        <Switch>
+          <AppRoute
+            exact
+            path="/"
+            render={() => <App isSidebarCollapsed={isSidebarCollapsed} />}
+          />
+          <Route path="/home" component={Homepage} />
+          <PublicRoute
+            path="/login"
+            render={() => <Login history={history} />}
+          />
+          <PublicRoute
+            path="/signup"
+            render={() => <Signup history={history} />}
+          />
+          <Route render={() => <Error history={history} />} />
+        </Switch>
+      </Router>
+    </FirebaseContext.Provider>
   )
 }
 
 const mapStateToProps = (state: ReduxState) => ({
-  authState: state.auth
+  userId: state.profile.id
 })
 
 const ConnectedRoutes = connect(mapStateToProps)(Routes)

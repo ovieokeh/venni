@@ -49,7 +49,7 @@ export interface UserProfile {
   id: string
   email: string
   name: string
-  avatarUrl: string
+  avatar: string
   createdAt: Date | null
 }
 
@@ -99,7 +99,7 @@ export interface Invite {
   id: string
   name: string
   email: string
-  avatarUrl: string
+  avatar: string
 }
 
 export interface AllInvites {

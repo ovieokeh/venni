@@ -3,16 +3,14 @@ import {
   UserProfile,
   GET_USER_PROFILE_SUCCESS
 } from '../../types'
-import hydrate from 'src/utilities/hydrate'
 
-const emptyState = {
+const initialState: UserProfile = {
   id: '',
   name: '',
   email: '',
-  avatarUrl: '',
+  avatar: '',
   createdAt: null
 }
-const initialState = hydrate('profile', emptyState)
 
 export function profileReducer(
   state = initialState,

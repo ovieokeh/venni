@@ -17,7 +17,7 @@ describe('TopNav Tests', () => {
     },
     userProfile: {
       name: 'Buzz Lightyear',
-      avatarUrl: 'imageurl.com'
+      avatar: 'imageurl.com'
     },
     social: {
       friends: [],

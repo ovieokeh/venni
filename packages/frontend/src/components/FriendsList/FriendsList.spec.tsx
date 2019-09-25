@@ -29,7 +29,7 @@ describe('FriendsList tests', () => {
           name: 'Woody',
           email: 'woody@toys.com',
           id: 'someid',
-          avatarUrl: 'someurl'
+          avatar: 'someurl'
         }
       ]
     })
