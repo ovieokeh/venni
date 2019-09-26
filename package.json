@@ -1,29 +1,29 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "antd": "^3.23.2",
-    "aos": "^2.3.4",
-    "axios": "^0.19.0",
-    "firebase": "^6.6.2",
-    "history": "^4.9.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-redux": "^7.1.1",
-    "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.1",
-    "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0",
-    "socket.io-client": "^2.2.0",
-    "typescript": "3.6"
-  },
+  "name": "venni",
+  "version": "1.0.0",
+  "description": "Web based chat app",
   "scripts": {
+    "start": "serve -s build",
     "dev": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --color --coverage",
     "eject": "react-app-rewired eject"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ovieokeh/venni-app.git"
+  },
+  "keywords": [
+    "firebase",
+    "react.js",
+    "typescript"
+  ],
+  "author": "Ovie Okeh",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ovieokeh/venni-app/issues"
+  },
+  "homepage": "https://github.com/ovieokeh/venni-app#readme",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -38,6 +38,22 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "antd": "^3.23.2",
+    "aos": "^2.3.4",
+    "firebase": "^6.6.2",
+    "history": "^4.9.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.1.2",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "serve": "^11.2.0",
+    "socket.io-client": "^2.2.0",
+    "typescript": "3.6"
   },
   "devDependencies": {
     "@types/aos": "^3.0.2",

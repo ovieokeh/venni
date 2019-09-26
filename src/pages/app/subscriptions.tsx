@@ -15,11 +15,7 @@ export function useSubscriptions(firebase: IFirebaseContext) {
   useEffect(() => {
     if (!user) return
 
-    let unsubscribeFriends: Function
-    let unsubscribeReceivedInvites: Function
-    let unsubscribeSentInvites: Function
-
-    unsubscribeFriends = userFriendsCollection
+    const unsubscribeFriends = userFriendsCollection
       .doc(user.id)
       .collection('friends')
       .onSnapshot(({ docs }) => {
@@ -35,7 +31,7 @@ export function useSubscriptions(firebase: IFirebaseContext) {
         }
       })
 
-    unsubscribeReceivedInvites = userReceivedInvitesCollection
+    const unsubscribeReceivedInvites = userReceivedInvitesCollection
       .doc(user.id)
       .onSnapshot(snap => {
         const data = snap.data()
@@ -50,7 +46,7 @@ export function useSubscriptions(firebase: IFirebaseContext) {
         }
       })
 
-    unsubscribeSentInvites = userSentInvitesCollection
+    const unsubscribeSentInvites = userSentInvitesCollection
       .doc(user.id)
       .onSnapshot(snap => {
         const data = snap.data()
@@ -69,6 +65,5 @@ export function useSubscriptions(firebase: IFirebaseContext) {
       unsubscribeReceivedInvites()
       unsubscribeSentInvites()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 }
