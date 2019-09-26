@@ -1,0 +1,42 @@
+@import '../../assets/variables.less';
+
+.ant-drawer-body,
+.ant-collapse-content-box {
+  padding: 0 !important;
+}
+
+.profile {
+  &__user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+
+    &__name {
+      font-size: 1.5em;
+      font-weight: 600;
+      margin-top: 3%;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.invite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em 0;
+  background-color: @tertiary-color;
+
+  .requester-details {
+    text-align: center;
+
+    p:first-of-type {
+      font-size: 1.2em;
+      font-weight: 600;
+      margin-top: 2%;
+      margin-bottom: 0;
+    }
+  }
+}
