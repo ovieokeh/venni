@@ -7,6 +7,8 @@ Features:
 2. Realtime Messaging
 3. Realtime Notification
 
+![Preview](https://res.cloudinary.com/dujgeiasu/image/upload/v1569590498/Screenshot_2019-09-27_at_2.17.49_PM_cs3ona.png)
+
 View the live demo version [here](https://venni-235518.firebaseapp.com/)
 
 ## Technologies Used
