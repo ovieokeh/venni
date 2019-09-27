@@ -1,20 +1,17 @@
 # Venni
 
-A Web based chat app based on Sockets and Express built entirely with TypeScript.
+A Web-based chat app based on a serverless architecture built entirely with TypeScript.
 
-View the staged version on [Heroku](https://venni.herokuapp.com/)
+Features:
+1. Social Actions (send, recieve, and handle user invites)
+2. Realtime Messaging
+3. Realtime Notification
 
-## Backend Stack
-- Server -                 [Express.js](https://expressjs.com/)
-- Realtime communication - [Socket.io](https://socket.io/)
-- Storage -                [PostgreSQL 10](https://www.postgresql.org/)
-- Authentication -         [JSON Web Tokens](https://jwt.io/)
+View the live demo version [here](https://venni-235518.firebaseapp.com/)
 
-## Frontend Stack
-- Framework - [React.js](https://reactjs.org/)
-- UI Library - [Ant Design](https://ant.design/)
-- State Management - [React Hooks](https://reactjs.org/docs/hooks-intro.html/)
-
-## CI/CD
-- Github Actions
-- [Heroku](https://heroku.com/)
+## Technologies Used
+- Framework - [React.js](https://reactjs.org/) (technically a library)
+- State Management - [Redux](https://redux.js.org/)
+- UI Components - [Ant Design](https://ant.design/)
+- Authentication [Firebase Auth](https://firebase.google.com/docs/auth/)
+- Database - [Firestore](https://firebase.google.com/docs/firestore/)
