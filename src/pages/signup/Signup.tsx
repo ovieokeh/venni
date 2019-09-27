@@ -9,13 +9,13 @@ import { History } from 'history'
 // custom imports
 import Logo from 'src/assets/logo.svg'
 import { withFirebase } from 'src/firebase'
-import { IFirebaseContext } from 'src/firebase/interfaces'
+import { FirebaseCtx } from 'src/firebase/interfaces'
 import * as firebaseErrorCodes from 'src/firebase/errorCodes'
 import './Signup.less'
 
 interface SignupProps extends FormComponentProps {
   history: History
-  firebase: IFirebaseContext
+  firebase: FirebaseCtx
 }
 
 interface FormValues {
@@ -31,26 +31,6 @@ const Signup: React.FC<SignupProps> = props => {
   useEffect(() => {
     window.document.title = 'Get started - Venni'
   }, [])
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault()
-    const { form, firebase, history } = props
-
-    form.validateFieldsAndScroll(
-      async (err, { name, email, password }: FormValues) => {
-        if (!err) {
-          try {
-            setIsLoading(true)
-            await firebase.createUser(name, email, password)
-            history.push('/')
-          } catch (err) {
-            handleErrors(form, { name, email, password }, err)
-            setIsLoading(false)
-          }
-        }
-      }
-    )
-  }
 
   const handleErrors = (
     form: WrappedFormUtils<SignupProps>,
@@ -69,6 +49,28 @@ const Signup: React.FC<SignupProps> = props => {
         errors: [new Error(error.message)]
       }
     })
+  }
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    const { form, firebase, history } = props
+
+    form.validateFieldsAndScroll(
+      (err, { name, email, password }: FormValues) => {
+        if (!err) {
+          try {
+            setIsLoading(true)
+
+            firebase.createUser(name, email, password).then(() => {
+              history.push('/')
+            })
+          } catch (err) {
+            handleErrors(form, { name, email, password }, err)
+            setIsLoading(false)
+          }
+        }
+      }
+    )
   }
 
   const { getFieldDecorator } = props.form

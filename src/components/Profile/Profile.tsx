@@ -5,16 +5,17 @@ import { UserProfile, ReduxState, SocialState } from 'src/redux/types'
 import ReceivedInvitesList from '../ReceivedInvitesList/ReceivedInvitesList'
 import SentInvitesList from '../SentInvitesList/SentInvitesList'
 import './Profile.less'
-import { IFirebaseContext } from 'src/firebase/interfaces'
+import { FirebaseCtx } from 'src/firebase/interfaces'
 import { withFirebase } from 'src/firebase'
 
 interface Props {
   user: UserProfile
   social: SocialState
-  firebase: IFirebaseContext
+  firebase: FirebaseCtx
 }
 
 interface ConfirmActionProps {
+  id?: string
   type: string
   email: string
   requesterName: string
@@ -34,29 +35,22 @@ export const Profile: React.FC<Props> = (props: Props) => {
 
   const confirmAction = async (args: ConfirmActionProps) => {
     const { firebase } = props
-    const { type, email, requesterName } = args
+    const { id, type, email, requesterName } = args
 
     switch (type) {
       case 'cancel-invite':
-        // await props.cancelInvite(email)
-        message.success('Friend invite canceled successfully')
+        await firebase.cancelSentInvite(id as string)
+        message.success('Invite canceled successfully')
         break
 
       case 'decline-invite':
-        const isDeclined = await firebase.respondToReceivedInvite(
-          'decline',
-          email
-        )
-        isDeclined && message.success('Request declined successfully')
+        await firebase.respondToReceivedInvite('decline', email)
+        message.success('Invite declined successfully')
         break
 
       case 'accept-invite':
-        const isAccepted = await firebase.respondToReceivedInvite(
-          'accept',
-          email
-        )
-        isAccepted &&
-          message.success(`You are now friends with ${requesterName}`)
+        await firebase.respondToReceivedInvite('accept', email)
+        message.success(`You are now friends with ${requesterName}`)
         break
 
       default:

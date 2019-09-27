@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Layout, Menu, Icon } from 'antd'
 
 // custom imports
-import { IFirebaseContext } from 'src/firebase/interfaces'
+import { FirebaseCtx } from 'src/firebase/interfaces'
 import { withFirebase } from 'src/firebase'
 import { FriendsList } from 'src/components'
 import { UserProfile, SocialState, ReduxState } from 'src/redux/types'
@@ -15,7 +15,7 @@ interface Props {
   user: UserProfile
   social: SocialState
   isSidebarCollapsed: boolean
-  firebase: IFirebaseContext
+  firebase: FirebaseCtx
 }
 
 export const App: React.FC<Props> = props => {

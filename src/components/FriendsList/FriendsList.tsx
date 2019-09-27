@@ -4,7 +4,7 @@ import { Button, Popconfirm, Icon, message, Input } from 'antd'
 
 // custom imports
 import { withFirebase } from 'src/firebase'
-import { IFirebaseContext } from 'src/firebase/interfaces'
+import { FirebaseCtx } from 'src/firebase/interfaces'
 import Empty from '../Empty/Empty'
 import { UserProfile } from 'src/redux/types'
 import './FriendsList.less'
@@ -12,7 +12,7 @@ import { useWindowWidth } from 'src/utilities'
 
 interface Props {
   friends: UserProfile[]
-  firebase: IFirebaseContext
+  firebase: FirebaseCtx
 }
 
 export const FriendsList: React.FC<Props> = ({ friends, firebase }) => {
@@ -26,10 +26,10 @@ export const FriendsList: React.FC<Props> = ({ friends, firebase }) => {
     windowWidth < 768 ? setIsMobile(true) : setIsMobile(false)
   }, [windowWidth])
 
-  const unfriendUser = async (email: string) => {
+  const unfriendUser = async (friend: UserProfile) => {
     try {
-      // await unfriend(email)
-      message.success(message)
+      await firebase.unfriend(friend.id)
+      message.success(friend.name + ' is no longer your friend')
     } catch (error) {
       message.error(error.message)
     }
@@ -70,7 +70,7 @@ export const FriendsList: React.FC<Props> = ({ friends, firebase }) => {
         <ButtonGroup className="friend__actions">
           <Popconfirm
             icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-            onConfirm={() => unfriendUser(friend.email)}
+            onConfirm={() => unfriendUser(friend)}
             title={`Are you sure you want to unfriend ${friend.name}?`}
             okText="Yes"
             cancelText="No"

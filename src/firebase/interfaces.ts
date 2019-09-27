@@ -1,7 +1,7 @@
 import FirebaseApp from 'firebase/app'
 import { UserProfile } from 'src/redux/types'
 
-export interface IFirebaseContext {
+export interface FirebaseCtx {
   user: null | UserProfile
   auth: FirebaseApp.auth.Auth
   db: FirebaseApp.firestore.Firestore
@@ -12,15 +12,21 @@ export interface IFirebaseContext {
   userFriendsCollection: FirebaseApp.firestore.CollectionReference
 
   // methods
-  createUser: (name: string, email: string, password: string) => Promise<void>
+  createUser: (
+    name: string,
+    email: string,
+    password: string
+  ) => Promise<void | undefined>
   loginUser: (
     email: string,
     password: string
   ) => Promise<FirebaseApp.auth.UserCredential>
-  sendFriendInvite: (email: string) => Promise<boolean>
+  sendFriendInvite: (email: string) => Promise<void>
+  cancelSentInvite: (id: string) => Promise<void>
   respondToReceivedInvite: (
     action: 'accept' | 'decline',
     email: string
-  ) => Promise<boolean>
+  ) => Promise<void>
+  unfriend: (id: string) => Promise<void>
   logout: () => Promise<void>
 }

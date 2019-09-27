@@ -4,13 +4,13 @@ import 'firebase/auth'
 import 'firebase/firestore'
 
 import { firebaseConfig } from './config'
-import { IFirebaseContext } from './interfaces'
+import { FirebaseCtx } from './interfaces'
 import reduxStore from 'src/redux/store'
 import { getProfileSuccess } from 'src/redux/actions/profile/profileActions'
 import { history } from 'src/utilities/history'
 import { UserProfile } from 'src/redux/types'
 
-class Firebase implements IFirebaseContext {
+class Firebase implements FirebaseCtx {
   user: null | UserProfile
   auth: FirebaseApp.auth.Auth
   db: FirebaseApp.firestore.Firestore
@@ -23,7 +23,7 @@ class Firebase implements IFirebaseContext {
     if (!FirebaseApp.apps.length) {
       FirebaseApp.initializeApp(firebaseConfig)
       FirebaseApp.firestore()
-        .enablePersistence()
+        .enablePersistence({ synchronizeTabs: true })
         .catch(err => console.log(err))
     }
 
@@ -58,8 +58,9 @@ class Firebase implements IFirebaseContext {
 
     const batch = this.db.batch()
 
-    const createUser = this.usersCollection.doc(user.uid)
-    batch.set(createUser, {
+    const userDoc = this.usersCollection.doc(user.uid)
+
+    batch.set(userDoc, {
       id: user.uid,
       name,
       email,
@@ -67,17 +68,21 @@ class Firebase implements IFirebaseContext {
       createdAt: new Date()
     })
 
-    const userFriendsCol = this.db.collection('userFriends').doc(user.uid)
-    const userSentInvitesCol = this.db
+    const userFriendsDoc = this.db.collection('userFriends').doc(user.uid)
+
+    batch.set(userFriendsDoc, {})
+
+    const userSentInvitesDoc = this.db
       .collection('userSentInvites')
       .doc(user.uid)
-    const userReceivedInvitesCol = this.db
+
+    batch.set(userSentInvitesDoc, {})
+
+    const userReceivedInvitesDoc = this.db
       .collection('userReceivedInvites')
       .doc(user.uid)
 
-    batch.set(userFriendsCol, {})
-    batch.set(userSentInvitesCol, {})
-    batch.set(userReceivedInvitesCol, {})
+    batch.set(userReceivedInvitesDoc, {})
 
     await batch.commit()
   }
@@ -126,21 +131,24 @@ class Firebase implements IFirebaseContext {
       throw new Error('You cannot send yourself a friend request')
     }
 
-    const isAlreadyFriend = !!(await this.userFriendsCollection
+    const isAlreadyFriend = await this.userFriendsCollection
       .doc((this.user as UserProfile).id)
       .collection('friends')
       .where('email', '==', email)
-      .limit(1))
+      .limit(1)
+      .get()
 
-    if (isAlreadyFriend) {
-      throw new Error(email + ' is already your friend')
-    }
+    isAlreadyFriend.forEach(res => {
+      if (res.exists) throw new Error(email + ' is already your friend')
+    })
 
     const batch = this.db.batch()
 
     const addToSentInvites = this.db
       .collection('userSentInvites')
       .doc((this.user as UserProfile).id)
+      .collection('sentInvites')
+      .doc((friend as UserProfile).id)
 
     batch.set(addToSentInvites, {
       ...(friend as UserProfile)
@@ -149,14 +157,36 @@ class Firebase implements IFirebaseContext {
     const addToReceivedInvites = this.db
       .collection('userReceivedInvites')
       .doc((friend as UserProfile).id)
+      .collection('receivedInvites')
+      .doc((this.user as UserProfile).id)
 
     batch.set(addToReceivedInvites, {
       ...(this.user as UserProfile)
     })
 
     await batch.commit()
+  }
 
-    return true
+  cancelSentInvite = async (id: string) => {
+    const batch = this.db.batch()
+
+    const inviteFromUser = this.db
+      .collection('userSentInvites')
+      .doc((this.user as UserProfile).id)
+      .collection('sentInvites')
+      .doc(id)
+
+    batch.delete(inviteFromUser)
+
+    const inviteToFriend = this.db
+      .collection('userReceivedInvites')
+      .doc(id)
+      .collection('receivedInvites')
+      .doc((this.user as UserProfile).id)
+
+    batch.delete(inviteToFriend)
+
+    await batch.commit()
   }
 
   respondToReceivedInvite = async (
@@ -193,21 +223,47 @@ class Firebase implements IFirebaseContext {
     const receivedInviteRef = this.db
       .collection('userReceivedInvites')
       .doc((this.user as UserProfile).id)
+      .collection('receivedInvites')
+      .doc((friend as UserProfile).id)
+
+    batch.delete(receivedInviteRef)
 
     const sentInviteRef = this.db
       .collection('userSentInvites')
       .doc((friend as UserProfile).id)
+      .collection('sentInvites')
+      .doc((this.user as UserProfile).id)
 
-    batch.delete(receivedInviteRef)
     batch.delete(sentInviteRef)
 
     await batch.commit()
-    return true
+  }
+
+  unfriend = async (id: string) => {
+    const batch = this.db.batch()
+
+    const userFriend = this.db
+      .collection('userFriends')
+      .doc((this.user as UserProfile).id)
+      .collection('friends')
+      .doc(id)
+
+    batch.delete(userFriend)
+
+    const friendUser = this.db
+      .collection('userFriends')
+      .doc(id)
+      .collection('friends')
+      .doc((this.user as UserProfile).id)
+
+    batch.delete(friendUser)
+
+    await batch.commit()
   }
 
   logout = () => this.auth.signOut()
 }
 
-const FirebaseContext = React.createContext<IFirebaseContext | null>(null)
+const FirebaseContext = React.createContext<FirebaseCtx | null>(null)
 
 export { Firebase, FirebaseContext, FirebaseApp }

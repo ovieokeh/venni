@@ -9,13 +9,13 @@ import { History } from 'history'
 // custom imports
 import Logo from 'src/assets/logo.svg'
 import { withFirebase } from 'src/firebase'
-import { IFirebaseContext } from 'src/firebase/interfaces'
+import { FirebaseCtx } from 'src/firebase/interfaces'
 import * as firebaseErrorCodes from 'src/firebase/errorCodes'
 import './Login.less'
 
 interface LoginProps extends FormComponentProps {
   history: History
-  firebase: IFirebaseContext
+  firebase: FirebaseCtx
 }
 
 interface FormValues {
@@ -31,6 +31,26 @@ const Login: React.FC<LoginProps> = props => {
   useEffect(() => {
     window.document.title = 'Log into your account - Venni'
   }, [])
+
+  const handleErrors = (
+    form: WrappedFormUtils<LoginProps>,
+    values: FormValues,
+    error: any
+  ): void => {
+    const errorMatcher: firebaseErrorCodes.ErrorMatcher = {
+      [firebaseErrorCodes.AUTH_INVALID_EMAIL]: 'email',
+      [firebaseErrorCodes.AUTH_USER_DISABLED]: 'email',
+      [firebaseErrorCodes.AUTH_USER_NOT_FOUND]: 'email',
+      [firebaseErrorCodes.AUTH_USER_WRONG_PASSWORD]: 'password'
+    }
+
+    form.setFields({
+      [errorMatcher[error.code]]: {
+        value: values[errorMatcher[error.code]],
+        errors: [new Error(error.message)]
+      }
+    })
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
@@ -55,26 +75,6 @@ const Login: React.FC<LoginProps> = props => {
         }
       }
     )
-  }
-
-  const handleErrors = (
-    form: WrappedFormUtils<LoginProps>,
-    values: FormValues,
-    error: any
-  ): void => {
-    const errorMatcher: firebaseErrorCodes.ErrorMatcher = {
-      [firebaseErrorCodes.AUTH_INVALID_EMAIL]: 'email',
-      [firebaseErrorCodes.AUTH_USER_DISABLED]: 'email',
-      [firebaseErrorCodes.AUTH_USER_NOT_FOUND]: 'email',
-      [firebaseErrorCodes.AUTH_USER_WRONG_PASSWORD]: 'password'
-    }
-
-    form.setFields({
-      [errorMatcher[error.code]]: {
-        value: values[errorMatcher[error.code]],
-        errors: [new Error(error.message)]
-      }
-    })
   }
 
   const { getFieldDecorator } = props.form

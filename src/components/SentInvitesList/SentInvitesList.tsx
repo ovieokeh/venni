@@ -40,7 +40,7 @@ const SentInvitesList: React.FC<Props> = ({ sentInvites, confirmAction }) => {
               icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
               onConfirm={() =>
                 confirmAction({
-                  email: invite.email,
+                  id: invite.id,
                   type: 'cancel-invite'
                 })
               }
