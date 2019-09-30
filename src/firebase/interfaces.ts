@@ -10,6 +10,7 @@ export interface FirebaseCtx {
   userSentInvitesCollection: FirebaseApp.firestore.CollectionReference
   userReceivedInvitesCollection: FirebaseApp.firestore.CollectionReference
   userFriendsCollection: FirebaseApp.firestore.CollectionReference
+  userMessagesCollection: FirebaseApp.firestore.CollectionReference
 
   // methods
   createUser: (
@@ -28,5 +29,6 @@ export interface FirebaseCtx {
     email: string
   ) => Promise<void>
   unfriend: (id: string) => Promise<void>
+  sendMessage: (id: string, message: string) => Promise<void>
   logout: () => Promise<void>
 }

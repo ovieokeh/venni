@@ -18,6 +18,7 @@ class Firebase implements FirebaseCtx {
   userSentInvitesCollection: FirebaseApp.firestore.CollectionReference
   userReceivedInvitesCollection: FirebaseApp.firestore.CollectionReference
   userFriendsCollection: FirebaseApp.firestore.CollectionReference
+  userMessagesCollection: FirebaseApp.firestore.CollectionReference
 
   constructor() {
     if (!FirebaseApp.apps.length) {
@@ -37,6 +38,7 @@ class Firebase implements FirebaseCtx {
       'userReceivedInvites'
     )
     this.userFriendsCollection = this.db.collection('userFriends')
+    this.userMessagesCollection = this.db.collection('userMessages')
 
     this.auth.onAuthStateChanged(async user => {
       if (!user) return
@@ -72,17 +74,11 @@ class Firebase implements FirebaseCtx {
 
     batch.set(userFriendsDoc, {})
 
-    const userSentInvitesDoc = this.db
-      .collection('userSentInvites')
-      .doc(user.uid)
-
-    batch.set(userSentInvitesDoc, {})
-
-    const userReceivedInvitesDoc = this.db
-      .collection('userReceivedInvites')
-      .doc(user.uid)
-
-    batch.set(userReceivedInvitesDoc, {})
+    // init fields on db
+    ;['userSentInvites', 'userReceivedInvites'].forEach(col => {
+      const ref = this.db.collection(col).doc(user.uid)
+      batch.set(ref, {})
+    })
 
     await batch.commit()
   }
@@ -259,6 +255,17 @@ class Firebase implements FirebaseCtx {
     batch.delete(friendUser)
 
     await batch.commit()
+  }
+
+  sendMessage = async (id: string, message: string) => {
+    const timestamp = Date.now()
+
+    await this.db.collection('userMessages').add({
+      sender: (this.user as UserProfile).id,
+      receiver: id,
+      message,
+      timestamp
+    })
   }
 
   logout = () => this.auth.signOut()

@@ -17,6 +17,13 @@ export interface UserProfile {
   createdAt: Date | null
 }
 
+export interface Message {
+  message: string
+  receiver: string
+  sender: string
+  timestamp: number
+}
+
 export const GET_USER_PROFILE_SUCCESS = 'GET_USER_PROFILE_SUCCESS'
 export interface GetUserProfileSuccess {
   type: typeof GET_USER_PROFILE_SUCCESS
@@ -44,7 +51,6 @@ export interface DrawerState {
 export type DrawerTypes = ShowDrawer | HideDrawer
 
 // _____________ Invite Types _____________
-
 export const UPDATE_SENT_INVITES = 'UPDATE_SENT_INVITES'
 export interface UpdateSentInvites {
   type: typeof UPDATE_SENT_INVITES
@@ -68,6 +74,22 @@ export type InviteTypes =
   | UpdateReceivedInvites
   | UpdateFriendList
 
+// _____________ Invite Types _____________
+export const UPDATE_SENT_MESSAGES = 'UPDATE_SENT_MESSAGES'
+export const UPDATE_RECEIVED_MESSAGES = 'UPDATE_RECEIVED_MESSAGES'
+
+export interface UpdateSentMessages {
+  type: typeof UPDATE_SENT_MESSAGES
+  messages: Message[]
+}
+
+export interface UpdateReceivedMessages {
+  type: typeof UPDATE_RECEIVED_MESSAGES
+  messages: Message[]
+}
+
+export type MessageTypes = UpdateSentMessages | UpdateReceivedMessages
+
 // =============================================
 export interface SocialState {
   friends: UserProfile[]
@@ -75,8 +97,14 @@ export interface SocialState {
   sentInvites: UserProfile[]
 }
 
+export interface MessageState {
+  sentMessages: Message[]
+  receivedMessages: Message[]
+}
+
 export interface ReduxState {
   profile: UserProfile
   drawer: DrawerState
   social: SocialState
+  messages: MessageState
 }

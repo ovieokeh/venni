@@ -37,7 +37,7 @@ const AppSidebar: React.FC<Props> = ({ children, firebase }) => {
         <Input
           className="invite-input"
           type="email"
-          placeholder="invite a friend by email"
+          placeholder="Invite a friend by email"
           value={inviteInput}
           onChange={event => setInviteInput(event.target.value)}
           size="large"

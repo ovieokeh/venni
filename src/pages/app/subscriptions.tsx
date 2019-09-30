@@ -2,14 +2,15 @@ import { useEffect } from 'react'
 import { FirebaseCtx } from 'src/firebase/interfaces'
 import * as socialActions from 'src/redux/actions/social/socialActions'
 import store from 'src/redux/store'
-import { UserProfile } from 'src/redux/types'
+import { UserProfile, Message } from 'src/redux/types'
 
 export function useSubscriptions(firebase: FirebaseCtx) {
   const {
     user,
     userFriendsCollection,
     userReceivedInvitesCollection,
-    userSentInvitesCollection
+    userSentInvitesCollection,
+    userMessagesCollection
   } = firebase
 
   useEffect(() => {
@@ -58,15 +59,50 @@ export function useSubscriptions(firebase: FirebaseCtx) {
         store.dispatch(socialActions.updateSentInvites(sentInvites))
       })
 
+    const unsubscribeReceivedMessages = userMessagesCollection
+      .where('receiver', '==', user.id)
+      .onSnapshot(({ docs }) => {
+        if (!docs) {
+          return store.dispatch(socialActions.updateReceivedMessages([]))
+        }
+
+        const messages: Message[] = []
+
+        docs.forEach(message => {
+          messages.push(message.data() as Message)
+        })
+
+        store.dispatch(socialActions.updateReceivedMessages(messages))
+      })
+
+    const unsubscribeSentMessages = userMessagesCollection
+      .where('sender', '==', user.id)
+      .onSnapshot(({ docs }) => {
+        if (!docs) {
+          return store.dispatch(socialActions.updateSentMessages([]))
+        }
+
+        const messages: Message[] = []
+
+        docs.forEach(message => {
+          messages.push(message.data() as Message)
+        })
+
+        store.dispatch(socialActions.updateSentMessages(messages))
+      })
+
     return () => {
       unsubscribeFriends()
       unsubscribeReceivedInvites()
       unsubscribeSentInvites()
+      unsubscribeSentMessages()
+      unsubscribeReceivedMessages()
     }
   }, [
     user,
     userFriendsCollection,
     userReceivedInvitesCollection,
-    userSentInvitesCollection
+    userSentInvitesCollection,
+    userMessagesCollection
   ])
 }
