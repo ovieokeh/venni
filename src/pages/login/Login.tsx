@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { Form, Icon, Input, Button, Checkbox } from 'antd'
 import { FormComponentProps } from 'antd/es/form'
 import { WrappedFormUtils } from 'antd/es/form/Form'
-import { History } from 'history'
 
 // custom imports
 import Logo from 'src/assets/logo.svg'
@@ -14,7 +13,6 @@ import * as firebaseErrorCodes from 'src/firebase/errorCodes'
 import './Login.less'
 
 interface LoginProps extends FormComponentProps {
-  history: History
   firebase: FirebaseCtx
 }
 
@@ -66,8 +64,6 @@ const Login: React.FC<LoginProps> = props => {
 
             await firebase.auth.setPersistence(persistence)
             await firebase.auth.signInWithEmailAndPassword(email, password)
-
-            props.history.push('/')
           } catch (err) {
             handleErrors(form, { email, password, remember }, err)
             setIsLoading(false)
@@ -95,6 +91,7 @@ const Login: React.FC<LoginProps> = props => {
               }
               type="email"
               placeholder="Email"
+              autoComplete="email"
             />
           )}
         </Form.Item>
@@ -109,6 +106,7 @@ const Login: React.FC<LoginProps> = props => {
               }
               type="password"
               placeholder="Password"
+              autoComplete="current-password"
             />
           )}
         </Form.Item>

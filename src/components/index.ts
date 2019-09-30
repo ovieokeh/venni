@@ -4,6 +4,7 @@ import Drawer from './Drawer/Drawer'
 import FriendsList from './FriendsList/FriendsList'
 import ReceivedInvitesList from './ReceivedInvitesList/ReceivedInvitesList'
 import SentInvitesList from './SentInvitesList/SentInvitesList'
+import AppSidebar from './AppSidebar/AppSidebar'
 
 export {
   ButtonLink,
@@ -11,5 +12,6 @@ export {
   Drawer,
   FriendsList,
   ReceivedInvitesList,
-  SentInvitesList
+  SentInvitesList,
+  AppSidebar
 }

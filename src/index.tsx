@@ -66,14 +66,8 @@ const Routes: React.FC<Props> = props => {
             render={() => <App isSidebarCollapsed={isSidebarCollapsed} />}
           />
           <Route path="/home" component={Homepage} />
-          <PublicRoute
-            path="/login"
-            render={() => <Login history={history} />}
-          />
-          <PublicRoute
-            path="/signup"
-            render={() => <Signup history={history} />}
-          />
+          <PublicRoute path="/login" component={Login} />
+          <PublicRoute path="/signup" component={Signup} />
           <Route render={() => <Error history={history} />} />
         </Switch>
       </Router>

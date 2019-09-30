@@ -1,12 +1,13 @@
 // third-party libraries
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Layout, Menu, Icon } from 'antd'
+import { Icon, Button } from 'antd'
+import TextareaAutosize from 'react-textarea-autosize'
 
 // custom imports
 import { FirebaseCtx } from 'src/firebase/interfaces'
 import { withFirebase } from 'src/firebase'
-import { FriendsList } from 'src/components'
+import { AppSidebar } from 'src/components'
 import { UserProfile, SocialState, ReduxState } from 'src/redux/types'
 import { useSubscriptions } from './subscriptions'
 import './App.less'
@@ -18,15 +19,79 @@ interface Props {
   firebase: FirebaseCtx
 }
 
+const classN = (def: string, opt: string, condition: boolean) => {
+  let className = def
+  if (condition) {
+    className += ' ' + opt
+  }
+
+  return className
+}
+
 export const App: React.FC<Props> = props => {
   window.document.title = 'Venni'
+
+  const [messageInput, setMessage] = useState('')
+  const [selectedFriend, selectFriend] = useState<null | UserProfile>(null)
   useSubscriptions(props.firebase)
 
-  const handleMenuItemClick = (event: any) => {}
+  const { friends } = props.social
 
-  const renderContent = () => {
-    const { social } = props
-    return <FriendsList friends={social.friends} />
+  const handleMenuItemClick = (event: any) => {
+    const activeFriend = friends.find(f => f.id === event.target.id)
+
+    selectFriend(activeFriend as UserProfile)
+  }
+
+  const handleMessage = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    console.log(messageInput)
+    setMessage('')
+  }
+
+  const renderMain = () => {
+    if (!selectedFriend) {
+      return (
+        <main className="app__main empty">
+          <Icon className="app__main--msg-icon" type="message" />
+          <h2 className="app__main--msg">
+            Select a friend to start chatting...
+          </h2>
+        </main>
+      )
+    }
+
+    return (
+      <main className="app__main">
+        <header className="app__main__header">
+          <img
+            className="image-30"
+            src={selectedFriend.avatar}
+            alt={selectedFriend.name}
+          />
+          <p className="app__main__header--p">{selectedFriend.name}</p>
+        </header>
+        <section className="app__main__chat-area" />
+        <form className="app__main__message-box" onSubmit={handleMessage}>
+          <TextareaAutosize
+            className="app__main__message-box__input"
+            placeholder="Type a message here"
+            value={messageInput}
+            onChange={(e: any) => setMessage(e.target.value)}
+            maxRows={3}
+          />
+          <Button
+            className="app__main__message-box__btn"
+            type="primary"
+            icon="message"
+            size="large"
+            htmlType="submit"
+            loading={false}
+          />
+        </form>
+      </main>
+    )
   }
 
   const renderFriends = () => {
@@ -34,75 +99,37 @@ export const App: React.FC<Props> = props => {
       social: { friends }
     } = props
 
-    return friends.map(friend => (
-      <Menu.Item key={friend.id}>
-        <img
-          alt={friend.name}
-          src={friend.avatar}
-          className="app__sidebar__menu__item-avatar image-30"
-        />
-        <span className="app__sidebar__menu__item-text">{friend.name}</span>
-      </Menu.Item>
-    ))
+    return friends.map(friend => {
+      const isSelected = selectedFriend && selectedFriend.id === friend.id
+
+      return (
+        <div
+          key={friend.id}
+          className={classN(
+            'app__sidebar__item',
+            'app__sidebar__item--active',
+            !!isSelected
+          )}
+          id={friend.id}
+          onClick={handleMenuItemClick}
+        >
+          <img
+            alt={friend.name}
+            src={friend.avatar}
+            className="app__sidebar__item-avatar image-40"
+          />
+          <span className="app__sidebar__item-text">{friend.name}</span>
+        </div>
+      )
+    })
   }
 
-  const { Content, Sider } = Layout
-  const { SubMenu } = Menu
-
   return (
-    <Layout className="app">
-      <Sider
-        className="app__sidebar"
-        width={250}
-        style={{
-          overflow: 'auto',
-          position: 'fixed',
-          height: '100vh',
-          left: 0,
-          top: 48,
-          zIndex: 2
-        }}
-        trigger={null}
-        collapsedWidth={0}
-        collapsed={props.isSidebarCollapsed}
-        collapsible
-      >
-        <Menu
-          className="app__sidebar__menu"
-          mode="inline"
-          defaultSelectedKeys={['friends']}
-          defaultOpenKeys={['dms']}
-          style={{
-            height: '100%',
-            borderRight: 0
-          }}
-        >
-          <Menu.Item
-            key="friends"
-            className="app__sidebar__menu__item--friends"
-            onClick={event => handleMenuItemClick(event)}
-          >
-            <Icon type="team" /> Your Friends
-          </Menu.Item>
-          <SubMenu
-            key="dms"
-            title={
-              <span className="app__sidebar__menu__item--group">
-                <Icon type="message" /> Direct Messages
-              </span>
-            }
-          >
-            {renderFriends()}
-          </SubMenu>
-        </Menu>
-      </Sider>
-      <Content
-        className={props.isSidebarCollapsed ? 'padding-0' : 'padding-250'}
-        style={{ paddingTop: 64 }}
-      >
-        <div className="app__content">{renderContent()}</div>
-      </Content>
-    </Layout>
+    <div className="app" data-aos="zoom-up">
+      <AppSidebar>{renderFriends()}</AppSidebar>
+
+      {renderMain()}
+    </div>
   )
 }
 
