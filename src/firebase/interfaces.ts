@@ -30,5 +30,6 @@ export interface FirebaseCtx {
   ) => Promise<void>
   unfriend: (id: string) => Promise<void>
   sendMessage: (id: string, message: string) => Promise<void>
+  markMessageAsRead: (timestamp: number) => Promise<void>
   logout: () => Promise<void>
 }

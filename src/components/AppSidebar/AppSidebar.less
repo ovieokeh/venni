@@ -53,3 +53,19 @@
     }
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .app__sidebar {
+    background-color: #f0f2f5;
+    position: fixed;
+    left: 500px;
+    z-index: 6;
+
+    &.show {
+      left: 0;
+      right: 100px;
+      bottom: 0;
+      top: 0;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import FriendsList from './FriendsList/FriendsList'
 import ReceivedInvitesList from './ReceivedInvitesList/ReceivedInvitesList'
 import SentInvitesList from './SentInvitesList/SentInvitesList'
 import AppSidebar from './AppSidebar/AppSidebar'
+import AppMain from './AppMain/AppMain'
 
 export {
   ButtonLink,
@@ -13,5 +14,6 @@ export {
   FriendsList,
   ReceivedInvitesList,
   SentInvitesList,
-  AppSidebar
+  AppSidebar,
+  AppMain
 }

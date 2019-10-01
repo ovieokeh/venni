@@ -264,8 +264,26 @@ class Firebase implements FirebaseCtx {
       sender: (this.user as UserProfile).id,
       receiver: id,
       message,
-      timestamp
+      timestamp,
+      isRead: false
     })
+  }
+
+  markMessageAsRead = async (timestamp: number) => {
+    return this.db
+      .collection('userMessages')
+      .where('timestamp', '==', timestamp)
+      .get()
+      .then(async snap => {
+        const batch = this.db.batch()
+        snap.forEach(mes => {
+          if (mes.data().receiver === (this.user as UserProfile).id) {
+            const op = this.db.collection('userMessages').doc(mes.id)
+            batch.update(op, { isRead: true })
+          }
+        })
+        await batch.commit()
+      })
   }
 
   logout = () => this.auth.signOut()

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { FirebaseCtx } from 'src/firebase/interfaces'
 import * as socialActions from 'src/redux/actions/social/socialActions'
+import * as messagesActions from 'src/redux/actions/messages/messagesActions'
 import store from 'src/redux/store'
 import { UserProfile, Message } from 'src/redux/types'
 
@@ -63,7 +64,7 @@ export function useSubscriptions(firebase: FirebaseCtx) {
       .where('receiver', '==', user.id)
       .onSnapshot(({ docs }) => {
         if (!docs) {
-          return store.dispatch(socialActions.updateReceivedMessages([]))
+          return store.dispatch(messagesActions.updateReceivedMessages([]))
         }
 
         const messages: Message[] = []
@@ -72,14 +73,20 @@ export function useSubscriptions(firebase: FirebaseCtx) {
           messages.push(message.data() as Message)
         })
 
-        store.dispatch(socialActions.updateReceivedMessages(messages))
+        messages.forEach(mes => {
+          if (mes.isRead === false) {
+            store.dispatch(socialActions.newFriendNotification(mes.sender))
+          }
+        })
+
+        store.dispatch(messagesActions.updateReceivedMessages(messages))
       })
 
     const unsubscribeSentMessages = userMessagesCollection
       .where('sender', '==', user.id)
       .onSnapshot(({ docs }) => {
         if (!docs) {
-          return store.dispatch(socialActions.updateSentMessages([]))
+          return store.dispatch(messagesActions.updateSentMessages([]))
         }
 
         const messages: Message[] = []
@@ -88,7 +95,7 @@ export function useSubscriptions(firebase: FirebaseCtx) {
           messages.push(message.data() as Message)
         })
 
-        store.dispatch(socialActions.updateSentMessages(messages))
+        store.dispatch(messagesActions.updateSentMessages(messages))
       })
 
     return () => {

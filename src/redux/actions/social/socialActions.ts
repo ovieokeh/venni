@@ -2,9 +2,8 @@ import {
   UPDATE_FRIEND_LIST,
   UPDATE_RECEIVED_INVITES,
   UPDATE_SENT_INVITES,
-  UPDATE_SENT_MESSAGES,
-  UPDATE_RECEIVED_MESSAGES,
-  Message,
+  NEW_FRIEND_NOTIFICATION,
+  READ_NOTIFICATION,
   UserProfile
 } from '../../types'
 
@@ -23,12 +22,12 @@ export const updateSentInvites = (invites: UserProfile[]) => ({
   invites
 })
 
-export const updateSentMessages = (messages: Message[]) => ({
-  type: UPDATE_SENT_MESSAGES,
-  messages
+export const newFriendNotification = (friendId: string) => ({
+  type: NEW_FRIEND_NOTIFICATION,
+  friendId
 })
 
-export const updateReceivedMessages = (messages: Message[]) => ({
-  type: UPDATE_RECEIVED_MESSAGES,
-  messages
+export const readNotification = (friendId: string) => ({
+  type: READ_NOTIFICATION,
+  friendId
 })

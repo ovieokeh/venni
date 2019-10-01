@@ -54,6 +54,7 @@ const AppSidebar: React.FC<Props> = ({ children, firebase }) => {
       </form>
     )
   }
+
   return (
     <aside className="app__sidebar">
       {renderInviteForm()}

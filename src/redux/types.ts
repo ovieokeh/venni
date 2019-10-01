@@ -22,6 +22,11 @@ export interface Message {
   receiver: string
   sender: string
   timestamp: number
+  isRead: boolean
+}
+
+export interface Notification {
+  notifications: any
 }
 
 export const GET_USER_PROFILE_SUCCESS = 'GET_USER_PROFILE_SUCCESS'
@@ -74,6 +79,22 @@ export type InviteTypes =
   | UpdateReceivedInvites
   | UpdateFriendList
 
+// ---
+
+export const NEW_FRIEND_NOTIFICATION = 'NEW_FRIEND_NOTIFICATION'
+export interface NewFriendNotification {
+  type: typeof NEW_FRIEND_NOTIFICATION
+  friendId: string
+}
+
+export const READ_NOTIFICATION = 'READ_NOTIFICATION'
+export interface ReadNotification {
+  type: typeof READ_NOTIFICATION
+  friendId: string
+}
+
+export type NotificationTypes = NewFriendNotification | ReadNotification
+
 // _____________ Invite Types _____________
 export const UPDATE_SENT_MESSAGES = 'UPDATE_SENT_MESSAGES'
 export const UPDATE_RECEIVED_MESSAGES = 'UPDATE_RECEIVED_MESSAGES'
@@ -102,9 +123,14 @@ export interface MessageState {
   receivedMessages: Message[]
 }
 
+export interface NotificationState {
+  notifications: { id?: boolean }
+}
+
 export interface ReduxState {
   profile: UserProfile
   drawer: DrawerState
   social: SocialState
   messages: MessageState
+  notifications: NotificationState
 }
