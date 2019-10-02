@@ -1,6 +1,6 @@
 // third-party libraries
-import React, { useState, useEffect, FormEvent } from 'react'
-import { Button, Popconfirm, Icon, message, Input } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { Button, Popconfirm, Icon, message } from 'antd'
 
 // custom imports
 import { withFirebase } from 'src/firebase'
@@ -16,9 +16,7 @@ interface Props {
 }
 
 export const FriendsList: React.FC<Props> = ({ friends, firebase }) => {
-  const [inviteInput, setInviteInput] = useState('')
   const [isMobile, setIsMobile] = useState(false)
-  const [isLoading, setLoading] = useState(false)
   const windowWidth = useWindowWidth()
   const ButtonGroup = Button.Group
 
@@ -32,22 +30,6 @@ export const FriendsList: React.FC<Props> = ({ friends, firebase }) => {
       message.success(friend.name + ' is no longer your friend')
     } catch (error) {
       message.error(error.message)
-    }
-  }
-
-  const sendInvite = async (event: FormEvent) => {
-    event.preventDefault()
-
-    try {
-      setLoading(true)
-      await firebase.sendFriendInvite(inviteInput)
-      message.success('Friend invite sent successfully')
-
-      setInviteInput('')
-    } catch (error) {
-      message.error(error.message)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -93,31 +75,7 @@ export const FriendsList: React.FC<Props> = ({ friends, firebase }) => {
     ))
   }
 
-  return (
-    <div className="friends-list-container">
-      <form className="invite-container" onSubmit={sendInvite}>
-        <Input
-          type="email"
-          placeholder="invite a friend by email"
-          value={inviteInput}
-          onChange={event => setInviteInput(event.target.value)}
-          size="large"
-          allowClear
-          required
-        />
-        <Button
-          icon="plus"
-          className="send-invite-btn"
-          size="large"
-          htmlType="submit"
-          loading={isLoading}
-        >
-          Send Invite
-        </Button>
-      </form>
-      {renderContent()}
-    </div>
-  )
+  return <div className="friends-list-container">{renderContent()}</div>
 }
 
 export default withFirebase(FriendsList)

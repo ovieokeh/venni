@@ -4,6 +4,10 @@ import Drawer from './Drawer/Drawer'
 import FriendsList from './FriendsList/FriendsList'
 import ReceivedInvitesList from './ReceivedInvitesList/ReceivedInvitesList'
 import SentInvitesList from './SentInvitesList/SentInvitesList'
+import AppSidebar from './AppSidebar/AppSidebar'
+import AppMain from './AppMain/AppMain'
+import ChatArea from './ChatArea/ChatArea'
+import ChatInput from './ChatInput/ChatInput'
 
 export {
   ButtonLink,
@@ -11,5 +15,9 @@ export {
   Drawer,
   FriendsList,
   ReceivedInvitesList,
-  SentInvitesList
+  SentInvitesList,
+  AppSidebar,
+  AppMain,
+  ChatArea,
+  ChatInput
 }

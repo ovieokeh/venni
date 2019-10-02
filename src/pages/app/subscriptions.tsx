@@ -1,15 +1,17 @@
 import { useEffect } from 'react'
 import { FirebaseCtx } from 'src/firebase/interfaces'
 import * as socialActions from 'src/redux/actions/social/socialActions'
+import * as messagesActions from 'src/redux/actions/messages/messagesActions'
 import store from 'src/redux/store'
-import { UserProfile } from 'src/redux/types'
+import { UserProfile, Message } from 'src/redux/types'
 
 export function useSubscriptions(firebase: FirebaseCtx) {
   const {
     user,
     userFriendsCollection,
     userReceivedInvitesCollection,
-    userSentInvitesCollection
+    userSentInvitesCollection,
+    userMessagesCollection
   } = firebase
 
   useEffect(() => {
@@ -58,15 +60,56 @@ export function useSubscriptions(firebase: FirebaseCtx) {
         store.dispatch(socialActions.updateSentInvites(sentInvites))
       })
 
+    const unsubscribeReceivedMessages = userMessagesCollection
+      .where('receiver', '==', user.id)
+      .onSnapshot(({ docs }) => {
+        if (!docs) {
+          return store.dispatch(messagesActions.updateReceivedMessages([]))
+        }
+
+        const messages: Message[] = []
+
+        docs.forEach(message => {
+          messages.push(message.data() as Message)
+        })
+
+        messages.forEach(mes => {
+          if (mes.isRead === false) {
+            store.dispatch(socialActions.newFriendNotification(mes.sender))
+          }
+        })
+
+        store.dispatch(messagesActions.updateReceivedMessages(messages))
+      })
+
+    const unsubscribeSentMessages = userMessagesCollection
+      .where('sender', '==', user.id)
+      .onSnapshot(({ docs }) => {
+        if (!docs) {
+          return store.dispatch(messagesActions.updateSentMessages([]))
+        }
+
+        const messages: Message[] = []
+
+        docs.forEach(message => {
+          messages.push(message.data() as Message)
+        })
+
+        store.dispatch(messagesActions.updateSentMessages(messages))
+      })
+
     return () => {
       unsubscribeFriends()
       unsubscribeReceivedInvites()
       unsubscribeSentInvites()
+      unsubscribeSentMessages()
+      unsubscribeReceivedMessages()
     }
   }, [
     user,
     userFriendsCollection,
     userReceivedInvitesCollection,
-    userSentInvitesCollection
+    userSentInvitesCollection,
+    userMessagesCollection
   ])
 }

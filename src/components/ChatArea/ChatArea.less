@@ -1,0 +1,79 @@
+.app__main__chat-area {
+  grid-area: chat;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 1em;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__message {
+    width: fit-content;
+    padding: 1em;
+    margin: 0.25em 0;
+    border-radius: 1em;
+    font-weight: bold;
+    position: relative;
+
+    span {
+      display: block;
+      font-size: 0.9em;
+      opacity: 0.7;
+    }
+
+    &-received {
+      background-color: #fff;
+      border-bottom-left-radius: 0;
+      &::before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        width: 3px;
+        border-radius: 3px;
+        background-color: #e2e2e2;
+        position: absolute;
+        left: -15px;
+        top: 0;
+        bottom: 0;
+      }
+      &.unread {
+        font-weight: bolder;
+        color: #000;
+        &::before {
+          content: '';
+          display: inline-block;
+          height: 100%;
+          width: 3px;
+          border-radius: 3px;
+          background-color: #929ca3;
+          position: absolute;
+          left: -15px;
+          top: 0;
+          bottom: 0;
+        }
+      }
+    }
+
+    &-sent {
+      text-align: right;
+      align-self: flex-end;
+      color: #fff;
+      background-color: @primary-color;
+      border-bottom-right-radius: 0;
+      &::after {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        width: 3px;
+        border-radius: 3px;
+        background-color: @primary-color;
+        position: absolute;
+        right: -15px;
+        top: 0;
+        bottom: 0;
+      }
+    }
+  }
+}

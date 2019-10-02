@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600&display=swap');
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: 'Nunito Sans', sans-serif, -apple-system, BlinkMacSystemFont,
@@ -29,6 +34,7 @@ code {
 }
 
 .image-30,
+.image-40,
 .image-50,
 .image-150,
 .image-250 {
@@ -42,6 +48,12 @@ code {
   border: 2px solid #ddd;
   width: 30px;
   height: 30px;
+}
+
+.image-40 {
+  border: 2px solid #ddd;
+  width: 40px;
+  height: 40px;
 }
 
 .image-50 {

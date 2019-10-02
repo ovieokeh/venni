@@ -1,114 +1,103 @@
 // third-party libraries
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Layout, Menu, Icon } from 'antd'
 
 // custom imports
 import { FirebaseCtx } from 'src/firebase/interfaces'
 import { withFirebase } from 'src/firebase'
-import { FriendsList } from 'src/components'
-import { UserProfile, SocialState, ReduxState } from 'src/redux/types'
+import { AppSidebar, AppMain } from 'src/components'
+import {
+  UserProfile,
+  SocialState,
+  ReduxState,
+  MessageState
+} from 'src/redux/types'
 import { useSubscriptions } from './subscriptions'
 import './App.less'
+import { Badge } from 'antd'
 
 interface Props {
   user: UserProfile
   social: SocialState
+  messages: MessageState
   isSidebarCollapsed: boolean
   firebase: FirebaseCtx
+  notifications: { [x: string]: boolean }
+}
+
+const classN = (def: string, opt: string, condition: boolean) => {
+  let className = def
+  if (condition) {
+    className += ' ' + opt
+  }
+
+  return className
 }
 
 export const App: React.FC<Props> = props => {
   window.document.title = 'Venni'
+
+  const [selectedFriend, selectFriend] = useState<null | UserProfile>(null)
+  const [notifications, setNotifications] = useState<any>({})
   useSubscriptions(props.firebase)
 
-  const handleMenuItemClick = (event: any) => {}
+  useEffect(() => {
+    setNotifications(props.notifications)
+  }, [props.notifications])
 
-  const renderContent = () => {
-    const { social } = props
-    return <FriendsList friends={social.friends} />
+  const {
+    social: { friends },
+    user,
+    messages
+  } = props
+
+  const handleMenuItemClick = (event: any) => {
+    const activeFriend = friends.find(f => f.id === event.target.id)
+    selectFriend(activeFriend as UserProfile)
   }
 
   const renderFriends = () => {
-    const {
-      social: { friends }
-    } = props
+    return friends.map(friend => {
+      const isSelected = selectedFriend && selectedFriend.id === friend.id
+      const hasPendingNotification = !!notifications[friend.id]
 
-    return friends.map(friend => (
-      <Menu.Item key={friend.id}>
-        <img
-          alt={friend.name}
-          src={friend.avatar}
-          className="app__sidebar__menu__item-avatar image-30"
-        />
-        <span className="app__sidebar__menu__item-text">{friend.name}</span>
-      </Menu.Item>
-    ))
+      return (
+        <div
+          key={friend.id}
+          className={classN(
+            'app__sidebar__item',
+            'app__sidebar__item--active',
+            !!isSelected
+          )}
+          id={friend.id}
+          onClick={handleMenuItemClick}
+        >
+          <Badge dot={hasPendingNotification} offset={['-15', '0']}>
+            <img
+              alt={friend.name}
+              src={friend.avatar}
+              className="app__sidebar__item-avatar image-40"
+            />
+          </Badge>
+          <span className="app__sidebar__item-text">{friend.name}</span>
+        </div>
+      )
+    })
   }
 
-  const { Content, Sider } = Layout
-  const { SubMenu } = Menu
-
   return (
-    <Layout className="app">
-      <Sider
-        className="app__sidebar"
-        width={250}
-        style={{
-          overflow: 'auto',
-          position: 'fixed',
-          height: '100vh',
-          left: 0,
-          top: 48,
-          zIndex: 2
-        }}
-        trigger={null}
-        collapsedWidth={0}
-        collapsed={props.isSidebarCollapsed}
-        collapsible
-      >
-        <Menu
-          className="app__sidebar__menu"
-          mode="inline"
-          defaultSelectedKeys={['friends']}
-          defaultOpenKeys={['dms']}
-          style={{
-            height: '100%',
-            borderRight: 0
-          }}
-        >
-          <Menu.Item
-            key="friends"
-            className="app__sidebar__menu__item--friends"
-            onClick={event => handleMenuItemClick(event)}
-          >
-            <Icon type="team" /> Your Friends
-          </Menu.Item>
-          <SubMenu
-            key="dms"
-            title={
-              <span className="app__sidebar__menu__item--group">
-                <Icon type="message" /> Direct Messages
-              </span>
-            }
-          >
-            {renderFriends()}
-          </SubMenu>
-        </Menu>
-      </Sider>
-      <Content
-        className={props.isSidebarCollapsed ? 'padding-0' : 'padding-250'}
-        style={{ paddingTop: 64 }}
-      >
-        <div className="app__content">{renderContent()}</div>
-      </Content>
-    </Layout>
+    <div className="app" data-aos="zoom-up">
+      <AppSidebar>{renderFriends()}</AppSidebar>
+      <AppMain user={user} friend={selectedFriend} messages={messages} />
+    </div>
   )
 }
 
 const mapStateToProps = (state: ReduxState) => ({
   user: state.profile,
-  social: state.social
+  social: state.social,
+  messages: state.messages,
+  notifications: state.notifications.notifications
 })
 
 export default connect(mapStateToProps)(withFirebase(App))

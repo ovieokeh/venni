@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { Form, Icon, Input, Button } from 'antd'
 import { FormComponentProps } from 'antd/es/form'
 import { WrappedFormUtils } from 'antd/es/form/Form'
-import { History } from 'history'
 
 // custom imports
 import Logo from 'src/assets/logo.svg'
@@ -14,7 +13,6 @@ import * as firebaseErrorCodes from 'src/firebase/errorCodes'
 import './Signup.less'
 
 interface SignupProps extends FormComponentProps {
-  history: History
   firebase: FirebaseCtx
 }
 
@@ -53,17 +51,15 @@ const Signup: React.FC<SignupProps> = props => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    const { form, firebase, history } = props
+    const { form, firebase } = props
 
     form.validateFieldsAndScroll(
-      (err, { name, email, password }: FormValues) => {
+      async (err, { name, email, password }: FormValues) => {
         if (!err) {
           try {
             setIsLoading(true)
 
-            firebase.createUser(name, email, password).then(() => {
-              history.push('/')
-            })
+            await firebase.createUser(name, email, password)
           } catch (err) {
             handleErrors(form, { name, email, password }, err)
             setIsLoading(false)
@@ -95,6 +91,7 @@ const Signup: React.FC<SignupProps> = props => {
                 <Icon type="idcard" style={{ color: 'rgba(0, 0, 0, 0.25)' }} />
               }
               placeholder="Your name"
+              autoComplete="name"
             />
           )}
         </Form.Item>
@@ -108,6 +105,7 @@ const Signup: React.FC<SignupProps> = props => {
               }
               type="email"
               placeholder="Email"
+              autoComplete="email"
             />
           )}
         </Form.Item>
@@ -122,6 +120,7 @@ const Signup: React.FC<SignupProps> = props => {
               }
               type="password"
               placeholder="Password"
+              autoComplete="new-password"
             />
           )}
         </Form.Item>

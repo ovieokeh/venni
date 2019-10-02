@@ -1,0 +1,26 @@
+.app__main__message-box {
+  grid-area: message;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  height: fit-content;
+  padding: 1em;
+  background-color: #fff;
+
+  &__input {
+    font-size: 1.2em;
+    width: 100%;
+    padding: 0.5em 0;
+    border: none;
+    outline: 0;
+    resize: none;
+
+    &::placeholder {
+      color: rgb(192, 192, 192);
+    }
+  }
+
+  &__btn {
+    border: none !important;
+  }
+}

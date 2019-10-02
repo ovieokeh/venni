@@ -1,0 +1,68 @@
+@import '../../assets/variables.less';
+
+.anticon-message {
+  font-size: 2em;
+}
+
+.read-indicator {
+  color: @success-green;
+  margin-bottom: -10px;
+  margin-top: 1em;
+}
+
+.app__main.empty {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.app__main {
+  grid-area: main;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    'header header'
+    'chat chat'
+    'message message';
+  width: 100%;
+  height: calc(100vh - 53px);
+  background-color: @tertiary-color;
+
+  &--msg {
+    color: @secondary-color;
+    font-size: 2em;
+    &-icon {
+      color: @secondary-color;
+      font-size: 10em;
+      margin-bottom: 0.3em;
+    }
+  }
+
+  &__header {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    justify-self: center;
+    padding: 1em;
+    background-color: #fff;
+    margin-bottom: 1em;
+    z-index: 5;
+
+    &--p {
+      font-weight: bolder;
+      font-size: 1.5em;
+      margin: 0 0 0 1em;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .app__main {
+    margin-top: 0;
+    padding: 1em;
+  }
+}
