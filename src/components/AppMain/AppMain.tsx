@@ -1,5 +1,5 @@
 // third-party libraries
-import React, { useState } from 'react'
+import React from 'react'
 import { Icon } from 'antd'
 
 // custom imports
@@ -14,13 +14,7 @@ interface Props {
 }
 
 export const AppMain: React.FC<Props> = props => {
-  const [shouldScrollDown, setShouldScrollDown] = useState(false)
   const { friend, user, messages } = props
-
-  const onSendMessage = () => {
-    setShouldScrollDown(true)
-    setShouldScrollDown(false)
-  }
 
   if (!friend) {
     return (
@@ -37,13 +31,8 @@ export const AppMain: React.FC<Props> = props => {
         <img className="image-30" src={friend.avatar} alt={friend.name} />
         <p className="app__main__header--p">{friend.name}</p>
       </header>
-      <ChatArea
-        friend={friend}
-        user={user}
-        messages={messages}
-        shouldScrollDown={shouldScrollDown}
-      />
-      <ChatInput friend={friend} onSendMessage={onSendMessage} />
+      <ChatArea friend={friend} user={user} messages={messages} />
+      <ChatInput friend={friend} />
     </main>
   )
 }

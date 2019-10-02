@@ -1,7 +1,7 @@
 // third-party libraries
 import React, { useState } from 'react'
 import { Button } from 'antd'
-import TextareaAutosize from 'react-textarea-autosize'
+import TextArea from 'react-textarea-autosize'
 
 // custom imports
 import { FirebaseCtx } from 'src/firebase/interfaces'
@@ -11,19 +11,18 @@ import './ChatInput.less'
 
 interface Props {
   friend: UserProfile
-  onSendMessage: Function
   firebase: FirebaseCtx
 }
 
 export const ChatInput: React.FC<Props> = props => {
   const [messageInput, setMessage] = useState('')
-  const { firebase, friend, onSendMessage } = props
+  const { firebase, friend } = props
 
   const sendMessage = () => {
     if (!messageInput.trim().length) return
 
     setMessage('')
-    firebase.sendMessage(friend.id, messageInput).then(() => onSendMessage())
+    firebase.sendMessage(friend.id, messageInput)
   }
 
   const onInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -45,7 +44,7 @@ export const ChatInput: React.FC<Props> = props => {
 
   return (
     <form className="app__main__message-box" onSubmit={handleMessage}>
-      <TextareaAutosize
+      <TextArea
         className="app__main__message-box__input"
         placeholder="Type a message here"
         value={messageInput}

@@ -15,18 +15,17 @@ interface Props {
   user: UserProfile
   messages: MessageState
   firebase: FirebaseCtx
-  shouldScrollDown: boolean
 }
 
 export const ChatArea: React.FC<Props> = props => {
   const ref = useRef<HTMLDivElement>(null)
-  const { firebase, friend, user, messages, shouldScrollDown } = props
+  const { firebase, friend, user, messages } = props
 
   useEffect(() => {
-    if (ref.current && shouldScrollDown) {
+    if (ref.current) {
       ref.current.scrollTop = ref.current.scrollHeight
     }
-  }, [shouldScrollDown])
+  }, [messages, friend])
 
   const prepareMessages = () => {
     const joinedMessages = [

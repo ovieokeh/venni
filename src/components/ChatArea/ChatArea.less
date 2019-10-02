@@ -10,17 +10,25 @@
   }
 
   &__message {
+    max-width: 45%;
     width: fit-content;
-    padding: 1em;
+    padding: 0.8em 1em;
     margin: 0.25em 0;
     border-radius: 1em;
+    font-size: 1rem;
     font-weight: bold;
     position: relative;
+    padding-bottom: 0.5em;
 
     span {
       display: block;
       font-size: 0.9em;
       opacity: 0.7;
+      margin-top: 0;
+      margin-bottom: 0;
+      &:first-of-type {
+        margin-top: 0.5em;
+      }
     }
 
     &-received {
@@ -57,7 +65,6 @@
     }
 
     &-sent {
-      text-align: right;
       align-self: flex-end;
       color: #fff;
       background-color: @primary-color;
@@ -73,6 +80,9 @@
         right: -15px;
         top: 0;
         bottom: 0;
+      }
+      span {
+        text-align: right;
       }
     }
   }

@@ -1,11 +1,16 @@
 {
-  "short_name": "Venni",
   "name": "Venni Chat",
+  "short_name": "Venni",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1b264f",
+  "theme_color": "#274690",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "favicon.png",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png",
+      "sizes": "64x64 32x32 24x24 16x16"
     },
     {
       "src": "favicon.png",
@@ -17,9 +22,5 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#aad4f7"
+  ]
 }
