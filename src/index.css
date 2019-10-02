@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600&display=swap');
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: 'Nunito Sans', sans-serif, -apple-system, BlinkMacSystemFont,

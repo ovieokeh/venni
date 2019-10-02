@@ -16,12 +16,16 @@
 
 .app__sidebar {
   grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-right: 1px solid rgb(218, 218, 218);
   padding: 0 1.5em;
 
   &__invite-container {
     display: flex;
-    padding: 1em 0;
+    border-bottom: 1px solid @tertiary-color;
+    width: calc(100% + 3em);
   }
 
   &__item {
@@ -31,7 +35,6 @@
     width: 100%;
     margin-top: 0.5em;
     padding: 0.8em 1em;
-    border-bottom: 1px solid rgb(218, 218, 218);
     font-size: 1.2em;
     font-weight: bolder;
     transition: background-color 200ms;
@@ -39,8 +42,8 @@
     &:hover,
     &--active {
       border-radius: 8px;
-      border-color: @text-color;
-      background-color: @text-color;
+      border-color: @tertiary-color;
+      background-color: @tertiary-color;
       cursor: pointer;
     }
 

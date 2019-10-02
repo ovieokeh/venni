@@ -17,6 +17,7 @@ const AppSidebar: React.FC<Props> = ({ children, firebase }) => {
 
   const sendInvite = async (event: FormEvent) => {
     event.preventDefault()
+    if (!inviteInput.trim().length) return
 
     try {
       setLoading(true)
@@ -42,7 +43,6 @@ const AppSidebar: React.FC<Props> = ({ children, firebase }) => {
           onChange={event => setInviteInput(event.target.value)}
           size="large"
           allowClear
-          required
         />
         <Button
           icon="plus"

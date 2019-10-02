@@ -6,6 +6,8 @@ import ReceivedInvitesList from './ReceivedInvitesList/ReceivedInvitesList'
 import SentInvitesList from './SentInvitesList/SentInvitesList'
 import AppSidebar from './AppSidebar/AppSidebar'
 import AppMain from './AppMain/AppMain'
+import ChatArea from './ChatArea/ChatArea'
+import ChatInput from './ChatInput/ChatInput'
 
 export {
   ButtonLink,
@@ -15,5 +17,7 @@ export {
   ReceivedInvitesList,
   SentInvitesList,
   AppSidebar,
-  AppMain
+  AppMain,
+  ChatArea,
+  ChatInput
 }
