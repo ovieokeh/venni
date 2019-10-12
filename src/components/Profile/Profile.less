@@ -5,6 +5,16 @@
   padding: 0 !important;
 }
 
+.name-input-container {
+  position: relative;
+  margin-top: -1%;
+
+  i {
+    position: relative;
+    right: 3em;
+  }
+}
+
 .profile {
   &__user-details {
     display: flex;
@@ -12,12 +22,27 @@
     align-items: center;
     margin-bottom: 1rem;
     padding: 1rem;
+    position: relative;
 
     &__name {
       font-size: 1.5em;
       font-weight: 600;
-      margin-top: 3%;
+      padding: 0;
       margin-bottom: 0;
+      margin-right: 0.5em;
+      border-style: none;
+      border: 1px solid transparent;
+      border-radius: 24px;
+      text-align: center;
+      transition: border-color 200ms;
+      &.editing {
+        border: 1px solid @accent-color;
+        outline: none;
+
+        &::placeholder {
+          font-size: 0.7em;
+        }
+      }
     }
   }
 }
