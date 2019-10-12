@@ -1,8 +1,37 @@
 @import '../../assets/variables.less';
 
+.picture-uploader {
+  position: relative;
+  top: -15em;
+  left: 7.5em;
+
+  .ant-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: @primary-color;
+    color: #fff;
+    border: 3px solid #dddddd;
+    border-radius: 50%;
+    width: 32px;
+  }
+}
+
+.update-profile-pic-modal {
+  .ant-modal-close-x {
+    display: none !important;
+  }
+
+  button {
+    &:nth-child(2) {
+      display: none !important;
+    }
+  }
+}
+
 .app {
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 25% 75%;
   grid-template-areas: 'sidebar main';
   background-color: #fff;
   height: 100vh;

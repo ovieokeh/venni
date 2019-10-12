@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Tabs, Icon, Badge, Button, Popconfirm, message } from 'antd'
+import { Tabs, Icon, Badge, message } from 'antd'
 import { UserProfile, ReduxState, SocialState } from 'src/redux/types'
 import ReceivedInvitesList from '../ReceivedInvitesList/ReceivedInvitesList'
 import SentInvitesList from '../SentInvitesList/SentInvitesList'
 import './Profile.less'
 import { FirebaseCtx } from 'src/firebase/interfaces'
 import { withFirebase } from 'src/firebase'
+import ConnectedProfileDetails from '../ProfileDetails/ProfileDetails'
 
 interface Props {
   user: UserProfile
@@ -25,13 +26,6 @@ export const Profile: React.FC<Props> = (props: Props) => {
   const { user, social } = props
   const { receivedInvites, sentInvites } = social
   const { TabPane } = Tabs
-  const ButtonGroup = Button.Group
-
-  const handleLogout = async (): Promise<void> => {
-    await props.firebase.auth.signOut()
-    window.localStorage.clear()
-    window.location.reload()
-  }
 
   const confirmAction = async (args: ConfirmActionProps) => {
     const { firebase } = props
@@ -62,27 +56,7 @@ export const Profile: React.FC<Props> = (props: Props) => {
 
   return (
     <div className="profile">
-      <div className="profile__user-details">
-        <img
-          className="profile__user-details__image image-250"
-          src={user.avatar}
-          alt={user.name}
-        />
-        <p className="profile__user-details__name">{user.name}</p>
-        <p>{user.email}</p>
-        <ButtonGroup>
-          <Popconfirm
-            icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-            onConfirm={handleLogout}
-            title="Are you sure you want to logout?"
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button type="danger">Logout</Button>
-          </Popconfirm>
-          <Button>Edit Profile</Button>
-        </ButtonGroup>
-      </div>
+      <ConnectedProfileDetails user={user} />
       <div className="profile__user-activity">
         <Tabs defaultActiveKey="invites">
           <TabPane

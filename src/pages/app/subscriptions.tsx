@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { FirebaseCtx } from 'src/firebase/interfaces'
+import { getProfileSuccess } from 'src/redux/actions/profile/profileActions'
 import * as socialActions from 'src/redux/actions/social/socialActions'
 import * as messagesActions from 'src/redux/actions/messages/messagesActions'
 import store from 'src/redux/store'
@@ -8,6 +9,7 @@ import { UserProfile, Message } from 'src/redux/types'
 export function useSubscriptions(firebase: FirebaseCtx) {
   const {
     user,
+    usersCollection,
     userFriendsCollection,
     userReceivedInvitesCollection,
     userSentInvitesCollection,
@@ -16,6 +18,12 @@ export function useSubscriptions(firebase: FirebaseCtx) {
 
   useEffect(() => {
     if (!user) return
+
+    const unsubscribeUser = usersCollection.doc(user.id).onSnapshot(snap => {
+      const profile = { id: snap.id, ...snap.data() }
+
+      store.dispatch(getProfileSuccess(profile as any))
+    })
 
     const unsubscribeFriends = userFriendsCollection
       .doc(user.id)
@@ -99,6 +107,7 @@ export function useSubscriptions(firebase: FirebaseCtx) {
       })
 
     return () => {
+      unsubscribeUser()
       unsubscribeFriends()
       unsubscribeReceivedInvites()
       unsubscribeSentInvites()
@@ -107,6 +116,7 @@ export function useSubscriptions(firebase: FirebaseCtx) {
     }
   }, [
     user,
+    usersCollection,
     userFriendsCollection,
     userReceivedInvitesCollection,
     userSentInvitesCollection,

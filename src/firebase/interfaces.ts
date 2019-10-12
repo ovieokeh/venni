@@ -5,8 +5,10 @@ export interface FirebaseCtx {
   user: null | UserProfile
   auth: FirebaseApp.auth.Auth
   db: FirebaseApp.firestore.Firestore
+  storage: FirebaseApp.storage.Storage
 
   // collections
+  usersCollection: FirebaseApp.firestore.CollectionReference
   userSentInvitesCollection: FirebaseApp.firestore.CollectionReference
   userReceivedInvitesCollection: FirebaseApp.firestore.CollectionReference
   userFriendsCollection: FirebaseApp.firestore.CollectionReference

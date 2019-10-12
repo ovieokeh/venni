@@ -2,6 +2,7 @@ import React from 'react'
 import FirebaseApp from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
 
 import { firebaseConfig } from './config'
 import { FirebaseCtx } from './interfaces'
@@ -14,6 +15,7 @@ class Firebase implements FirebaseCtx {
   user: null | UserProfile
   auth: FirebaseApp.auth.Auth
   db: FirebaseApp.firestore.Firestore
+  storage: FirebaseApp.storage.Storage
   usersCollection: FirebaseApp.firestore.CollectionReference
   userSentInvitesCollection: FirebaseApp.firestore.CollectionReference
   userReceivedInvitesCollection: FirebaseApp.firestore.CollectionReference
@@ -31,6 +33,7 @@ class Firebase implements FirebaseCtx {
     this.user = null
     this.auth = FirebaseApp.auth()
     this.db = FirebaseApp.firestore()
+    this.storage = FirebaseApp.storage()
 
     this.usersCollection = this.db.collection('users')
     this.userSentInvitesCollection = this.db.collection('userSentInvites')
