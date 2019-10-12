@@ -1,5 +1,5 @@
 // third-party libraries
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 // custom imports
@@ -30,6 +30,15 @@ export const App: React.FC<Props> = props => {
 
   const [selectedFriend, selectFriend] = useState<null | UserProfile>(null)
   useSubscriptions(firebase)
+
+  useEffect(() => {
+    if (selectedFriend) {
+      selectFriend(friends.find(
+        f => f.id === (selectedFriend as UserProfile).id
+      ) as UserProfile)
+    }
+    // eslint-disable-next-line
+  }, [friends])
 
   const onFriendClick = (event: any) => {
     const activeFriend = friends.find(f => f.id === event.target.id)

@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+import { FieldValue } from '@google-cloud/firestore'
 admin.initializeApp()
 
 const db = admin.firestore()
@@ -17,10 +18,10 @@ export const updateProfileDetails = functions.firestore
       .doc(ctx.params.userId)
       .get()
       .then(doc => {
-        const friendIDs = doc.data()
+        const friendIDs = (doc.data() as any).friends as string[]
         const batch = db.batch()
 
-        Object.keys(friendIDs as any).forEach(id => {
+        friendIDs.forEach(id => {
           batch.update(
             db
               .collection('userFriends')
@@ -33,4 +34,22 @@ export const updateProfileDetails = functions.firestore
 
         return batch.commit()
       })
+  })
+
+export const addToLookup = functions.firestore
+  .document('/userFriends/{userId}/friends/{friendId}')
+  .onCreate((_, ctx) => {
+    return db
+      .collection('userFriendsLookup')
+      .doc(ctx.params.userId)
+      .update({ friends: FieldValue.arrayUnion(ctx.params.friendId) })
+  })
+
+export const removeFromLookup = functions.firestore
+  .document('/userFriends/{userId}/friends/{friendId}')
+  .onDelete((_, ctx) => {
+    return db
+      .collection('userFriendsLookup')
+      .doc(ctx.params.userId)
+      .update({ friends: FieldValue.arrayRemove(ctx.params.friendId) })
   })

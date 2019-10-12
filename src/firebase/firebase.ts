@@ -83,6 +83,10 @@ class Firebase implements FirebaseCtx {
       batch.set(ref, {})
     })
 
+    const friendLookup = this.db.collection('userFriendsLookup').doc(user.uid)
+
+    batch.set(friendLookup, { friends: [] })
+
     await batch.commit()
   }
 
