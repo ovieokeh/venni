@@ -47,6 +47,13 @@
   }
 }
 
+.ghost-btn-danger {
+  &:hover {
+    background-color: @danger-red !important;
+    color: @text-color !important;
+  }
+}
+
 .invite {
   display: flex;
   flex-direction: column;
@@ -62,6 +69,14 @@
       font-weight: 600;
       margin-top: 2%;
       margin-bottom: 0;
+    }
+  }
+
+  &-actions {
+    button {
+      margin: 0 0.5em !important;
+      border-radius: 5px !important;
+      min-width: 100px !important;
     }
   }
 }

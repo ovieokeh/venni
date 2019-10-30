@@ -10,8 +10,6 @@ interface Props {
   firebase: FirebaseCtx
 }
 
-const ButtonGroup = Button.Group
-
 export const ProfileDetails: React.FC<Props> = (props: Props) => {
   const { user, firebase } = props
 
@@ -110,17 +108,17 @@ export const ProfileDetails: React.FC<Props> = (props: Props) => {
         )}
       </div>
       <p>{user.email}</p>
-      <ButtonGroup>
-        <Popconfirm
-          icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-          onConfirm={handleLogout}
-          title="Are you sure you want to logout?"
-          okText="Yes"
-          cancelText="No"
-        >
-          <Button type="danger">Logout</Button>
-        </Popconfirm>
-      </ButtonGroup>
+      <Popconfirm
+        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+        onConfirm={handleLogout}
+        title="Are you sure you want to logout?"
+        okText="Yes"
+        cancelText="No"
+      >
+        <Button className="ghost-btn-danger" type="danger" ghost>
+          Logout
+        </Button>
+      </Popconfirm>
     </div>
   )
 }

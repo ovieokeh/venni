@@ -48,7 +48,9 @@ const SentInvitesList: React.FC<Props> = ({ sentInvites, confirmAction }) => {
               okText="Yes"
               cancelText="No"
             >
-              <Button type="danger">Cancel Friend Invite</Button>
+              <Button className="ghost-btn-danger" type="danger" ghost>
+                Cancel Friend Invite
+              </Button>
             </Popconfirm>
           </div>
         </Panel>

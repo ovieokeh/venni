@@ -265,7 +265,9 @@ class Firebase implements FirebaseCtx {
   }
 
   sendMessage = async (id: string, message: string) => {
-    const timestamp = Date.now()
+    const timestamp = FirebaseApp.firestore.Timestamp.fromDate(
+      new Date()
+    ).toMillis()
 
     await this.db.collection('userMessages').add({
       sender: (this.user as UserProfile).id,
@@ -277,20 +279,21 @@ class Firebase implements FirebaseCtx {
   }
 
   markMessageAsRead = async (timestamp: number) => {
-    return this.db
+    const batch = this.db.batch()
+
+    const snap = await this.db
       .collection('userMessages')
       .where('timestamp', '==', timestamp)
       .get()
-      .then(async snap => {
-        const batch = this.db.batch()
-        snap.forEach(mes => {
-          if (mes.data().receiver === (this.user as UserProfile).id) {
-            const op = this.db.collection('userMessages').doc(mes.id)
-            batch.update(op, { isRead: true })
-          }
-        })
-        await batch.commit()
-      })
+
+    snap.forEach(mes => {
+      if (mes.data().receiver === (this.user as UserProfile).id) {
+        const op = this.db.collection('userMessages').doc(mes.id)
+        batch.update(op, { isRead: true })
+      }
+    })
+
+    return batch.commit()
   }
 
   logout = () => this.auth.signOut()

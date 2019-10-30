@@ -9,9 +9,8 @@ export const updateProfileDetails = functions.firestore
   .document('/users/{userId}')
   .onUpdate((change, ctx) => {
     const newData = change.after.data()
-    const prevData = change.before.data()
 
-    if (JSON.stringify(newData) === JSON.stringify(prevData)) return null
+    if (change.after.isEqual(change.before)) return null
 
     return db
       .collection('userFriendsLookup')
