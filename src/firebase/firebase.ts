@@ -11,6 +11,8 @@ import { getProfileSuccess } from 'src/redux/actions/profile/profileActions'
 import { history } from 'src/utilities/history'
 import { UserProfile } from 'src/redux/types'
 
+const getId = (o: UserProfile | null): string | void => (o ? o.id : undefined)
+
 class Firebase implements FirebaseCtx {
   user: null | UserProfile
   auth: FirebaseApp.auth.Auth
@@ -73,18 +75,17 @@ class Firebase implements FirebaseCtx {
       createdAt: new Date()
     })
 
-    const userFriendsDoc = this.db.collection('userFriends').doc(user.uid)
+    const userFriendsDoc = this.db.doc('userFriends/' + user.uid)
 
     batch.set(userFriendsDoc, {})
 
     // init fields on db
-    ;['userSentInvites', 'userReceivedInvites'].forEach(col => {
-      const ref = this.db.collection(col).doc(user.uid)
+    ;['userSentInvites/', 'userReceivedInvites/'].forEach(col => {
+      const ref = this.db.doc(col + user.uid)
       batch.set(ref, {})
     })
 
-    const friendLookup = this.db.collection('userFriendsLookup').doc(user.uid)
-
+    const friendLookup = this.db.doc('userFriendsLookup/' + user.uid)
     batch.set(friendLookup, { friends: [] })
 
     await batch.commit()
@@ -147,22 +148,16 @@ class Firebase implements FirebaseCtx {
 
     const batch = this.db.batch()
 
-    const addToSentInvites = this.db
-      .collection('userSentInvites')
-      .doc((this.user as UserProfile).id)
-      .collection('sentInvites')
-      .doc((friend as UserProfile).id)
-
+    const addToSentInvites = this.db.doc(
+      `userSentInvites/${getId(this.user)}/sentInvites/${getId(friend)}`
+    )
     batch.set(addToSentInvites, {
       ...(friend as UserProfile)
     })
 
-    const addToReceivedInvites = this.db
-      .collection('userReceivedInvites')
-      .doc((friend as UserProfile).id)
-      .collection('receivedInvites')
-      .doc((this.user as UserProfile).id)
-
+    const addToReceivedInvites = this.db.doc(
+      `userReceivedInvites/${getId(friend)}/receivedInvites/${getId(this.user)}`
+    )
     batch.set(addToReceivedInvites, {
       ...(this.user as UserProfile)
     })
@@ -173,20 +168,14 @@ class Firebase implements FirebaseCtx {
   cancelSentInvite = async (id: string) => {
     const batch = this.db.batch()
 
-    const inviteFromUser = this.db
-      .collection('userSentInvites')
-      .doc((this.user as UserProfile).id)
-      .collection('sentInvites')
-      .doc(id)
-
+    const inviteFromUser = this.db.doc(
+      `userSentInvites/${getId(this.user)}/sentInvites/${id}`
+    )
     batch.delete(inviteFromUser)
 
-    const inviteToFriend = this.db
-      .collection('userReceivedInvites')
-      .doc(id)
-      .collection('receivedInvites')
-      .doc((this.user as UserProfile).id)
-
+    const inviteToFriend = this.db.doc(
+      `userReceivedInvites/${id}/receivedInvites/${getId(this.user)}`
+    )
     batch.delete(inviteToFriend)
 
     await batch.commit()
@@ -202,41 +191,29 @@ class Firebase implements FirebaseCtx {
     const batch = this.db.batch()
 
     if (action === 'accept') {
-      const addFriendToUserRef = this.db
-        .collection('userFriends')
-        .doc((this.user as UserProfile).id)
-        .collection('friends')
-        .doc((friend as UserProfile).id)
-
+      const addFriendToUserRef = this.db.doc(
+        `userFriends/${getId(this.user)}/friends/${getId(friend)}`
+      )
       batch.set(addFriendToUserRef, {
         ...(friend as UserProfile)
       })
 
-      const addUserToFriendRef = this.db
-        .collection('userFriends')
-        .doc((friend as UserProfile).id)
-        .collection('friends')
-        .doc((this.user as UserProfile).id)
-
+      const addUserToFriendRef = this.db.doc(
+        `userFriends/${getId(friend)}/friends/${getId(this.user)}`
+      )
       batch.set(addUserToFriendRef, {
         ...(this.user as UserProfile)
       })
     }
 
-    const receivedInviteRef = this.db
-      .collection('userReceivedInvites')
-      .doc((this.user as UserProfile).id)
-      .collection('receivedInvites')
-      .doc((friend as UserProfile).id)
-
+    const receivedInviteRef = this.db.doc(
+      `userReceivedInvites/${getId(this.user)}/receivedInvites/${getId(friend)}`
+    )
     batch.delete(receivedInviteRef)
 
-    const sentInviteRef = this.db
-      .collection('userSentInvites')
-      .doc((friend as UserProfile).id)
-      .collection('sentInvites')
-      .doc((this.user as UserProfile).id)
-
+    const sentInviteRef = this.db.doc(
+      `userSentInvites/${getId(friend)}/sentInvites/${getId(this.user)}`
+    )
     batch.delete(sentInviteRef)
 
     await batch.commit()
@@ -245,20 +222,14 @@ class Firebase implements FirebaseCtx {
   unfriend = async (id: string) => {
     const batch = this.db.batch()
 
-    const userFriend = this.db
-      .collection('userFriends')
-      .doc((this.user as UserProfile).id)
-      .collection('friends')
-      .doc(id)
-
+    const userFriend = this.db.doc(
+      `userFriends/${getId(this.user)}/friends/${id}`
+    )
     batch.delete(userFriend)
 
-    const friendUser = this.db
-      .collection('userFriends')
-      .doc(id)
-      .collection('friends')
-      .doc((this.user as UserProfile).id)
-
+    const friendUser = this.db.doc(
+      `userFriends/${id}/friends/${getId(this.user)}`
+    )
     batch.delete(friendUser)
 
     await batch.commit()
